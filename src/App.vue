@@ -1,7 +1,13 @@
 <template>
-  <router-view/>
+  <div id="app">
+    <AppLayout>
+      <router-view />
+    </AppLayout>
+  </div>
 </template>
 
-<style>
-
-</style>
+<script>
+export default {
+  name : 'App'
+}
+</script>
