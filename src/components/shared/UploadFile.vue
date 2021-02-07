@@ -1,10 +1,10 @@
 <template>
-    <div class="uploadfile w-9/12 min-h-3/5">
+    <div class="uploadfile">
         <h1 class="welcome mt-8 ml-10 mb-auto w-full">
-            Welcome to Saferwall
+            Welcome to Saferwall !
         </h1>
         <div class="upload">
-            <button class="btn-upload">
+            <button class="btn-upload btn-disabled">
                 Browse Files 
 
                 <svg xmlns="http://www.w3.org/2000/svg" class="ml-4" width="33.303" height="25.533" viewBox="0 0 33.303 25.533">
@@ -18,6 +18,12 @@
                     </g>
                 </svg>
             </button>
+            <div class="progress">
+                <k-progress class="k" color="#0d9677" :percent="20" status="success" :line-height="8" :show-text="false"></k-progress>
+                <p class="text">
+                    Upload in progress <strong>(<span class="value">86</span>%)</strong>
+                </p>
+            </div>
         </div>
         <p class="terms">
             By using Saferwall you consent to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a> and allow us to share 
@@ -31,10 +37,14 @@ export default {
     name: 'UploadFile'
 }
 </script>
-<style lang="scss" scoped>
+<style lang="scss" >
 .uploadfile{
-    @apply mt-28 flex flex-wrap mx-auto rounded-lg bg-white;
+    @apply md:mt-28 flex flex-wrap mx-auto rounded-lg bg-white  w-full min-h-7/10;
 
+    
+    a{
+        color: $text-color;
+    }
     .welcome {
         @apply text-xl font-bold;
     }
@@ -42,16 +52,30 @@ export default {
         @apply focus:outline-none flex bg-secondary text-white py-5 px-6 rounded-md  m-auto;
         font-weight : 600;
     }
+    .btn-disabled{
+        @apply bg-gray opacity-30;
+    }
 
     .upload {
         @apply  w-full m-auto;
     }
 
-    .terms {
-        @apply text-sm text-center w-9/12 mb-10 mt-auto mx-auto;
+    .progress{
+        @apply m-auto my-8 w-7/12 block;
+
+        .k-progress-outer{
+            padding: 0 !important;
+            margin: 0 !important;
+            width: 100%;
+        }
+
+        .text{
+            @apply mx-auto mt-3 w-max;
+        }
     }
-    a{
-        color: $text-color;
+
+    .terms {
+        @apply text-sm text-center w-8/12 mb-10 mt-auto mx-auto;
     }
 }
 </style>

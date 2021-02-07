@@ -15,7 +15,7 @@
                 </button>
             </div>
             <div class="menu">
-                <div class="menu-content">
+                <div class="menu-content ">
                     <a href="#" class="btn-menu">
                         <svg xmlns="http://www.w3.org/2000/svg" class="mr-2" width="15.3444" height="19.1412" viewBox="0 0 12.787 15.951">
                             <path id="Tracé_23" data-name="Tracé 23" d="M61.749,5.532a17.229,17.229,0,0,1-2.534-3.567A8.212,8.212,0,0,1,58.6.52L58.464,0l-.491.219A4.905,4.905,0,0,0,55.8,2.383a4.948,4.948,0,0,0-.455,2.191.705.705,0,0,1-1.2.5l-.914-.914-.315.434c-.033.045-.8,1.105-.941,1.317A6.244,6.244,0,1,0,63.427,9.349,5.934,5.934,0,0,0,61.749,5.532Zm-4.566,9.146a5.33,5.33,0,0,1-4.45-8.262c.071-.108.357-.506.6-.85l.156.156a1.62,1.62,0,0,0,2.765-1.153,4.039,4.039,0,0,1,.358-1.777,4.035,4.035,0,0,1,1.293-1.476,16.323,16.323,0,0,0,3.161,4.83,5.206,5.206,0,0,1,1.441,3.2A5.335,5.335,0,0,1,57.184,14.678Z" transform="translate(-50.79 0.209)" fill="#898989" stroke="#898989" stroke-width="0.3"/>
@@ -56,13 +56,13 @@ export default {
         @apply mx-auto flex h-full flex-wrap;
 
         .logo {
-            @apply md:px-6 px-5 flex justify-center md:justify-start text-black font-extrabold;
+            @apply w-full md:w-auto md:px-6 px-5 flex justify-center md:justify-start text-black font-extrabold;
             border-right: 1px solid $border-color;
             height: 100%;
         }
 
         .search {
-            @apply flex md:w-3/12 sm:w-min;
+            @apply flex hidden md:flex md:w-3/12 sm:w-min;
 
             .input {
                 @apply md:w-8/12 sm:w-min h-full px-6 focus:outline-none;
@@ -75,8 +75,7 @@ export default {
         }
 
         .menu {
-            @apply flex items-center w-full h-full ml-auto content-center w-max sm:justify-end;
-
+            @apply flex items-center w-full h-full ml-auto content-center w-max sm:justify-end hidden md:flex;
 
             .menu-content {
                 @apply lg:flex lg:items-stretch lg:justify-end h-full;
