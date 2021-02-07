@@ -1,10 +1,6 @@
 <template>
   <div>
     <Header />
-    <h2>Authed</h2>
-    <transition name="slideLeft">
-      <Sidebar />
-    </transition>
     <Content>
       <slot />
     </Content>
@@ -14,12 +10,11 @@
 <script>
 import Header from "@/components/partials/Header"
 import Footer from "@/components/partials/Footer"
-import Sidebar from "@/components/partials/Sidebar"
 import Content from "@/components/partials/Content"
 
 export default {
-  name : 'Authentified',
-  components: {Header , Footer , Sidebar , Content},
+  name : 'NoSidebar',
+  components: {Header , Footer , Content},
 
   setup(){
     console.log('Setup Layout Authentified');
