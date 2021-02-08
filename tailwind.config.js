@@ -34,6 +34,8 @@ module.exports = {
         gray: '#898989',
         background: '#f6f6f6',
         danger: '#be465c',
+        warning: '#ED8C1A',
+        success: '#6CA838',
       },
       minHeight: {
         '0': '0',

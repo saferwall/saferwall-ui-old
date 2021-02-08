@@ -1,5 +1,5 @@
 <template>
-    <div class="uploadfile">
+    <div class="uploadfile shadow">
         <h1 class="welcome mt-8 ml-10 mb-auto w-full">
             Welcome to Saferwall !
         </h1>

@@ -1,11 +1,11 @@
 <template>
-    <div class="activity grid grid-cols-5 gap-4  bg-white my-3 rounded-xl shadow">
+    <div class="activity grid grid-cols-5 gap-4  bg-white my-3 rounded-xl">
         <div class="header border text-center">
             <div class="avatar inline-grid rounded-full" :style="{ backgroundImage: `url(${avatar})`}"></div>
             <div class="info mt-3">
                 <h3 class="text-xl font-bold">{{ author.name }}</h3>
                 <p class="signup text-gray">
-                    Member since {{ year }}
+                    Member since {{ getJoinedAgo }}
                 </p>
             </div>
             <div class="buttons mt-3">
@@ -19,16 +19,16 @@
                 <p class="title">
                     <b>{{ author.name }}</b> submitted a file <span class="text-sm">{{ getSubmitionAgo }} ago</span>
                 </p>
-                <hash-input :hash="file.hash"></hash-input>
+                <hash-input :hash="hash"></hash-input>
 
                 <div class="meta mt-10 grid grid-cols-3">
                     <div>
                         <h4>Classification</h4>
-                        <p>
+                        <p :class="file.classification?.color">
                             <svg class="mr-2" width="15" height="15">       
                                 <image :xlink:href="`../../assets/icons/${file.classification.icon}.svg`" width="15" height="15"/>    
                             </svg>
-                            {{ file.classification.name }}
+                            <span>{{ file.classification.name }}</span>
                         </p>
                     </div>
                     <div>
@@ -61,10 +61,15 @@ export default {
     name: 'ActivityBlock',
     components: {HashInput},
     props: {
+        hash: {
+            default: '85518d00317a597dc83ee3fb78743538b9444664273bd592df16603d2c3e4c28',
+            type: String
+        },
         author : {
             default: function(){
                 return {
-                    name: 'Ayoub'
+                    name: 'Ayoub',
+                    joined_at: Date.now()
                 }
             },
             type: Object
@@ -72,16 +77,14 @@ export default {
         file : {
             default : function(){
                 return {
-                    hash: '85518d00317a597dc83ee3fb78743538b9444664273bd592df16603d2c3e4c28',
                     name: 'virus.exe',
                     classification: {
-                        name: 'Malware',
-                        color: 'red',
-                        icon : 'safegreen'
+                        name: null,
+                        icon : null
                     },
                     scan : {
-                        value: 7,
-                        total: 12
+                        value: 0,
+                        total: 0
                     },
                     submitted_at: Date.now()
                 }
@@ -116,6 +119,9 @@ export default {
     computed: {
         getSubmitionAgo(){
             return timeAgo(this.file.submitted_at);
+        },
+        getJoinedAgo(){
+            return timeAgo(this.author.joined_at);
         }
     }
 }
@@ -132,7 +138,7 @@ export default {
         .avatar{
             width: 74px;
             height: 74px;
-            background-image: url(data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==);
+            background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mPcXA8AAesBNGQg4IAAAAAASUVORK5CYII=);
             background-color: rgba(25,25,25,0.1);
 
             background-size: cover;
@@ -156,7 +162,17 @@ export default {
                 }
 
                 p{
-                    @apply font-bold flex items-center;
+                    @apply font-bold flex items-center text-sm mt-1;
+                }
+                
+                .danger{
+                    @apply text-danger;
+                }
+                .success{
+                    @apply text-success;
+                }
+                .warning{
+                    @apply text-warning;
                 }
             }
         }
