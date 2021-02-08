@@ -1,9 +1,7 @@
 <template>
-  <div id="app">
-    <AppLayout>
-      <router-view />
-    </AppLayout>
-  </div>
+  <AppLayout>
+    <router-view />
+  </AppLayout>
 </template>
 
 <script>
@@ -11,3 +9,14 @@ export default {
   name : 'App'
 }
 </script>
+
+
+<style lang="scss">
+body,html {
+  background: $background-color;
+}
+
+body * {
+    max-width: 100%;
+}
+</style>

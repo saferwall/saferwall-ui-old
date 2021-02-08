@@ -14,7 +14,7 @@ const routes = [
     name: 'Dashboard',
     component: () => import('@/views/Home.vue'),
     meta: {
-      layout: 'Authentified'
+      layout: 'NoSidebar'
     }
   }
 ]
