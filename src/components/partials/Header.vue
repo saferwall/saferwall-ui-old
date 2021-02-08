@@ -1,5 +1,5 @@
 <template>
-    <nav class="navbar">
+    <nav class="navbar z-50">
         <div class="nav-content">
             <div class="logo">
                 <a class="text-white no-underline hover:text-white hover:no-underline p-1" href="#">

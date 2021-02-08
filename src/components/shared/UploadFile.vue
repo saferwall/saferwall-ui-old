@@ -19,7 +19,7 @@
                 </svg>
             </button>
             <div class="progress">
-                <k-progress class="k" color="#0d9677" :percent="20" status="success" :line-height="8" :show-text="false"></k-progress>
+                <k-progress class="k" active active-color="white" color="#0d9677" :percent="20" status="success" :line-height="8" :show-text="false"></k-progress>
                 <p class="text">
                     Upload in progress <strong>(<span class="value">86</span>%)</strong>
                 </p>
