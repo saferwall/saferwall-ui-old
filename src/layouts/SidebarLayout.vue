@@ -1,23 +1,42 @@
 <template>
   <div>
     <Header />
-    <Content>
+    <Sidebar class="sidebar" v-show="sidebarActive" />
+    <Content class="content" :class="sidebarActive ? 'sactive':''" >
       <slot />
     </Content>
-    <Footer />
+    <Footer :class="sidebarActive ? 'sactive':''" />
   </div>
 </template>
+
 <script>
 import Header from "@/components/partials/Header"
 import Footer from "@/components/partials/Footer"
 import Content from "@/components/partials/Content"
+import Sidebar from '@/components/partials/Sidebar.vue'
 
 export default {
-  name : 'NoSidebar',
-  components: {Header , Footer , Content},
+  name : 'SidebarLayout',
+  components: {Header , Footer , Content, Sidebar},
+
+  setup(props){
+    const sidebarActive = props.sidebarActive || true;
+
+
+    return { sidebarActive }
+  }
 }
 </script>
+
 <style lang="scss" scoped>
+.sidebar{
+  @apply w-sidebar;
+}
+
+.sactive{
+  @apply md:w-scontent md:m-0 md:ml-auto md:px-16;
+}
+
 .fade-enter-active,
 .fade-leave-active {
   transition-property: opacity;

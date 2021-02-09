@@ -9,7 +9,7 @@
                 </p>
             </div>
             <div class="buttons mt-3">
-                <div :class="follow ? 'active': ''" class="follow inline-grid font-bold text-secondary border rounded-md border-gray py-2 w-max px-6 cursor-pointer">
+                <div :class="follow ? 'active': ''" class="follow inline-grid font-bold text-primary border rounded-md border-gray py-2 w-max px-6 cursor-pointer">
                     {{ follow ? 'UnFollow' :'Follow' }}
                 </div>
             </div>
@@ -188,7 +188,7 @@ export default {
         .follow{
             border-color: #DEDEDE;
            &.active{
-               @apply bg-secondary bg-opacity-10 border-none;
+               @apply bg-primary bg-opacity-10 border-none;
             }
         }
     }

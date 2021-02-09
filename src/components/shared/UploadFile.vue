@@ -49,7 +49,7 @@ export default {
         @apply text-xl font-bold;
     }
     .btn-upload{
-        @apply focus:outline-none flex bg-secondary text-white py-5 px-6 rounded-md  m-auto;
+        @apply focus:outline-none flex bg-primary text-white py-5 px-6 rounded-md  m-auto;
         font-weight : 600;
     }
     .btn-disabled{

@@ -10,11 +10,11 @@ const routes = [
     }
   },
   {
-    path: '/dashboard',
-    name: 'Dashboard',
-    component: () => import('@/views/Home.vue'),
+    path: '/summary',
+    name: 'Summary',
+    component: () => import('@/views/Summary.vue'),
     meta: {
-      layout: 'NoSidebar'
+      layout: 'SidebarLayout'
     }
   }
 ]
