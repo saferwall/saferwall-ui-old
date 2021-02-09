@@ -36,8 +36,13 @@ export default {
 <style lang="scss" scoped>
 footer{
     @apply mt-20 w-full  bg-white;
+    
     .content{
         @apply md:w-9/12 m-auto h-20; 
     }
+    &.sactive .content{
+        @apply w-full;
+    }
 }
+
 </style>

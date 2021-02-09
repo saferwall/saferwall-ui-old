@@ -1,10 +1,8 @@
 <template>
-    <nav class="navbar z-50">
+    <nav class="navbar z-40">
         <div class="nav-content">
             <div class="logo">
-                <a class="text-white no-underline hover:text-white hover:no-underline p-1" href="#">
-                    <img src="../../assets/images/logo.png" class=" h-full max-h-20 w-auto mx-auto p-2" :alt="appName">
-                </a>
+                <logo />
             </div>
             <div class="search">
                 <input class="input"  name="search" placeholder="Quik file hash lookup" />
@@ -36,8 +34,10 @@
 </template>
 
 <script>
+import Logo from '../shared/partials/Logo.vue';
 export default {
     name: 'Header',
+    components: { Logo },
     computed: {
         appName() {
             return 'SaferWall';
@@ -48,15 +48,14 @@ export default {
 
 <style lang="scss">
 .navbar {
-    @apply bg-white fixed w-full top-0;
+    @apply bg-white fixed w-full top-0 h-navbar;
     border-bottom: 1px solid $border-color;
-    height: 4.6rem;
-
+ 
     .nav-content {
         @apply mx-auto flex h-full flex-wrap;
 
         .logo {
-            @apply w-full md:w-auto md:px-6 px-5 flex justify-center md:justify-start text-black font-extrabold;
+            @apply w-full md:w-sidebar md:px-6 px-5 flex justify-center md:justify-start text-black font-extrabold;
             border-right: 1px solid $border-color;
             height: 100%;
         }
