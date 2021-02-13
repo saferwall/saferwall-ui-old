@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import ShowMore from './partials/ShowMore.vue';
+import ShowMore from './partials/button/ShowMore.vue';
 import ActivityBlock from './partials/ActivityBlock.vue';
 
 export default {

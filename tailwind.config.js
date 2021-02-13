@@ -63,6 +63,9 @@ module.exports = {
       },
       inset: {
         'navbar': '4.6rem',
+      },
+      fill: {
+        primary: '#0d9677'
       }
     }
   },

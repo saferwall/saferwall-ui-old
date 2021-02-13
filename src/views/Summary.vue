@@ -1,14 +1,10 @@
 <template>
-  <latest-activities />
+  <div></div>
 </template>
 
 <script>
-import LatestActivities from '../components/shared/LatestActivities.vue'
 
 export default {
   name: 'Home',
-  components:  {
-    LatestActivities
-  }
 }
 </script>
