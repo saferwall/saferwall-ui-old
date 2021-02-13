@@ -43,7 +43,7 @@
                 </li>
             </ul>
 
-            <btn href="/">
+            <btn href="/" class="mx-auto mt-12">
                 <strong>Back to website</strong>
             </btn>
         </div>
@@ -52,7 +52,7 @@
 
 <script>
 import Logo from '@/components/shared/partials/Logo.vue';
-import Btn from '@/components/shared/partials/buttons/Default.vue';
+import Btn from '@/components/shared/partials/button/Button.vue';
 
 export default {
     name : 'Sidebar',
@@ -96,10 +96,7 @@ export default {
                     }
                 }
             }
-
-
         }
-        
     }
 }
 </style>

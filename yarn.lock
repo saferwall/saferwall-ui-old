@@ -3073,6 +3073,11 @@ dashdash@^1.12.0:
   dependencies:
     assert-plus "^1.0.0"
 
+dateformat@^4.5.1:
+  version "4.5.1"
+  resolved "https://registry.yarnpkg.com/dateformat/-/dateformat-4.5.1.tgz#c20e7a9ca77d147906b6dc2261a8be0a5bd2173c"
+  integrity sha512-OD0TZ+B7yP7ZgpJf5K2DIbj3FZvFvxgFUuaqA/V5zTjAtAAXZ1E8bktHxmAGs4x5b7PflqA9LeQ84Og7wYtF7Q==
+
 debug@2.6.9, debug@^2.2.0, debug@^2.3.3:
   version "2.6.9"
   resolved "https://registry.yarnpkg.com/debug/-/debug-2.6.9.tgz#5d128515df134ff327e90a4c93f4e077a536341f"
@@ -5075,6 +5080,25 @@ jest-worker@^25.4.0:
   dependencies:
     merge-stream "^2.0.0"
     supports-color "^7.0.0"
+
+jquery-circle-progress@^1.2.2:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/jquery-circle-progress/-/jquery-circle-progress-1.2.2.tgz#260e9130ac8e2b5572eaa7a93b9e8a6b27bc8eea"
+  integrity sha1-Jg6RMKyOK1Vy6qepO56Kaye8juo=
+  dependencies:
+    jquery "*"
+
+jquery-easing@0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/jquery-easing/-/jquery-easing-0.0.1.tgz#b3c37525b55734dc1ee1ad09b6c3373187687715"
+  integrity sha1-s8N1JbVXNNwe4a0JtsM3MYdodxU=
+  dependencies:
+    jquery "*"
+
+jquery@*:
+  version "3.5.1"
+  resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.5.1.tgz#d7b4d08e1bfdb86ad2f1a3d039ea17304717abb5"
+  integrity sha512-XwIBPqcMn57FxfT+Go5pzySnm4KWkT1Tv7gjrpT1srtf8Weynl6R273VJ5GjkRb51IzMp5nbaPjJXMWeju2MKg==
 
 js-message@1.0.7:
   version "1.0.7"
@@ -8492,6 +8516,20 @@ vue-template-es2015-compiler@^1.9.0:
   version "1.9.1"
   resolved "https://registry.yarnpkg.com/vue-template-es2015-compiler/-/vue-template-es2015-compiler-1.9.1.tgz#1ee3bc9a16ecbf5118be334bb15f9c46f82f5825"
   integrity sha512-4gDntzrifFnCEvyoO8PqyJDmguXgVPxKiIxrBKjIowvL9l+N66196+72XVYR8BBf1Uv1Fgt3bGevJ+sEmxfZzw==
+
+vue2-circle-progress@^1.2.3:
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/vue2-circle-progress/-/vue2-circle-progress-1.2.3.tgz#7c38af4d84c68299c078188ead09343f74541bbf"
+  integrity sha1-fDivTYTGgpnAeBiOrQk0P3RUG78=
+  dependencies:
+    jquery-circle-progress "^1.2.2"
+    jquery-easing "0.0.1"
+    vue "^2.0.0"
+
+vue@^2.0.0:
+  version "2.6.12"
+  resolved "https://registry.yarnpkg.com/vue/-/vue-2.6.12.tgz#f5ebd4fa6bd2869403e29a896aed4904456c9123"
+  integrity sha512-uhmLFETqPPNyuLLbsKz6ioJ4q7AZHzD8ZVFNATNyICSZouqP2Sz0rotWQC8UNBF6VGSCs5abnKJoStA6JbCbfg==
 
 vue@^3.0.0:
   version "3.0.5"

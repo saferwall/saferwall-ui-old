@@ -44,5 +44,4 @@ footer{
         @apply w-full;
     }
 }
-
 </style>

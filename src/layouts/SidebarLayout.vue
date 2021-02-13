@@ -12,7 +12,7 @@
 <script>
 import Header from "@/components/partials/Header"
 import Footer from "@/components/partials/Footer"
-import Content from "@/components/partials/Content"
+import Content from "@/components/partials/page/PageContent"
 import Sidebar from '@/components/partials/Sidebar.vue'
 
 export default {

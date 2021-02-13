@@ -1,14 +1,23 @@
 <template>
-  <latest-activities />
+  <Card class="summary">
+    <Progress />
+  </Card>
 </template>
 
 <script>
-import LatestActivities from '../components/shared/LatestActivities.vue'
+import Card from '../components/shared/partials/Card.vue';
+import Progress from '../components/shared/Progress.vue';
 
-export default {
+export default 
+{
   name: 'Home',
-  components:  {
-    LatestActivities
-  }
+  components: { Card, Progress },
+  
 }
 </script>
+
+<style lang="scss" scoped>
+.summary {
+  
+}
+</style>
