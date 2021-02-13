@@ -33,7 +33,7 @@ module.exports = {
         light: '#ffffff',
         gray: '#898989',
         background: '#f6f6f6',
-        danger: '#be465c',
+        danger: '#e63755',
         warning: '#ED8C1A',
         success: '#6CA838',
       },
@@ -64,8 +64,12 @@ module.exports = {
       inset: {
         'navbar': '4.6rem',
       },
-      fill: {
+      stroke: {
         primary: '#0d9677'
+      },
+      fill: {
+        primary: '#0d9677',
+        gray: '#898989'
       }
     }
   },

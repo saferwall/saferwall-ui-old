@@ -11,11 +11,13 @@
     "@tailwindcss/postcss7-compat": "^2.0.2",
     "autoprefixer": "^9",
     "core-js": "^3.6.5",
+    "dateformat": "^4.5.1",
     "k-progress-v3": "^1.0.0",
     "postcss": "^7",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0-0",
+    "vue2-circle-progress": "^1.2.3",
     "vuex": "^4.0.0-0"
   },
   "devDependencies": {

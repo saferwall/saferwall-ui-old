@@ -52,7 +52,7 @@
 
 <script>
 import Logo from '@/components/shared/partials/Logo.vue';
-import Btn from '@/components/shared/partials/button/Default.vue';
+import Btn from '@/components/shared/partials/button/Button.vue';
 
 export default {
     name : 'Sidebar',
