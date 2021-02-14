@@ -1,23 +1,22 @@
 <template>
-  <Card class="summary">
-    <Progress />
-  </Card>
+  <div class="summary">
+    <Card>
+      <Progress />
+    </Card>
+  </div>
 </template>
 
 <script>
-import Card from '../components/shared/partials/Card.vue';
-import Progress from '../components/shared/Progress.vue';
+import Card from "../components/shared/elements/Card.vue";
+import Progress from "../components/shared/Progress.vue";
 
-export default 
-{
-  name: 'Home',
+export default {
+  name: "Home",
   components: { Card, Progress },
-  
-}
+};
 </script>
 
 <style lang="scss" scoped>
 .summary {
-  
 }
 </style>

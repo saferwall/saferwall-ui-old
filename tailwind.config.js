@@ -2,14 +2,6 @@ module.exports = {
   purge: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
   darkMode: false, // or 'media' or 'class'
   theme: {
-    borderColors: theme => ({
-      ...theme('colors'),
-      DEFAULT: '#EFEFEF',
-    }),
-    divideColor: theme => ({
-      ...theme('borderColors'),
-      'dark': '#898989',
-    }),
     boxShadow: {
       sm: '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
       DEFAULT: '0px 3px 6px 0 rgb(0 0 0 / 1%), 0 1px 2px 0 rgb(0 0 0 / 6%)',
@@ -35,7 +27,7 @@ module.exports = {
         background: '#f6f6f6',
         danger: '#e63755',
         warning: '#ED8C1A',
-        success: '#6CA838',
+        success: '#0d9677',
       },
       minHeight: {
         '0': '0',
@@ -64,14 +56,21 @@ module.exports = {
       inset: {
         'navbar': '4.6rem',
       },
-      stroke: {
-        primary: '#0d9677'
-      },
-      fill: {
-        primary: '#0d9677',
-        gray: '#898989'
-      }
-    }
+    },
+    borderColors: theme => ({
+      ...theme('colors'),
+      DEFAULT: '#EFEFEF',
+    }),
+    divideColor: theme => ({
+      ...theme('borderColors'),
+      'dark': '#898989',
+    }),
+    stroke: theme => ({
+      ...theme('colors'),
+    }),
+    fill: theme => ({
+      ...theme('colors'),
+    }),
   },
   variants: {
     extend: {},
