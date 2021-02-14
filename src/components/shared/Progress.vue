@@ -182,7 +182,7 @@ export default {
       type: Number,
     },
     rate : {
-      default : { value: 4 , total : 10},
+      default : { value: 9 , total : 10},
     }
   },
   data(props) {
