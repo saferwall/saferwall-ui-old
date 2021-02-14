@@ -6,7 +6,7 @@
             </div>
             <div></div>
             <div class="media flex items-center justify-end">
-                <p>Developed with ❤ by SaferWall.</p>
+                <p>Developed with ❤ by {{ app.name }}.</p>
                 <a :href="app.media?.github" class="ml-2">
                     <svg width="20" height="20">
                         <image width="20" height="20" xlink:href="assets/icons/github.svg" />
