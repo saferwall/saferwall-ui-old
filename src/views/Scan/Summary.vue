@@ -29,7 +29,7 @@
     </Card>
 
     <Card title="Virtual Screen">
-      <Gallery :images="[{ source: 'https://picsum.photos/200/300' } , { source: 'https://picsum.photos/200/300' } , { source: 'https://picsum.photos/200/300' } , { source: 'https://picsum.photos/200/300' } ,  { source: null } , { source : null } , { source: null } , { source : null }]"/>
+      <Gallery :images="[{ source: 'https://picsum.photos/800/350?i='+Math.random() } , { source: 'https://picsum.photos/800/350?i='+Math.random() } , { source: 'https://picsum.photos/800/350?i='+Math.random() } , { source: 'https://picsum.photos/800/350?i='+Math.random() } ,  { source: null } , { source : null } , { source: null } , { source : null }]"/>
     </Card>
   </div>
 </template>
