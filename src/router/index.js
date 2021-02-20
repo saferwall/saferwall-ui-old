@@ -12,7 +12,7 @@ const routes = [
   {
     path: '/summary',
     name: 'Summary',
-    component: () => import('@/views/Summary.vue'),
+    component: () => import('@/views/Scan/Summary.vue'),
     meta: {
       layout: 'SidebarLayout'
     }

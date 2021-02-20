@@ -1,7 +1,7 @@
 <template>
-    <a href="/" class="btn">
+    <router-link to="/" class="btn">
         <slot />
-    </a>
+    </router-link>
 </template>
 
 <script>

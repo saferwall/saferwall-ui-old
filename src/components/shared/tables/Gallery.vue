@@ -1,18 +1,34 @@
 <template>
     <div class="gallery flex flex-wrap">
-        <div v-for="(image, index) in images" v-bind:key="image" class="item">
+        <div v-for="(image, index) in images" v-bind:key="image" class="item" @click="openPreview(image.source)">
             <div class="image" :style="{ backgroundImage: `url(${image.source}?i=${index})` }"></div>
         </div>
+        <preview :source="gallerySource" :modalOpen="modalOpen"/>
     </div>
 </template>
 
 <script>
-    export default {
-        name: 'Gallery',
-        props: {
-            images : Array
+import Preview from '../elements/gallery/Preview.vue';
+
+export default {
+  components: { Preview },
+    name: 'Gallery',
+    props: {
+        images : Array,
+    },
+    data(){
+        return {
+            gallerySource : null,
+            modalOpen: false
+        }
+    },
+    methods:{
+        openPreview(source){
+            this.gallerySource = source;
+            this.modalOpen = true;
         }
     }
+}
 </script>
 
 <style lang="scss" scoped>
