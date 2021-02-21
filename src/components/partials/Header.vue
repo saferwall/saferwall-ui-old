@@ -31,7 +31,7 @@
       </div>
       <div class="menu">
         <div class="menu-content ">
-          <a href="#" class="btn-menu">
+          <router-link to="#" class="btn-menu">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               class="mr-2"
@@ -51,8 +51,8 @@
             </svg>
 
             Hot activities
-          </a>
-          <a href="#" class="btn-menu btn-login">
+          </router-link>
+          <router-link to="/" class="btn-menu btn-login">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               class="mr-2 mt-1"
@@ -89,8 +89,8 @@
               </g>
             </svg>
             Login
-          </a>
-          <a href="#" class="btn-menu btn-signup">Sign up</a>
+          </router-link>
+          <router-link to="/" class="btn-menu btn-signup">Sign up</router-link>
         </div>
       </div>
     </div>
@@ -102,11 +102,6 @@ import Logo from "../shared/elements/Logo.vue";
 export default {
   name: "Header",
   components: { Logo },
-  computed: {
-    appName() {
-      return "SaferWall";
-    },
-  },
 };
 </script>
 

@@ -29,16 +29,16 @@
     </Card>
 
     <Card title="Virtual Screen">
-      <Gallery :images="[{ source: 'https://picsum.photos/200/300' } , { source: 'https://picsum.photos/200/300' } , { source: 'https://picsum.photos/200/300' } , { source: 'https://picsum.photos/200/300' } ,  { source: null } , { source : null } , { source: null } , { source : null }]"/>
+      <Gallery :images="[{ source: 'https://picsum.photos/800/350?i='+Math.random() } , { source: 'https://picsum.photos/800/350?i='+Math.random() } , { source: 'https://picsum.photos/800/350?i='+Math.random() } , { source: 'https://picsum.photos/800/350?i='+Math.random() } ,  { source: null } , { source : null } , { source: null } , { source : null }]"/>
     </Card>
   </div>
 </template>
 
 <script>
-import Card from "../components/shared/elements/Card.vue";
-import Progress from "../components/shared/Progress.vue";
-import TableCols from "../components/shared/tables/TableCols.vue";
-import Gallery from "../components/shared/tables/Gallery.vue";
+import Card from "@/components/shared/elements/Card.vue";
+import Progress from "@/components/shared/Progress.vue";
+import TableCols from "@/components/shared/tables/TableCols.vue";
+import Gallery from "@/components/shared/tables/Gallery.vue";
 
 export default {
   name: "Home",
