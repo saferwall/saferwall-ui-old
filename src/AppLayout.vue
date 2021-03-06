@@ -2,6 +2,7 @@
   <component :is="layout">
     <slot />
   </component>
+  <loader :visible="visible" />
 </template>
 
 <script>
@@ -29,7 +30,7 @@ export default {
       },
       { immediate: true }
     )
-    return { layout }
+    return { layout, visible }
   }
 }
 </script>
