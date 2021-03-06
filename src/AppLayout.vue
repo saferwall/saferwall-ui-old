@@ -11,9 +11,8 @@ import { shallowRef, watch } from 'vue'
 import { useRoute } from 'vue-router'
 
 export default {
-  name: 'AppLayout',
   setup() {
-    var layout = shallowRef(AppLayoutDefault);
+    const layout = shallowRef(AppLayoutDefault);
     const route = useRoute();
 
     watch(

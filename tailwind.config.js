@@ -59,6 +59,9 @@ module.exports = {
         'navbar': '4.6rem',
       },
     },
+    minWidth: theme => ({
+      ...theme('width'),
+    }),
     borderColors: theme => ({
       ...theme('colors'),
       DEFAULT: '#EFEFEF',

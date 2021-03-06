@@ -31,7 +31,6 @@
         <g id="icon" transform="translate(-0.461 -0.732)">
           <text
             id="_"
-            data-name="!"
             transform="translate(9.462 16.732)"
             fill="white"
             font-size="14"
