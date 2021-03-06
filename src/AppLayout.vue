@@ -2,6 +2,7 @@
   <component :is="layout">
     <slot />
   </component>
+  <loader :visible="visible" />
 </template>
 
 <script>
@@ -12,7 +13,7 @@ import { useRoute } from 'vue-router'
 
 export default {
   setup() {
-    var layout = shallowRef(AppLayoutDefault);
+    const layout = shallowRef(AppLayoutDefault);
     const route = useRoute();
 
     watch(
@@ -29,7 +30,7 @@ export default {
       },
       { immediate: true }
     )
-    return { layout }
+    return { layout, visible }
   }
 }
 </script>
