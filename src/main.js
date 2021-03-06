@@ -23,6 +23,6 @@ import KProgress from 'k-progress-v3';
 createApp(App)
     .use(store)
     .use(router)
-    .component('AppLayout', AppLayout)
     .component('k-progress', KProgress)
+    .component('AppLayout', AppLayout)
     .mount('#app')
