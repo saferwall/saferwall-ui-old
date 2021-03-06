@@ -30,7 +30,7 @@ import Message from './Message.vue'
 export default {
     data(){ 
         return  {
-            sent : true,
+            sent : false,
         }
     },
     components : {

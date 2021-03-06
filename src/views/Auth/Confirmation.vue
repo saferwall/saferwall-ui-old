@@ -31,7 +31,7 @@ export default {
     data(){ 
         return  {
             sent : false,
-            confirmed: true,
+            confirmed: false,
         }
     },
     components : {
