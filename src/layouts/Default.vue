@@ -8,7 +8,6 @@
 import NoSidebar from './NoSidebar.vue'
 
 export default {
-    name: 'Default',
     components: {
         NoSidebar
     },

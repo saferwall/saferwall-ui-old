@@ -17,7 +17,6 @@ import Logo from '@/components/shared/elements/Logo.vue'
 import Content from "@/components/partials/Content.vue"
 
 export default {
-    name: 'NoSidebar',
     components: {
         Header,
         Content,

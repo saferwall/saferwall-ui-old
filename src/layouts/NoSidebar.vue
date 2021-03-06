@@ -17,7 +17,6 @@ import Footer from "@/components/partials/Footer.vue"
 import Content from "@/components/partials/Content.vue"
 
 export default {
-    name: 'NoSidebar',
     components: {
         Header,
         Navbar,

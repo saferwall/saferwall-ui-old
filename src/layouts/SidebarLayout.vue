@@ -19,7 +19,6 @@ import Footer from "@/components/partials/Footer.vue"
 import Content from "@/components/partials/page/PageContent.vue"
 
 export default {
-  name : 'SidebarLayout',
   components: {Header , Footer , Content, Sidebar, Navbar},
 
   setup(props){
