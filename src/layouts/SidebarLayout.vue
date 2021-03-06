@@ -1,6 +1,8 @@
 <template>
   <div>
-    <Header />
+    <Header>
+      <Navbar />
+    </Header>
     <Sidebar class="sidebar" v-show="sidebarActive" />
     <Content class="content" :class="sidebarActive ? 'sactive':''" >
       <slot />
@@ -10,18 +12,18 @@
 </template>
 
 <script>
-import Header from "@/components/partials/Header"
-import Footer from "@/components/partials/Footer"
-import Content from "@/components/partials/page/PageContent"
+import Header from "@/components/partials/Header.vue"
+import Navbar from '../components/partials/Navbar.vue'
 import Sidebar from '@/components/partials/Sidebar.vue'
+import Footer from "@/components/partials/Footer.vue"
+import Content from "@/components/partials/page/PageContent.vue"
 
 export default {
   name : 'SidebarLayout',
-  components: {Header , Footer , Content, Sidebar},
+  components: {Header , Footer , Content, Sidebar, Navbar},
 
   setup(props){
     const sidebarActive = props.sidebarActive || true;
-
 
     return { sidebarActive }
   }

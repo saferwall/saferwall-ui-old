@@ -1,0 +1,6 @@
+.form-input {
+  @apply w-full px-6 py-4 border rounded-md border-gray-light placeholder-gray-medium text-xl;
+}
+.form-group {
+  @apply w-full my-4 flex flex-wrap items-center justify-end;
+}

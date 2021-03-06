@@ -1,8 +1,10 @@
 import { createApp } from 'vue'
-import App from './App.vue'
+
 import router from './router'
 import store from './store'
-import AppLayout from '@/layouts/AppLayout'
+
+import App from '@/App.vue'
+import AppLayout from '@/AppLayout.vue'
 
 /**
  * Css ( +TailwindCss )
