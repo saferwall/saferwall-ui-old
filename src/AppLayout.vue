@@ -12,7 +12,7 @@ import { useRoute } from 'vue-router'
 
 export default {
   setup() {
-    var layout = shallowRef(AppLayoutDefault);
+    const layout = shallowRef(AppLayoutDefault);
     const route = useRoute();
 
     watch(
