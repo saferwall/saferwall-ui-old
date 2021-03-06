@@ -32,6 +32,22 @@ const publicRoutes = [
     meta: {
       layout: 'AuthLayout'
     }
+  },
+  {
+    path: '/auth/confirmation',
+    name: 'Confirmation',
+    component: () => import('@/views/Auth/Confirmation.vue'),
+    meta: {
+      layout: 'AuthLayout'
+    }
+  },
+  {
+    path: '/auth/forgot-password',
+    name: 'Forgot Password',
+    component: () => import('@/views/Auth/ForgotPassword.vue'),
+    meta: {
+      layout: 'AuthLayout'
+    }
   }
 ]
 
