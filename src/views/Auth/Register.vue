@@ -27,9 +27,9 @@
             <div class="form-group w-full my-4">
                 <input type="email" class="form-input" placeholder="Email">
             </div>
-            <div class="form-group justify-end">
-                <Password placeholder="Password" />
-            </div>
+
+            <password placeholder="Password" />
+
             <div class="form-group justify-between py-2">
                 <label for="agree">
                     <input type="checkbox" name="agree" id="agree"> I agree to the <router-link to="#">Terms of Service</router-link>

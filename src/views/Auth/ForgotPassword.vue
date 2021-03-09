@@ -11,9 +11,10 @@
             </p>
         </div>
         <div class="content mt-8 mb-16">
-            <div class="form-group w-full my-4">
-                <input type="text" class="form-input" placeholder="Email">
-            </div>
+
+            <password placeholder="New password" name="password" />
+            <password placeholder="Retype new password" name="repassword" />
+
             <div class="form-group">
                 <button class="btn-submit">
                     Reset Password
@@ -46,16 +47,18 @@
 
 
 <script>
+import Password from '../../components/shared/elements/inputs/Password.vue'
 import Message from './Message.vue'
 export default {
     data(){ 
         return  {
             sent : false,
-            reset : true,
+            reset : false,
         }
     },
     components : {
-        Message
+        Message,
+        Password
     }
 }
 </script>
