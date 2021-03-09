@@ -20,9 +20,9 @@
             <div class="form-group w-full my-4">
                 <input type="text" class="form-input" placeholder="Username">
             </div>
-            <div class="form-group justify-end">
-                <Password placeholder="Password" />
-            </div>
+
+            <password placeholder="Password" />
+
             <div class="form-group justify-between py-2">
                 <router-link to="/auth/confirmation">Didn’t confirm registration?</router-link>
                 <router-link to="/auth/forgot-password">Forgot password ? </router-link>
