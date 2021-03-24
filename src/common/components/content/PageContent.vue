@@ -116,7 +116,6 @@
 <script>
 import Btn from "@/common/components/elements/button/Button";
 export default {
-  name: "PageContent",
   components: { Btn },
   props: {
     title: {

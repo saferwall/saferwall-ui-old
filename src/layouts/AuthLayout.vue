@@ -12,9 +12,9 @@
 </template>
 
 <script>
-import Header from "@/components/partials/Header.vue"
+import Header from "@/common/components/partials/Header.vue"
 import Logo from '@/common/components/elements/Logo.vue'
-import Content from "@/components/partials/Content.vue"
+import Content from "@/common/components/content/Content.vue"
 
 export default {
     components: {

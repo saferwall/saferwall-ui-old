@@ -11,10 +11,10 @@
 </template>
 
 <script>
-import Header from "@/components/partials/Header.vue"
-import Navbar from '../components/partials/Navbar.vue'
-import Footer from "@/components/partials/Footer.vue"
-import Content from "@/components/partials/page/HeaderContent.vue"
+import Header from "@/common/components/partials/Header.vue"
+import Navbar from '../common/components/partials/Navbar.vue'
+import Footer from "@/common/components/partials/Footer.vue"
+import Content from "@/common/components/content/HeaderContent.vue"
 
 export default {
     components: {
