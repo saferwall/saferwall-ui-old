@@ -1,9 +1,0 @@
-<svg class="mr-2" xmlns="http://www.w3.org/2000/svg" width="22.645" height="22.645" viewBox="0 0 22.645 22.645">
-    <g id="icon" transform="translate(-0.461 -0.732)">
-    <text id="_"  transform="translate(9.462 16.732)" fill="#e63755" font-size="14" font-family="OpenSans-Semibold, Open Sans" font-weight="600"><tspan x="0" y="0">!</tspan></text>
-    <g transform="translate(0.461 0.732)" fill="none" stroke="#e63755" stroke-width="1.7">
-        <circle cx="11.322" cy="11.322" r="11.322" stroke="none"/>
-        <circle cx="11.322" cy="11.322" r="10.472" fill="none"/>
-    </g>
-    </g>
-</svg>

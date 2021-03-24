@@ -18,6 +18,18 @@ const publicRoutes = [
     }
   },
   {
+    path: '/hot-activities',
+    name: 'Hot Activities',
+    component: () => import('@/views/Features/HotActivities.vue'),
+    meta: {
+      layout: 'HeaderLayout'
+    }
+  }
+]
+
+
+const authRoutes = [
+  {
     path: '/auth/login',
     name: 'Login',
     component: () => import('@/views/Auth/Login.vue'),
@@ -57,7 +69,7 @@ const privateRoutes = [
 ]
 
 
-const routes = [...publicRoutes, ...privateRoutes];
+const routes = [...publicRoutes, ...privateRoutes, ...authRoutes];
 
 const router = createRouter({
   history: createWebHashHistory(),

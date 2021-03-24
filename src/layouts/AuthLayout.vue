@@ -49,31 +49,3 @@ export default {
     @apply mt-4 flex min-w-full md:min-w-6/7 lg:min-w-5/7 xl:min-w-3/7 bg-light md:rounded-2xl pt-20 pb-8 px-24 shadow-sm;
 }
 </style>
-
-<style lang="scss" scoped>
-.fade-enter-active,
-.fade-leave-active {
-    transition-property: opacity;
-    transition-duration: 0.25s;
-}
-
-.fade-enter-active {
-    transition-delay: 0;
-}
-
-.fade-enter,
-.fade-leave-active {
-    opacity: 0;
-}
-
-.slideLeft-enter-active,
-.slideLeft-leave-active {
-    transition-property: transform;
-    transition-duration: 0.25s;
-}
-
-.slideLeft-enter,
-.slideLeft-leave-active {
-    transform: translateX(-100%);
-}
-</style>
