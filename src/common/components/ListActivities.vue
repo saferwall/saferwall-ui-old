@@ -21,7 +21,6 @@ import ShowMore from './elements/button/ShowMore.vue';
 import ActivityBlock from './elements/ActivityBlock.vue';
 
 export default {
-    name: 'LatestActivities',
     components: {
         ActivityBlock,
         ShowMore

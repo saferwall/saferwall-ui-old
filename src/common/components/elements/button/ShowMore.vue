@@ -4,13 +4,6 @@
     </div>
 </template>
 
-<script>
-    export default {
-        name: 'ShowMore'
-    }
-</script>
-
-
 <style lang="scss" scoped>
 .showmore{
 

@@ -12,7 +12,6 @@ import Preview from '@/common/components/elements/gallery/Preview.vue';
 
 export default {
   components: { Preview },
-    name: 'Gallery',
     props: {
         images : Array,
     },

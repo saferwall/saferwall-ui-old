@@ -6,12 +6,6 @@
   </nav>
 </template>
 
-<script>
-export default {
-  name: "Header",
-};
-</script>
-
 <style lang="scss" scoped>
 .navbar {
   @apply bg-white fixed w-full top-0 h-navbar;

@@ -32,11 +32,7 @@
     </div>
 </template>
 
-<script>
-export default {
-    name: 'UploadFile'
-}
-</script>
+
 <style lang="scss" >
 .uploadfile{
     @apply md:mt-28 flex flex-wrap mx-auto rounded-lg bg-white  w-full min-h-7/10;

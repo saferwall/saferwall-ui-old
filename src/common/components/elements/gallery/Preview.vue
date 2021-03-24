@@ -21,7 +21,6 @@
 
 <script>
 export default {
-    name: 'Preview',
     props: {
         source : {
             type: String

@@ -58,7 +58,6 @@ import { timeAgo } from '@/helpers/time.js';
 import HashInput from './HashInput.vue';
 
 export default {
-    name: 'ActivityBlock',
     components: {HashInput},
     props: {
         hash: {

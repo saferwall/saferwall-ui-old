@@ -41,7 +41,6 @@ import TableCols from "@/common/components/tables/TableCols.vue";
 import Gallery from "@/common/components/tables/Gallery.vue";
 
 export default {
-  name: "Home",
   components: { Card, Progress, TableCols, Gallery },
 };
 </script>

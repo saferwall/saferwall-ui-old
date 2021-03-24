@@ -3,9 +3,3 @@
         <img src="../../../assets/images/logo.png" class=" h-full max-h-20 w-auto mx-auto p-2" :alt="Saferwall">
     </router-link>
 </template>
-
-<script>
-    export default {
-        name: 'Logo'
-    }
-</script>
