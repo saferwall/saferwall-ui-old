@@ -35,10 +35,10 @@
 </template>
 
 <script>
-import Card from "@/components/shared/elements/Card.vue";
-import Progress from "@/components/shared/Progress.vue";
-import TableCols from "@/components/shared/tables/TableCols.vue";
-import Gallery from "@/components/shared/tables/Gallery.vue";
+import Card from "@/common/components/elements/Card.vue";
+import Progress from "@/common/components/Progress.vue";
+import TableCols from "@/common/components/tables/TableCols.vue";
+import Gallery from "@/common/components/tables/Gallery.vue";
 
 export default {
   name: "Home",

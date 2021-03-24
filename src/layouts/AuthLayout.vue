@@ -13,7 +13,7 @@
 
 <script>
 import Header from "@/components/partials/Header.vue"
-import Logo from '@/components/shared/elements/Logo.vue'
+import Logo from '@/common/components/elements/Logo.vue'
 import Content from "@/components/partials/Content.vue"
 
 export default {

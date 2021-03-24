@@ -47,7 +47,7 @@
 
 
 <script>
-import Password from '../../components/shared/elements/inputs/Password.vue'
+import Password from '../../common/components/elements/inputs/Password.vue'
 import Message from './Message.vue'
 export default {
     data(){ 

@@ -4,8 +4,8 @@
 </template>
 
 <script>
-import LatestActivities from '@/components/shared/LatestActivities.vue'
-import UploadFile from '@/components/shared/UploadFile.vue'
+import LatestActivities from '@/common/components/LatestActivities.vue'
+import UploadFile from '@/common/components/UploadFile.vue'
 
 export default {
   components:  {

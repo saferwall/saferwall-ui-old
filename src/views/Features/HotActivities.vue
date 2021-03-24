@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import ListActivities from '../../components/shared/ListActivities.vue'
+import ListActivities from '../../common/components/ListActivities.vue'
 
 export default {
     components: {

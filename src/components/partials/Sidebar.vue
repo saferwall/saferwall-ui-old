@@ -91,8 +91,8 @@
 </template>
 
 <script>
-import Logo from "@/components/shared/elements/Logo.vue";
-import Btn from "@/components/shared/elements/button/Button.vue";
+import Logo from "@/common/components/elements/Logo.vue";
+import Btn from "@/common/components/elements/button/Button.vue";
 
 export default {
   name: "Sidebar",

@@ -114,7 +114,7 @@
 </template>
 
 <script>
-import Btn from "@/components/shared/elements/button/Button";
+import Btn from "@/common/components/elements/button/Button";
 export default {
   name: "PageContent",
   components: { Btn },

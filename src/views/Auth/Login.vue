@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import Password from "@/components/shared/elements/inputs/Password.vue"
+import Password from "@/common/components/elements/inputs/Password.vue"
 
 export default {
   components: { Password },

@@ -160,7 +160,7 @@
 </template>
 
 <script>
-import Btn from "@/components/shared/elements/button/Button.vue";
+import Btn from "@/common/components/elements/button/Button.vue";
 export default {
   components: { Btn },
   props: {

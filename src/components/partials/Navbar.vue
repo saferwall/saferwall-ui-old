@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import Logo from "@/components/shared/elements/Logo.vue";
+import Logo from "@/common/components/elements/Logo.vue";
 export default {
     components: {
         Logo

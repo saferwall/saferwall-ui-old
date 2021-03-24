@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import Preview from '@/components/shared/elements/gallery/Preview.vue';
+import Preview from '@/common/components/elements/gallery/Preview.vue';
 
 export default {
   components: { Preview },
