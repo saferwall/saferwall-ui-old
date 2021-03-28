@@ -50,7 +50,7 @@
 
 <script>
 import Password from "@/common/components/elements/inputs/Password.vue"
-import Message from './Message.vue'
+import Message from '@/common/components/elements/Message.vue'
 export default {
     components: {
         Message,

@@ -5,8 +5,8 @@
 </template>
 
 <script>
-import ListActivities from './ListActivities.vue';
 import { activity } from '@/common/data/data.test';
+import ListActivities from './ListActivities.vue';
 
 export default {
     components: {

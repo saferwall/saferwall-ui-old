@@ -4,7 +4,7 @@ const publicRoutes = [
   {
     path: '/',
     name: 'Home',
-    component: () => import('@/views/Home.vue'),
+    component: () => import('@/modules/index/pages/Home.vue'),
     meta: {
       layout: 'Default'
     }
@@ -12,7 +12,7 @@ const publicRoutes = [
   {
     path: '/summary',
     name: 'Summary',
-    component: () => import('@/views/Scan/Summary.vue'),
+    component: () => import('@/modules/scan/pages/Summary.vue'),
     meta: {
       layout: 'SidebarLayout'
     }
@@ -20,7 +20,7 @@ const publicRoutes = [
   {
     path: '/hot-activities',
     name: 'Hot Activities',
-    component: () => import('@/views/Features/HotActivities.vue'),
+    component: () => import('@/modules/activities/pages/HotActivities.vue'),
     meta: {
       layout: 'HeaderLayout'
     }
@@ -32,7 +32,7 @@ const authRoutes = [
   {
     path: '/auth/login',
     name: 'Login',
-    component: () => import('@/views/Auth/Login.vue'),
+    component: () => import('@/modules/auth/pages/Login.vue'),
     meta: {
       layout: 'AuthLayout'
     }
@@ -40,7 +40,7 @@ const authRoutes = [
   {
     path: '/auth/register',
     name: 'Register',
-    component: () => import('@/views/Auth/Register.vue'),
+    component: () => import('@/modules/auth/pages/Register.vue'),
     meta: {
       layout: 'AuthLayout'
     }
@@ -48,7 +48,7 @@ const authRoutes = [
   {
     path: '/auth/confirmation',
     name: 'Confirmation',
-    component: () => import('@/views/Auth/Confirmation.vue'),
+    component: () => import('@/modules/auth/pages/Confirmation.vue'),
     meta: {
       layout: 'AuthLayout'
     }
@@ -56,7 +56,7 @@ const authRoutes = [
   {
     path: '/auth/forgot-password',
     name: 'Forgot Password',
-    component: () => import('@/views/Auth/ForgotPassword.vue'),
+    component: () => import('@/modules/auth/pages/ForgotPassword.vue'),
     meta: {
       layout: 'AuthLayout'
     }

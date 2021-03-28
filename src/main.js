@@ -4,7 +4,7 @@ import router from './router'
 import store from './store'
 
 import App from '@/App.vue'
-import AppLayout from '@/AppLayout.vue'
+import AppLayout from '@/layouts/AppLayout.vue'
 
 /**
  * Css ( +TailwindCss )

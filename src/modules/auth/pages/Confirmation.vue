@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import Message from './Message.vue'
+import Message from '@/common/components/elements/Message.vue'
 export default {
     data(){ 
         return  {

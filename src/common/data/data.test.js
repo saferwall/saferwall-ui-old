@@ -36,3 +36,19 @@ export function activity({
 
     return examples === 0 ? items[0] : items;
 }
+
+export function submission({
+    examples = 1,
+    one = false
+}) {
+    let submissions = Array(examples).fill([]).map(() => {
+        return [
+            faker.date.past(),
+            faker.random.word() + '.exe',
+            'Web',
+        ];
+    });
+
+
+    return one ? submissions[0] : submissions;
+}
