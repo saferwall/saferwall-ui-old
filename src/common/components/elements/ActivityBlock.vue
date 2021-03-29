@@ -1,7 +1,7 @@
 <template>
     <div class="activity grid grid-cols-5 gap-4  bg-white my-3 rounded-xl">
         <div class="header border text-center">
-            <div class="avatar inline-grid rounded-full" :style="{ backgroundImage: `url(${avatar})`}"></div>
+            <avatar :source="avatar"/>
             <div class="info mt-3">
                 <h3 class="text-xl font-bold">{{ author.name }}</h3>
                 <p class="signup text-gray">
@@ -56,9 +56,10 @@
 <script>
 import { timeAgo } from '@/helpers/time.js';
 import HashInput from './HashInput.vue';
+import Avatar from './Avatar.vue';
 
 export default {
-    components: {HashInput},
+    components: {HashInput, Avatar},
     props: {
         hash: {
             default: '85518d00317a597dc83ee3fb78743538b9444664273bd592df16603d2c3e4c28',
@@ -133,16 +134,6 @@ export default {
     }
     .header {
         border:none;
-
-        .avatar{
-            width: 74px;
-            height: 74px;
-            background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mPcXA8AAesBNGQg4IAAAAAASUVORK5CYII=);
-            background-color: rgba(25,25,25,0.1);
-
-            background-size: cover;
-            background-position: center;
-        }
     }
     .content  {
         @apply my-3;

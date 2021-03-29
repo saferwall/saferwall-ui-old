@@ -11,18 +11,42 @@
         </button>
     </div>
     <div class="menu">
-        <menu class="menu-content ">
-            
-        </menu>
+        <component :is="menu" class="menu-content">
+        </component>
     </div>
 </template>
 
 <script>
+import MenuDefault from '@/common/components/menu/Default'
+import { shallowRef, watch } from 'vue'
+import { useRoute } from 'vue-router'
 import Logo from "@/common/components/elements/Logo.vue";
 export default {
     components: {
         Logo
-    }
+    },
+  setup() {
+    const menu = shallowRef(MenuDefault);
+    const route = useRoute();
+
+    watch(
+      () => route.meta,
+      async (meta) => {
+        try {
+          const component = await import(`@/common/components/menu/${meta.menu}.vue`)
+          menu.value = component?.default || MenuDefault
+        } catch (e) {
+          menu.value = MenuDefault
+        }
+
+
+        console.log(meta , menu.value);
+        return { menu }
+      },
+      { immediate: true }
+    )
+    return { menu }
+  }
 }
 </script>
 
@@ -49,12 +73,18 @@ export default {
     @apply flex items-center w-full h-full ml-auto content-center w-max sm:justify-end hidden md:flex;
 
     .menu-content {
-    @apply lg:flex lg:items-stretch lg:justify-end h-full;
+      @apply  lg:flex lg:items-stretch lg:justify-end h-full;
     }
 }
-.btn-menu {
+</style>
+
+
+<style lang="scss" >
+.menu {
+  .btn-menu {
     @apply text-gray-medium relative py-2 px-4 leading-normal text-black no-underline flex items-center;
 
+    height:100%;
     justify-content: center;
     text-align: center;
     min-width: 100px;
@@ -80,5 +110,6 @@ export default {
       font-weight: 700;
       color: $secondary-color;
     }
+}
 }
 </style>

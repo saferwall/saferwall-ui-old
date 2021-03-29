@@ -6,7 +6,8 @@ const publicRoutes = [
     name: 'Home',
     component: () => import('@/modules/index/pages/Home.vue'),
     meta: {
-      layout: 'Default'
+      layout: 'Default',
+      menu: 'Member'
     }
   },
   {
@@ -69,7 +70,9 @@ const privateRoutes = [
 ]
 
 
-const routes = [...publicRoutes, ...privateRoutes, ...authRoutes];
+const routes = [...publicRoutes, ...privateRoutes, ...authRoutes].map(_route => {
+  return _route;
+});
 
 const router = createRouter({
   history: createWebHashHistory(),
