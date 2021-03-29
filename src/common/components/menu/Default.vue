@@ -6,7 +6,7 @@
 
         Hot activities
     </router-link>
-    <router-link to="/auth/login" class="btn-menu btn-login">
+    <router-link to="/auth/login" class="btn-menu btn-login btn-border">
         <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 mt-1" width="20.063" height="20.062" viewBox="0 0 20.063 20.062">
             <g transform="translate(0)">
                 <path d="M8.568,209.254H.627a.627.627,0,0,1,0-1.254H8.568a.627.627,0,0,1,0,1.254Zm0,0" transform="translate(0 -199.85)" fill="#0d9677" />

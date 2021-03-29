@@ -39,8 +39,6 @@ export default {
           menu.value = MenuDefault
         }
 
-
-        console.log(meta , menu.value);
         return { menu }
       },
       { immediate: true }
@@ -96,9 +94,7 @@ export default {
       background: $secondary-color;
     }
 
-    &.btn-login {
-      @apply px-6;
-
+    &.btn-border{
       &::before {
         content: " ";
         height: 51%;
@@ -107,6 +103,10 @@ export default {
         margin-right: 15px;
         margin-left: -15px;
       }
+    }
+    &.btn-login {
+      @apply px-6;
+
       font-weight: 700;
       color: $secondary-color;
     }
