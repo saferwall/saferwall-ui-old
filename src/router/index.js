@@ -66,7 +66,14 @@ const authRoutes = [
 
 
 const privateRoutes = [
-
+  {
+    path: '/profile',
+    name: 'Profile',
+    component: () => import('@/modules/user/pages/Profile.vue'),
+    meta: {
+      layout: 'HeaderLayout'
+    }
+  }
 ]
 
 

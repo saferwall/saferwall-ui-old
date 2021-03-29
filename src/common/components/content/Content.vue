@@ -12,6 +12,6 @@ export default {
 
 <style scoped lang="scss">
 .app-content {
-    @apply mt-20 md:w-9/12 m-auto; 
+    @apply mt-20 md:w-9/12 lg:w-8/12 m-auto; 
 }
 </style>

@@ -11,8 +11,7 @@
         </button>
     </div>
     <div class="menu">
-        <component :is="menu" class="menu-content">
-        </component>
+        <component :is="menu"></component>
     </div>
 </template>
 

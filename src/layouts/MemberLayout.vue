@@ -1,9 +1,9 @@
 <template>
 <div>
     <Header>
-        <Navbar />
+      <Navbar />
     </Header>
-    <Content class="content" :title="this.$route.name">
+    <Content>
         <slot />
     </Content>
     <Footer />
@@ -12,19 +12,16 @@
 
 <script>
 import Header from "@/common/components/partials/Header.vue"
-import Navbar from '@/common/components/partials/Navbar.vue'
+import Navbar from "@/common/components/partials/Navbar.vue"
 import Footer from "@/common/components/partials/Footer.vue"
-import Content from "@/common/components/content/HeaderContent.vue"
+import Content from "@/common/components/content/Content.vue"
 
 export default {
     components: {
         Header,
+        Navbar,
         Footer,
-        Content,
-        Navbar
+        Content
     },
-    props: {
-        title: String
-    }
 }
 </script>

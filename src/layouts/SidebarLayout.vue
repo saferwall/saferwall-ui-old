@@ -13,7 +13,7 @@
 
 <script>
 import Header from "@/common/components/partials/Header.vue"
-import Navbar from '../common/components/partials/Navbar.vue'
+import Navbar from '@/common/components/partials/Navbar.vue'
 import Sidebar from '@/common/components/partials/Sidebar.vue'
 import Footer from "@/common/components/partials/Footer.vue"
 import Content from "@/common/components/content/PageContent.vue"

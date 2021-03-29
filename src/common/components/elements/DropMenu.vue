@@ -19,7 +19,7 @@ export default {
 
 <style lang="scss" scoped>
 .dropmenu{
-    @apply origin-top-right absolute right-4 mt-4 w-60 rounded-md shadow-md bg-white ring-1 ring-black ring-opacity-5 focus:outline-none w-full text-left ;
+    @apply origin-top-right absolute right-1 mt-4 w-60 rounded-md shadow-md bg-white ring-1 ring-black ring-opacity-5 focus:outline-none w-full text-left ;
     .content{
         @apply px-2 py-2;
     }
