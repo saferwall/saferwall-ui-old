@@ -7,7 +7,7 @@ export function activity({
         return {
             hash: faker.random.uuid(),
             file: {
-                name: faker.system.commonFileName('exe'),
+                name: faker.system.fileName() + '.exe',
                 classification: {
                     name: faker.random.word(),
                     color: 'danger',

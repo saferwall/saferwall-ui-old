@@ -1,5 +1,5 @@
 <template>
-    <div class="activity grid grid-cols-5 gap-4  bg-white my-3 rounded-xl">
+    <div class="activity md:grid items-center justify-center md:grid-cols-5 md:gap-4  bg-white my-3 md:rounded-xl">
         <div class="header border text-center">
             <avatar :source="avatar"/>
             <div class="info mt-3">
@@ -14,14 +14,14 @@
                 </div>
             </div>
         </div>
-        <div class="content col-span-4 grid grid-cols-4">
+        <div class="activity-content col-span-4 grid md:grid-cols-4">
             <div class="info col-span-3 mr-10">
                 <p class="title">
                     <b>{{ author.name }}</b> submitted a file <span class="text-sm">{{ getSubmitionAgo }} ago</span>
                 </p>
                 <hash-input :hash="hash"></hash-input>
 
-                <div class="meta mt-10 grid grid-cols-3">
+                <div class="meta mt-10 flex flex-wrap space-x-4 xl:space-x-6 justify-between">
                     <div>
                         <h4>Classification</h4>
                         <p :class="file.classification?.color">
@@ -31,7 +31,7 @@
                             <span>{{ file.classification.name }}</span>
                         </p>
                     </div>
-                    <div>
+                    <div class="flex-grow">
                         <h4>File Name</h4>
                         <p>{{ file.name }}</p>
                     </div>
@@ -130,15 +130,17 @@ export default {
 <style lang="scss" scoped>
 .activity {
     > * {
-        @apply p-10;
+        @apply py-4 px-6 md:p-10;
     }
     .header {
         border:none;
+        @apply flex flex-wrap w-full justify-between;
     }
-    .content  {
-        @apply my-3;
-        &,.tags{
-            border-left: solid 1px #F0F0F0;
+    .activity-content  {
+        @apply my-3 break-all;
+
+        &,.tags{    
+            @apply border-l-0 md:border-l md:border-gray md:border-opacity-10;
         }
 
         .info{
@@ -168,7 +170,7 @@ export default {
         }
 
         .tags{
-            @apply px-5;
+            @apply mt-8 mx-0 px-0 w-full ;
             .list li{
                 @apply flex py-1 px-2 bg-blue-500 m-1 rounded text-light;
             }
