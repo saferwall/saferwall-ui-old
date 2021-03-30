@@ -3,7 +3,9 @@
         <profile-box />
         <card-tabs :tabs="profileTabs"  class="profile-stats" v-on:switchTab="switchTab($event)">
             <card-tab :active="activeTab == 'likes'" class="tab-likes" >
-                <h2>Likes here</h2>
+                <div class="empty-tab">
+                    <h2>You have not made any submissions for the moment</h2>
+                </div>
             </card-tab>
             <card-tab :active="activeTab == 'submissions'" class="tab-submissions" >
                 <h2>Submissions here</h2>
@@ -63,6 +65,8 @@ export default {
 
 
 .profile-stats{
-
+    .empty-tab{
+        @apply flex justify-center items-center py-8 text-gray text-lg;
+    }
 }
 </style>

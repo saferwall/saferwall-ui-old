@@ -44,7 +44,7 @@ import Card from './Card.vue'
     @apply px-0;
     
     .tab-headers , .tab-contents{
-        @apply px-8 ;
+        @apply px-8;
     }
     .tab-headers {
         @apply flex flex-wrap items-center space-x-1 border-b-2 border-gray border-opacity-5 ;
@@ -56,6 +56,10 @@ import Card from './Card.vue'
                 @apply text-primary font-bold border-b-2 border-primary border-opacity-50 pb-4 -mb-1;
             }
         }
+    }
+
+    .tab-contents{
+        @apply  py-4;
     }
 }
 </style>

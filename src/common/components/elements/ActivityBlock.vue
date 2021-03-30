@@ -134,7 +134,7 @@ export default {
     }
     .header {
         border:none;
-        @apply flex flex-wrap w-full justify-between;
+        @apply flex flex-wrap w-full justify-between md:justify-center flex-grow;
     }
     .activity-content  {
         @apply my-3 break-all;
