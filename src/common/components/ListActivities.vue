@@ -2,7 +2,7 @@
 <div class="activities my-9">
     <div v-if="latestActivities"  class="content">
         <template v-for="activity in getActivities" v-bind:key="activity.hash">
-            <activity-block :file="activity.file" :author="activity.author" :avatar="activity.author.avatar" :follow="activity.follow"></activity-block>
+            <activity-block v-bind="activity"></activity-block>
         </template>
     </div>
     <div v-else class="header py-3 mt-3" >
@@ -39,7 +39,7 @@ export default {
     },
     computed: {
         latestActivities() {
-            return this.activities && this.activities.length || 0;
+            return this.activities && this.activities.length >0;
         },
         getActivities() {
             return this.activities;

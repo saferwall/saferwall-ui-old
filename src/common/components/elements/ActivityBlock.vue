@@ -19,33 +19,14 @@
                 <p class="title">
                     <b>{{ author.name }}</b> submitted a file <span class="text-sm">{{ getSubmitionAgo }} ago</span>
                 </p>
-                <hash-input :hash="hash"></hash-input>
-
-                <div class="meta mt-10 flex flex-wrap space-x-4 xl:space-x-6 justify-between">
-                    <div>
-                        <h4>Classification</h4>
-                        <p :class="file.classification?.color">
-                            <svg class="mr-2" width="15" height="15">       
-                                <image :xlink:href="`../../assets/icons/${file.classification.icon}.svg`" width="15" height="15"/>    
-                            </svg>
-                            <span>{{ file.classification.name }}</span>
-                        </p>
-                    </div>
-                    <div class="flex-grow">
-                        <h4>File Name</h4>
-                        <p>{{ file.name }}</p>
-                    </div>
-                    <div>
-                        <h4>Antivirus</h4>
-                        <p>{{ file.scan.value }}/{{ file.scan.total }}</p>
-                    </div>
-                </div>
+                <hash-input :hash="hash" class="mt-4"></hash-input>
+                <file-meta :filename="file.name" :classification="file.classification" :scan="file.scan"  />
             </div>
             <div class="tags">
                 <h3>Tags</h3>
                 <ul class="list flex flex-wrap">
-                    <li v-for="tag in tags" v-bind:key="tag.link">
-                        <a :href="tag.link" title="{{ tag.title }}">{{ tag.title }}</a>
+                    <li v-for="tag in getTags" v-bind:key="tag.link">
+                        <a :href="tag.link" :title="tag.title">{{ tag.title }}</a>
                     </li>
                 </ul>
             </div>
@@ -56,20 +37,21 @@
 <script>
 import { timeAgo } from '@/helpers/time.js';
 import HashInput from './HashInput.vue';
+import FileMeta from './FileMeta.vue';
 import Avatar from './Avatar.vue';
 
 export default {
-    components: {HashInput, Avatar},
+    components: {HashInput, Avatar, FileMeta},
     props: {
         hash: {
-            default: '85518d00317a597dc83ee3fb78743538b9444664273bd592df16603d2c3e4c28',
-            type: String
+            type: String,
+            required: true
         },
         author : {
             default: function(){
                 return {
-                    name: 'Ayoub',
-                    joined_at: Date.now()
+                    name: null,
+                    joined_at: 0
                 }
             },
             type: Object
@@ -77,7 +59,7 @@ export default {
         file : {
             default : function(){
                 return {
-                    name: 'virus.exe',
+                    name: null,
                     classification: {
                         name: null,
                         icon : null
@@ -86,7 +68,7 @@ export default {
                         value: 0,
                         total: 0
                     },
-                    submitted_at: Date.now()
+                    submitted_at: 0
                 }
             },
             type: Object
@@ -106,11 +88,6 @@ export default {
         tags : {
             default : function(){
                 return [
-                    {title:'nsis', link:'/tags/nsis'},
-                    {title:'trojan', link:'/tags/nsis'},
-                    {title:'virus', link:'/tags/nsis'},
-                    {title:'injection', link:'/tags/nsis'},
-                    {title:'horse', link:'/tags/nsis'},
                 ]
             },
             type: Array
@@ -122,6 +99,10 @@ export default {
         },
         getJoinedAgo(){
             return timeAgo(this.author.joined_at);
+        },
+        getTags(){
+            console.log(this.tags)
+            return this.tags;
         }
     }
 }
@@ -148,29 +129,10 @@ export default {
                 @apply text-gray;
             }
 
-            .meta{
-                h4{
-                    @apply font-bold text-sm uppercase  text-gray;
-                }
-
-                p{
-                    @apply font-bold flex items-center text-sm mt-1;
-                }
-                
-                .danger{
-                    @apply text-danger;
-                }
-                .success{
-                    @apply text-success;
-                }
-                .warning{
-                    @apply text-warning;
-                }
-            }
         }
 
         .tags{
-            @apply mt-8 mx-0 px-0 w-full ;
+            @apply mt-8 mx-0 px-0 md:px-4 w-full ;
             .list li{
                 @apply flex py-1 px-2 bg-blue-500 m-1 rounded text-light;
             }

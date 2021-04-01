@@ -21,7 +21,7 @@ export default {
 
 <style lang="scss" scoped>
     .hashinput {
-        @apply flex mt-3 px-4 h-11 bg-gray rounded-full;
+        @apply flex px-4 h-11 bg-gray rounded-full;
         &,input{
             @apply focus:outline-none;
             background: #F4F6F8;

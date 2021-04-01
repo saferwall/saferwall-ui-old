@@ -18,7 +18,6 @@ import Card from './Card.vue'
        components: { Card },
         props : {
             tabs: {
-                type: Array(),
                 default : []
             }
         },

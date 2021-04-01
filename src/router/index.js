@@ -69,7 +69,7 @@ const privateRoutes = [
   {
     path: '/profile',
     name: 'Profile',
-    component: () => import('@/modules/user/pages/Profile.vue'),
+    component: () => import('@/modules/profile/pages/Profile.vue'),
     meta: {
       layout: 'HeaderLayout'
     }
