@@ -40,7 +40,7 @@ export default {
 
 <style lang="scss" scoped>
 .filemeta {
-    @apply mt-10 flex flex-wrap space-x-4 xl:space-x-12 justify-start;
+    @apply mt-4 flex flex-wrap space-x-4 xl:space-x-12 justify-start;
 
     h4 {
         @apply font-bold text-sm uppercase text-gray;

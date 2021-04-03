@@ -19,7 +19,7 @@ export default {
 
 <style lang="scss" scoped>
 .card{
-    @apply bg-light py-6 px-6 md:rounded-md shadow-sm content-center items-center;
+    @apply bg-light py-6 px-6 md:rounded-lg shadow-sm content-center items-center;
 
 
     .title{

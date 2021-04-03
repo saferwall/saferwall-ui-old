@@ -46,13 +46,15 @@ import Card from './Card.vue'
         @apply px-8;
     }
     .tab-headers {
-        @apply flex flex-wrap items-center space-x-1 border-b-2 border-gray border-opacity-5 ;
-        
+        @apply flex flex-wrap justify-center md:justify-start items-center border-b-2 border-gray border-opacity-5 ;
+        @apply md:space-x-2;
+
         .tab-th {
-            @apply text-gray px-4 pb-4 cursor-pointer;
+            @apply text-gray px-4 pb-8; 
+            @apply md:px-4 md:pb-4 cursor-pointer;
 
             &.active{
-                @apply text-primary font-bold border-b-2 border-primary border-opacity-50 pb-4 -mb-1;
+                @apply text-primary font-bold md:border-b-2 md:border-primary md:border-opacity-50 md:-mb-1;
             }
         }
     }

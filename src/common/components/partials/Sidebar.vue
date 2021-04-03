@@ -83,7 +83,7 @@
         </li>
       </ul>
 
-      <btn class="mx-auto mt-12">
+      <btn size="xl" class="mx-auto mt-12">
         <strong>Back to website</strong>
       </btn>
     </div>

@@ -1,79 +1,124 @@
 <template>
-    <div class="profile">
-        <profile-box />
-        <card-tabs :tabs="profileTabs"  class="profile-stats" v-on:switchTab="switchTab($event)">
-            <tab-likes :active="activeTab == 'likes'" :likes="dataTabs.likes">
-                <div class="empty-tab"><h2>You haven't liked anything yet <br> for the moment</h2></div>
-            </tab-likes>
-            <card-tab :active="activeTab == 'submissions'" class="tab-submissions" >
-                <div class="empty-tab"><h2>You have not made any submissions <br> for the moment</h2></div>
-            </card-tab>
-            <card-tab :active="activeTab == 'followers'" class="tab-followers" >
-                <div class="empty-tab"><h2>You have no followers <br> for the moment</h2></div>
-            </card-tab>
-            <card-tab :active="activeTab == 'following'" class="tab-following" >
-                <div class="empty-tab"><h2>You are not subscribed to anyone<br> for the moment</h2></div>
-            </card-tab>
-            <card-tab :active="activeTab == 'comments'" class="tab-comments" >
-                <div class="empty-tab"><h2>You have not commented on any files<br> for the moment</h2></div>
-            </card-tab>
-        </card-tabs>
-    </div>
+<div class="profile">
+    <profile-box />
+    <card-tabs :tabs="profileTabs" class="profile-stats" v-on:switchTab="switchTab($event)">
+        <tab-type-submission :active="activeTab == 'likes'" :rows="dataTabs.likes">
+            <template v-slot:emptymessage>You haven't liked anything yet <br> for the moment</template>
+        </tab-type-submission>
+
+        <tab-type-submission :active="activeTab == 'submissions'" :rows="dataTabs.submissions">
+            <template v-slot:emptymessage>You have not made any submissions <br> for the moment</template>
+        </tab-type-submission>
+        
+        <tab-type-follow :active="activeTab == 'followers'" :rows="dataTabs.followers">
+            <template v-slot:emptymessage>You have no followers <br> for the moment</template>
+        </tab-type-follow>
+        
+        <tab-type-follow :active="activeTab == 'following'" :rows="dataTabs.following">
+            <template v-slot:emptymessage>You are not subscribed to anyone<br> for the moment</template>
+        </tab-type-follow>
+        
+        <tab-type-comment :active="activeTab == 'comments'" :rows="dataTabs.comments">
+            <template v-slot:emptymessage>You have not commented on any files<br> for the moment</template>
+        </tab-type-comment>
+    </card-tabs>
+</div>
 </template>
 
 <script>
-import { like } from '@/common/data/data.test'; 
+import {
+    like,
+    submissions,
+    followers,
+    following,
+    comments
+} from '@/common/data/data.test';
 
-import CardTab from '@/common/components/elements/CardTab.vue'
 import CardTabs from '@/common/components/elements/CardTabs.vue'
 import ProfileBox from '../components/ProfileBox.vue'
-import TabLikes from '../components/TabLikes.vue'
+import TabTypeSubmission from '../components/TabTypeSubmission.vue'
+import TabTypeFollow from '../components/TabTypeFollow.vue'
+import TabTypeComment from '../components/TabTypeComment.vue'
 
 export default {
-    components: { 
+    components: {
         ProfileBox,
         CardTabs,
-        CardTab,
-        TabLikes,
+        TabTypeSubmission,
+        TabTypeFollow,
+        TabTypeComment,
     },
-    data(){
+    data() {
         return {
-            profileTabs: [
-                { name:'likes', title:'Like' },
-                { name:'submissions', title:'Submissions' },
-                { name:'followers', title:'Followers' },
-                { name:'following', title:'Following' },
-                { name:'comments', title:'Comments' },
-            ],
-            dataTabs : {
-                likes : like({ examples : 10 }) 
+            dataTabs: {
+                likes: [] || like({
+                    examples: 10
+                }),
+                submissions: submissions({
+                    examples: 5
+                }),
+                followers : followers({
+                    examples: 8
+                }),
+                following : following({
+                    examples: 8
+                }),
+                comments : comments({
+                    examples: 8
+                })
             },
-            activeTab : null
+            profileTabs: [{
+                    name: 'likes',
+                    title: 'Like (0)'
+                },
+                {
+                    name: 'submissions',
+                    title: 'Submissions (0)'
+                },
+                {
+                    name: 'followers',
+                    title: 'Followers (0)'
+                },
+                {
+                    name: 'following',
+                    title: 'Following (0)'
+                },
+                {
+                    name: 'comments',
+                    title: 'Comments (0)'
+                },
+            ],
+            activeTab: null
         }
     },
-    methods : {
-        switchTab(tab){
-            console.log(tab);
+    methods: {
+        switchTab(tab) {
             this.activeTab = tab;
         }
     },
-    created(){
+    created() {
         this.activeTab = this.profileTabs[0].name;
+        
+        // Update Profile Count
+        this.profileTabs.map(tab=> {
+            let count = this.dataTabs[tab.name];
+            count = count && count.length || 0;
+            tab.title = tab.title.replace(/([\d])/gm, count);
+            return tab;
+        })
     }
 }
 </script>
 
-
 <style lang="scss" scoped>
-.profile{
+.profile {
     @apply space-y-4;
 }
 </style>
 
-
 <style lang="scss">
-.profile-stats{
-    .empty-tab{
+.profile-stats {
+    .empty-tab {
         @apply flex justify-center items-center text-center py-8 mt-4 text-gray text-sm;
     }
 }

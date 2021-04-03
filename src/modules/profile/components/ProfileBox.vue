@@ -1,6 +1,6 @@
 <template>
     <card class="profile-box">
-        <div class="flex">
+        <div class="profile-avatar">
             <avatar width="125px" height="125px" />
         </div>
         <div class="profile-info">
@@ -21,8 +21,8 @@
                 <span>{{github}}</span>
             </a>
         </div>
-        <div class="flex">
-            <btn class="active">
+        <div class="profile-actions">
+            <btn size="xl" class="active">
                 Edit My Profile
             </btn>
         </div>
@@ -59,10 +59,18 @@ export default {
 
 <style lang="scss" scoped>
 .profile-box{
-    @apply flex flex-wrap justify-between px-14 py-16;
+    @apply flex flex-wrap justify-between px-4 py-12 md:px-14 md:py-16;
 
+    .profile-avatar{
+        @apply flex px-8 md:px-0;
+    }
+    .profile-actions {
+        @apply w-full pt-8 flex justify-center md:w-auto;
+    }
 
     .profile-info{
+        @apply flex flex-grow w-min flex-col md:px-14;
+
         .profile-title{
             @apply text-xl font-bold;
         }
@@ -74,8 +82,6 @@ export default {
         .profile-github{
             @apply flex items-center font-bold space-x-2 px-4 py-2 bg-primary bg-opacity-10 rounded-full text-primary w-max;
         }
-
-        @apply flex flex-grow flex-col px-14;
     }
 }
 </style>

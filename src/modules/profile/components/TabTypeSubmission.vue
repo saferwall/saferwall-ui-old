@@ -1,23 +1,23 @@
 <template>
-   <card-tab :active="active" class="tab-likes" >
-        <div v-if="likes.length == 0" class="empty-tab"><h2>You haven't liked anything yet <br> for the moment</h2></div>
+   <card-tab :active="active" class="tab-submissions" >
+        <div v-if="rows.length == 0" class="empty-tab"><h2><slot name="emptymessage" /></h2></div>
         <template v-else>
-            <like-box v-for="like in likes" :key="like.id" v-bind="like" />
+            <short-activity v-for="row in rows" :key="row.id" v-bind="row" />
         </template>
     </card-tab>
 </template>
 
 <script>
 import CardTab from '@/common/components/elements/CardTab.vue'
-import LikeBox from './LikeBox.vue'
+import ShortActivity from '@/common/components/elements/activity/ShortActivity.vue'
 
 export default {
     components: { 
         CardTab,
-        LikeBox,
+        ShortActivity,
     },
     props : {
-        likes : {
+        rows : {
             default : [],
         },
         active : {
@@ -29,7 +29,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.tab-likes {
+.tab-submissions {
     @apply divide-y divide-gray divide-opacity-10;
 }
 </style>

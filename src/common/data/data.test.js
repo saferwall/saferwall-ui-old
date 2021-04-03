@@ -53,11 +53,11 @@ export function submission({
     return one ? submissions[0] : submissions;
 }
 
-export function like({
+export function submissions({
     examples = 1,
     one = false
 }) {
-    let likes = Array(examples).fill({}).map(()=>{
+    let rows = Array(examples).fill({}).map(()=>{
 
         return {
             hash: faker.datatype.uuid(),
@@ -68,11 +68,78 @@ export function like({
                 icon : 'malware'
             },
             scan : {
-                value: faker.random.number(10),
+                value: faker.datatype.number(10),
                 total: 10
             },
+            liked: faker.datatype.boolean()
         }
     })
 
-    return one ? likes[0] : likes;
+    return one ? rows[0] : rows;
+}
+
+
+export function like({
+    examples = 1,
+    one = false
+}) {
+    let rows = submissions({ 
+        examples: examples,
+        one: false
+    }).map(x=> {
+        x.liked = true;
+        return x;
+    })
+    return one ? rows[0] : rows;
+}
+
+export function followers({
+    examples = 1,
+    one = false
+}) {
+    let rows = Array(examples).fill({}).map(()=>{
+
+        return {
+            id: faker.datatype.uuid(),
+            username: faker.name.firstName().toLowerCase(),
+            member_since: faker.date.past(),
+            followed: faker.datatype.boolean()
+        }
+    })
+
+    return one ? rows[0] : rows;
+}
+
+
+export function following({
+    examples = 1,
+    one = false
+}) {
+    let rows = followers({
+        examples: examples,
+        one : false
+    }).map(x=>{
+        x.followed = true;
+        
+        return x;
+    });
+
+    return one ? rows[0] : rows;
+}
+
+export function comments({
+    examples = 1,
+    one = false
+}){
+    let rows = Array(examples).fill({}).map(()=>{
+
+        return {
+            id: faker.datatype.uuid(),
+            username: faker.name.firstName().toLowerCase(),
+            content : faker.lorem.paragraphs(Math.round(Math.random() * 10)),
+            created_at: Date.now(),
+            liked: faker.datatype.boolean()
+        }
+    })
+    return one ? rows[0] : rows;
 }
