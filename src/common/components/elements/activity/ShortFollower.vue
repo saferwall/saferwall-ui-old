@@ -12,9 +12,7 @@
         </p>
     </div>
     <div class="actions">
-        <btn class="fuser-btn">
-            Follow
-        </btn>
+        <btn-follow :followed="followed"/>
     </div>
 </div>
 </template>
@@ -22,12 +20,12 @@
 <script>
 import { timeAgo } from '@/common/functions';
 import Avatar from "../Avatar.vue"
-import Btn from '../button/Button.vue'
+import BtnFollow from '../button/BtnFollow.vue';
 
 export default {
     components: {
         Avatar,
-        Btn,
+        BtnFollow,
     },
     props: {
         id: {
@@ -36,8 +34,12 @@ export default {
         username: {
             type: String
         },
+        followed :{
+            default: false,
+            type: Boolean
+        },
         member_since : {
-            type: String
+            type: [Date, String]
         }
     },
     computed : {

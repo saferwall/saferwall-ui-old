@@ -32,7 +32,7 @@
 <script>
 import Card from '@/common/components/elements/Card.vue'
 import Avatar from '@/common/components/elements/Avatar.vue'
-import Btn from '@/common/components/elements/button/Button.vue'
+import Btn from '@/common/components/elements/button/Btn.vue'
 
 export default {
     components : {

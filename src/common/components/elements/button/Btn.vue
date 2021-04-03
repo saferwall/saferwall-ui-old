@@ -6,7 +6,6 @@
 
 <script>
     export default {
-        name : 'Button',
         props : {
             size : {
                 default: 'md',

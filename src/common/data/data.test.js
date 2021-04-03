@@ -3,7 +3,7 @@ import faker from 'faker';
 export function activity({
     examples = 1
 }) {
-    let items = Array(examples).fill({}).map(() => {
+    let items = Array(Math.floor(examples)).fill({}).map(() => {
         return {
             hash: faker.datatype.uuid(),
             file: {
@@ -41,7 +41,7 @@ export function submission({
     examples = 1,
     one = false
 }) {
-    let submissions = Array(examples).fill([]).map(() => {
+    let submissions = Array(Math.floor(examples)).fill([]).map(() => {
         return [
             faker.date.past(),
             faker.random.word() + '.exe',
@@ -57,7 +57,7 @@ export function submissions({
     examples = 1,
     one = false
 }) {
-    let rows = Array(examples).fill({}).map(()=>{
+    let rows = Array(Math.floor(examples)).fill({}).map(()=>{
 
         return {
             hash: faker.datatype.uuid(),
@@ -97,7 +97,7 @@ export function followers({
     examples = 1,
     one = false
 }) {
-    let rows = Array(examples).fill({}).map(()=>{
+    let rows = Array(Math.floor(examples)).fill({}).map(()=>{
 
         return {
             id: faker.datatype.uuid(),
@@ -131,13 +131,14 @@ export function comments({
     examples = 1,
     one = false
 }){
-    let rows = Array(examples).fill({}).map(()=>{
+    let rows = Array(Math.floor(examples)).fill({}).map(()=>{
 
         return {
             id: faker.datatype.uuid(),
+            hash: faker.datatype.uuid(),
             username: faker.name.firstName().toLowerCase(),
             content : faker.lorem.paragraphs(Math.round(Math.random() * 10)),
-            created_at: Date.now(),
+            created_at: faker.date.past(),
             liked: faker.datatype.boolean()
         }
     })

@@ -114,7 +114,7 @@
 </template>
 
 <script>
-import Btn from "@/common/components/elements/button/Button";
+import Btn from "@/common/components/elements/button/Btn.vue";
 export default {
   components: { Btn },
   props: {

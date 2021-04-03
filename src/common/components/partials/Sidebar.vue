@@ -92,7 +92,7 @@
 
 <script>
 import Logo from "@/common/components/elements/Logo.vue";
-import Btn from "@/common/components/elements/button/Button.vue";
+import Btn from "@/common/components/elements/button/Btn.vue";
 
 export default {
   components: { Logo, Btn },

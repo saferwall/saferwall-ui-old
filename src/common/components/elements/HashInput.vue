@@ -23,8 +23,7 @@ export default {
     .hashinput {
         @apply flex px-4 h-11 bg-gray rounded-full;
         &,input{
-            @apply focus:outline-none;
-            background: #F4F6F8;
+            @apply focus:outline-none bg-gray bg-gray-2xlight;
         }
     }
 </style>

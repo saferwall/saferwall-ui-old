@@ -51,20 +51,20 @@ export default {
     data() {
         return {
             dataTabs: {
-                likes: [] || like({
-                    examples: 10
+                likes: like({
+                    examples: (Math.random() * 10) +1
                 }),
                 submissions: submissions({
-                    examples: 5
+                    examples: (Math.random() * 10) +1
                 }),
                 followers : followers({
-                    examples: 8
+                    examples: (Math.random() * 10) +1
                 }),
                 following : following({
-                    examples: 8
+                    examples: (Math.random() * 10) +1
                 }),
                 comments : comments({
-                    examples: 8
+                    examples: (Math.random() * 10) +1
                 })
             },
             profileTabs: [{
