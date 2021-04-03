@@ -52,8 +52,14 @@ export default {
 
 <style lang="scss" scoped>
 .short-follower {
-    @apply flex flex-wrap items-center justify-between p-6 m-4;
+    @apply flex flex-wrap items-center justify-between p-6 m-4 ;
     
+    .fuser-username{
+        @apply font-bold  text-lg;
+    }
+    .fuser-resgistred{
+        @apply text-gray-medium mt-1;
+    }
     .btn-fuser{
         @apply p-2;
     }
