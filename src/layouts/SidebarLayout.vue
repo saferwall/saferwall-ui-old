@@ -12,11 +12,11 @@
 </template>
 
 <script>
-import Header from "@/components/partials/Header.vue"
-import Navbar from '../components/partials/Navbar.vue'
-import Sidebar from '@/components/partials/Sidebar.vue'
-import Footer from "@/components/partials/Footer.vue"
-import Content from "@/components/partials/page/PageContent.vue"
+import Header from "@/common/components/partials/Header.vue"
+import Navbar from '@/common/components/partials/Navbar.vue'
+import Sidebar from '@/common/components/partials/Sidebar.vue'
+import Footer from "@/common/components/partials/Footer.vue"
+import Content from "@/common/components/content/PageContent.vue"
 
 export default {
   components: {Header , Footer , Content, Sidebar, Navbar},
@@ -36,27 +36,5 @@ export default {
 
 .sactive{
   @apply md:w-scontent md:m-0 md:ml-auto md:px-16;
-}
-
-.fade-enter-active,
-.fade-leave-active {
-  transition-property: opacity;
-  transition-duration: 0.25s;
-}
-.fade-enter-active {
-  transition-delay: 0;
-}
-.fade-enter,
-.fade-leave-active {
-  opacity: 0;
-}
-.slideLeft-enter-active,
-.slideLeft-leave-active {
-  transition-property: transform;
-  transition-duration: 0.25s;
-}
-.slideLeft-enter,
-.slideLeft-leave-active {
-  transform: translateX(-100%);
 }
 </style>
