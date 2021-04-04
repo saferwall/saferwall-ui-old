@@ -22,7 +22,7 @@
             </a>
         </div>
         <div class="profile-actions">
-            <btn size="xl" class="active">
+            <btn link="/account/settings" size="xl" class="active">
                 Edit My Profile
             </btn>
         </div>

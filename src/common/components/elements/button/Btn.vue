@@ -1,5 +1,5 @@
 <template>
-    <router-link to="/" class="btn" :class="size">
+    <router-link :to="link" class="btn" :class="size">
         <slot />
     </router-link>
 </template>
@@ -7,6 +7,10 @@
 <script>
     export default {
         props : {
+            link : {
+                default : '/',
+                type: String
+            },
             size : {
                 default: 'md',
                 type: String,

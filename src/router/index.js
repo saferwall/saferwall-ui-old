@@ -73,6 +73,14 @@ const privateRoutes = [
     meta: {
       layout: 'HeaderLayout'
     }
+  },
+  {
+    path: '/account/settings',
+    name: 'Account Settings',
+    component: () => import('@/modules/account/pages/Settings.vue'),
+    meta: {
+      layout: 'HeaderLayout'
+    }
   }
 ]
 

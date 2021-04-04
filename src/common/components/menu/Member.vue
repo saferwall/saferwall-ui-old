@@ -6,7 +6,7 @@
 
         Hot activities
     </router-link>
-    <div class="btn-menu btn-border profile-menu" tabindex="10" @focusout="menuDisplay = false">
+    <div class="btn-menu btn-border profile-menu" tabindex="4" @focusout="menuDisplay = false">
         <div class="profile-content" @click="menuDisplay = !menuDisplay">
             <avatar width="36px" height="36px" />
             <span class="text-dark">{{ username }}</span>
@@ -17,7 +17,7 @@
 
         <div class="inline-block mt-10">
             <drop-menu :display="menuDisplay" >
-                <router-link to="/profile" class="dropmenu-item">
+                <a @click="$router.push('/profile')" class="dropmenu-item">
                     <svg id="group" xmlns="http://www.w3.org/2000/svg" width="15.654" height="17.789" viewBox="0 0 15.654 17.789">
                         <g transform="translate(3.558)">
                             <path d="M13.269,15.039A4.193,4.193,0,0,1,9,10.769,4.193,4.193,0,0,1,13.269,6.5a4.193,4.193,0,0,1,4.269,4.269A4.193,4.193,0,0,1,13.269,15.039Zm0-7.116a2.846,2.846,0,1,0,2.846,2.846A2.855,2.855,0,0,0,13.269,7.923Z" transform="translate(-9 -6.5)" />
@@ -27,14 +27,14 @@
                         </g>
                     </svg>
                     Profile
-                </router-link>
-                <router-link to="/profile" class="dropmenu-item active">
+                </a>
+                <a @click="$router.push('/account/settings')" class="dropmenu-item active">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20.475" height="20.475" viewBox="0 0 512 512">
                         <path d='M262.29 192.31a64 64 0 1057.4 57.4 64.13 64.13 0 00-57.4-57.4zM416.39 256a154.34 154.34 0 01-1.53 20.79l45.21 35.46a10.81 10.81 0 012.45 13.75l-42.77 74a10.81 10.81 0 01-13.14 4.59l-44.9-18.08a16.11 16.11 0 00-15.17 1.75A164.48 164.48 0 01325 400.8a15.94 15.94 0 00-8.82 12.14l-6.73 47.89a11.08 11.08 0 01-10.68 9.17h-85.54a11.11 11.11 0 01-10.69-8.87l-6.72-47.82a16.07 16.07 0 00-9-12.22 155.3 155.3 0 01-21.46-12.57 16 16 0 00-15.11-1.71l-44.89 18.07a10.81 10.81 0 01-13.14-4.58l-42.77-74a10.8 10.8 0 012.45-13.75l38.21-30a16.05 16.05 0 006-14.08c-.36-4.17-.58-8.33-.58-12.5s.21-8.27.58-12.35a16 16 0 00-6.07-13.94l-38.19-30A10.81 10.81 0 0149.48 186l42.77-74a10.81 10.81 0 0113.14-4.59l44.9 18.08a16.11 16.11 0 0015.17-1.75A164.48 164.48 0 01187 111.2a15.94 15.94 0 008.82-12.14l6.73-47.89A11.08 11.08 0 01213.23 42h85.54a11.11 11.11 0 0110.69 8.87l6.72 47.82a16.07 16.07 0 009 12.22 155.3 155.3 0 0121.46 12.57 16 16 0 0015.11 1.71l44.89-18.07a10.81 10.81 0 0113.14 4.58l42.77 74a10.8 10.8 0 01-2.45 13.75l-38.21 30a16.05 16.05 0 00-6.05 14.08c.33 4.14.55 8.3.55 12.47z' fill='none' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='32'/>
                     </svg>
                     Settings
-                </router-link>
-                <router-link to="/profile" class="dropmenu-item">
+                </a>
+                <a @click="$router.push('/profile')" class="dropmenu-item">
                     <svg xmlns="http://www.w3.org/2000/svg" width="15.056" height="16.198" viewBox="0 0 15.056 16.198">
                         <g id="Icon" transform="translate(0.15 0.15)" style="isolation: isolate">
                             <g transform="translate(0 0)">
@@ -45,7 +45,7 @@
                     </svg>
 
                     Logout
-                </router-link>
+                </a>
             </drop-menu>
         </div>
     </div>
@@ -54,7 +54,7 @@
 
 <script>
 import Avatar from '@/common/components/elements/Avatar';
-import DropMenu from '../elements/DropMenu.vue';
+import DropMenu from '@/common/components/elements/DropMenu.vue';
 export default {
     components: {
         Avatar,
@@ -89,7 +89,7 @@ export default {
 
 
     .dropmenu-item{
-        @apply flex items-center p-3 px-4 text-gray;
+        @apply flex items-center p-3 px-4 text-gray mt-1;
 
         &:hover , &.active{
             @apply bg-secondary bg-opacity-10 rounded-md text-primary fill-primary;
