@@ -1,11 +1,11 @@
 <template>
     <div class="activity md:grid items-center justify-center md:grid-cols-5 md:gap-4  bg-white my-3 md:rounded-xl">
         <div class="header border text-center">
-            <router-link :to="`/user/${author.username}`">
+            <router-link class="profile-link" :to="`/user/${author.username}`">
                 <avatar :source="`//avatar.saferwall.com/${author.username}`"/>
                 <div class="info mt-3">
                     <h3 class="text-xl font-bold">{{ author.username }}</h3>
-                    <p class="signup text-gray">
+                    <p class="text-gray">
                         Member since {{ getJoinedAgo }}
                     </p>
                 </div>
@@ -116,6 +116,10 @@ export default {
     .header {
         border:none;
         @apply flex flex-wrap w-full justify-between md:justify-center flex-grow;
+
+        .profile-link{
+            @apply flex space-x-4 md:block md:space-x-0;
+        }
     }
     .activity-content  {
         @apply my-3 break-all;
