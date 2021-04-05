@@ -1,9 +1,9 @@
 <template>
     <div class="activity md:grid items-center justify-center md:grid-cols-5 md:gap-4  bg-white my-3 md:rounded-xl">
         <div class="header border text-center">
-            <router-link to="/profile">
-            <avatar :source="`//avatar.saferwall.com/${author.username}`"/>
-            <div class="info mt-3">
+            <router-link :to="`/user/${author.username}`">
+                <avatar :source="`//avatar.saferwall.com/${author.username}`"/>
+                <div class="info mt-3">
                     <h3 class="text-xl font-bold">{{ author.username }}</h3>
                     <p class="signup text-gray">
                         Member since {{ getJoinedAgo }}
@@ -17,18 +17,20 @@
             </div>
         </div>
         <div class="activity-content col-span-4 grid md:grid-cols-4">
-            <div class="info col-span-3 mr-10">
-                <p class="title">
-                    <b>{{ author.username }}</b> submitted a file <span class="text-sm">{{ getActivityTimeAgo }} ago</span>
-                </p>
-                <hash-input :hash="file.hash" class="mt-4"></hash-input>
-                <file-meta :filename="file.name" :classification="{ name: file.classification, icon : 'souspicious'}" :scan="file.scan"  />
-            </div>
+                <div class="info col-span-3 mr-10">
+                    <router-link :to="`/file/${file.hash}/summary`">
+                        <p class="title">
+                            <b>{{ author.username }}</b> submitted a file <span class="text-sm">{{ getActivityTimeAgo }} ago</span>
+                        </p>
+                    </router-link>
+                    <hash-input :hash="file.hash" class="mt-4"></hash-input>
+                    <file-meta :filename="file.name" :classification="{ name: file.classification, icon : 'souspicious'}" :scan="file.scan"  />
+                </div>
             <div class="tags">
                 <h3>Tags</h3>
                 <ul class="list flex flex-wrap">
-                    <li v-for="tag in getTags" v-bind:key="tag.link">
-                        <a :href="tag.link" :title="tag.title">{{ tag.title }}</a>
+                    <li v-for="tag in getTags" v-bind:key="tag.link" :class="tag.avg && `redbg`">
+                        <router-link :to="`/tag/${tag.name}`" :title="tag.name">{{ tag.name }}</router-link>
                     </li>
                 </ul>
             </div>
@@ -37,7 +39,7 @@
 </template>
 
 <script>
-import { timeAgoCounts,timeAgo } from '@/common/functions';
+import { timeAgoCounts, timeAgo, isAnAVG } from '@/common/functions';
 import HashInput from './HashInput.vue';
 import FileMeta from './FileMeta.vue';
 import Avatar from './Avatar.vue';
@@ -86,12 +88,21 @@ export default {
             return timeAgo(this.author.member_since);
         },
         getTags(){
-            return (this.file.tags || []).map(tag=>{
-                return {
-                    title: tag,
-                    link : `/tag/${tag}`
-                }
-            });
+            let tags = this.file.tags;
+            let tagkeys = Object.keys(tags || {}) || [];
+            return tagkeys.reduce((_tags, tagkey)=>{
+                return [
+                    ..._tags, 
+                    ...(
+                        tags[tagkey].map(tag=> {
+                            return {
+                                name: tag,
+                                avg: isAnAVG(tagkey)
+                            }
+                        }) || []
+                    )
+                ]
+            } , []);
         }
     }
 }
@@ -124,7 +135,13 @@ export default {
             @apply mt-8 mx-0 px-0 md:px-4 w-full ;
             .list li{
                 @apply flex py-1 px-2 bg-blue-500 m-1 rounded text-light;
+
+                
+                &.redbg{
+                    @apply bg-red-500;
+                }
             }
+
         }
     }
     .buttons {
@@ -135,5 +152,6 @@ export default {
             }
         }
     }
+
 }
 </style>

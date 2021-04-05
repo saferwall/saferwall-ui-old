@@ -22,7 +22,6 @@ export default {
             return this.activities && this.activities.length || 0;
         },
         getActivities() {
-            console.log(this.activities)
             return this.activities;
         }
     }

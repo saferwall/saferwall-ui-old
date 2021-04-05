@@ -1,3 +1,5 @@
+import { avgList } from '@/common/data/avg'
+
 /**
  * Get Time ago 
  * 
@@ -54,4 +56,14 @@ export function timeAgoCounts(dateParam) {
 
     let fi = Math.floor(interval);
     return `${fi} ${intkey}${fi === 1 ? '':'s'}`;
+}
+
+/**
+ * Check if name in the list of avg
+ * @param {String} name 
+ * @returns {Boolean}
+ */
+export  function isAnAVG(name)
+{
+    return avgList.find(avg=> avg.toLowerCase() === name.toLowerCase()) !== undefined;
 }

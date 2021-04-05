@@ -40,7 +40,7 @@ export const mappers = {
                     name: 'Unknown',
                     hash: activity.content.sha256,
                     classification: 'Unknown',
-                    tags: (Object.values(activity.tags || {}) || []).reduce((tags, tag)=> [...tags, ...tag] ,[]),
+                    tags: activity.tags,
                     score : {
                         value: activity.av_count || 0,
                         total: 12
