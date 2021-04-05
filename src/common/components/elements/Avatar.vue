@@ -1,12 +1,19 @@
 <template>
-    <div class="avatar inline-grid rounded-full" :style="{ backgroundImage: `url(${source})` , width: width  , height: height}"></div>
+    <div class="avatar inline-grid rounded-full" :style="{ backgroundImage: `url(${getSource})` , width: width  , height: height}"></div>
 </template>
 
 <script>
+import { generateAvatar } from '@/common/helpers';
+
 export default {
     props : {
+        username: {
+            type: String,
+            default : null
+        },
         source: {
-            type: String
+            type: String,
+            default : null
         },
         width: {
             default :  '72px',
@@ -17,6 +24,11 @@ export default {
             type: String
         }
     },
+    computed : {
+        getSource(){
+            return this.username && generateAvatar(this.username) || this.source;
+        }
+    }
 }
 </script>
 

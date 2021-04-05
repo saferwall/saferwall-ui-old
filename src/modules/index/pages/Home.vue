@@ -6,7 +6,7 @@
 <script>
 import LatestActivities from '@/common/components/LatestActivities.vue'
 // import UploadFile from '@/common/components/UploadFile.vue'
-import { activitiesGetters, activitiesMethods } from '@/state/helpers';
+import { activityGetters, activityMethods } from '@/state/helpers';
 
 export default {
   components:  {
@@ -14,10 +14,10 @@ export default {
     LatestActivities
   },
   computed: {
-    ...activitiesGetters
+    ...activityGetters
   },
   methods: {
-    ...activitiesMethods
+    ...activityMethods
   },
   created(){
     this.fetchActivities();

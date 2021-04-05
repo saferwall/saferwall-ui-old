@@ -1,9 +1,16 @@
 import { mapActions, mapGetters } from "vuex";
 
-const activitiesGetters = mapGetters('activities' , ['getActivities']);
-const activitiesMethods = mapActions('activities', ['fetchActivities']);
+/**
+ * Activity
+ * Methods , Getters
+ */
+const activityGetters = mapGetters('activity' , ['getActivities']);
+const activityMethods = mapActions('activity', ['fetchActivities']);
 
+const userGetters = mapGetters('user' , ['getProfile']);
+const userMethods = mapActions('user' , ['fetchProfile']);
 
 export {
-    activitiesGetters, activitiesMethods
+    activityGetters, activityMethods,
+    userGetters, userMethods
 }

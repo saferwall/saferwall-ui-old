@@ -24,7 +24,15 @@ const publicRoutes = [
         meta: {
             layout: 'HeaderLayout'
         }
-    }
+    },
+    {
+        path: '/user/:id',
+        name: 'User Profile',
+        component: () => import('@/modules/profile/pages/Profile.vue'),
+        meta: {
+            layout: 'HeaderLayout'
+        },
+    },
 ]
 
 
