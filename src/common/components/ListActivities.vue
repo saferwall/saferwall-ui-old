@@ -8,7 +8,7 @@
     <div v-else class="header py-3 mt-3" >
         <p class="text-sm text-gray mt-2" >No Activities available currently</p>
     </div>
-    <div v-if="more" class="more">
+    <div v-if="more && activities.length != 0" class="more">
         <show-more v-on:click="$emit('showMore', $event.target)">
             <p>Show more activities</p>
         </show-more>

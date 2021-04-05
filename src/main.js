@@ -1,7 +1,7 @@
 import { createApp } from 'vue'
 
 import router from './router'
-import store from './store'
+import store from '@/state/store'
 
 import App from '@/App.vue'
 import AppLayout from '@/layouts/AppLayout.vue'
@@ -20,6 +20,7 @@ import KProgress from 'k-progress-v3';
  * Vue Application 
  * Use Many Plugins
  */
+
 createApp(App)
     .use(store)
     .use(router)

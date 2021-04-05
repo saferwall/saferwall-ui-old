@@ -16,7 +16,7 @@ export default {
             default :  '72px',
             type: String
         }
-    }
+    },
 }
 </script>
 
