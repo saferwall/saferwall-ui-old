@@ -3,33 +3,37 @@ import store from '@/state/store'
 const publicRoutes = [
     {
         path: '/',
-        name: 'Home',
+        name: 'home',
         component: () => import('@/modules/index/pages/Home.vue'),
         meta: {
+            title: 'Home',
             layout: 'Default',
         }
     },
     {
         path: '/summary',
-        name: 'Summary',
+        name: 'summary',
         component: () => import('@/modules/scan/pages/Summary.vue'),
         meta: {
+            title: 'Summary',
             layout: 'SidebarLayout'
         }
     },
     {
         path: '/hot-activities',
-        name: 'Hot Activities',
+        name: 'hot-activities',
         component: () => import('@/modules/activities/pages/HotActivities.vue'),
         meta: {
+            title: 'Hot Activities',
             layout: 'HeaderLayout'
         }
     },
     {
         path: '/user/:id',
-        name: 'User Profile',
+        name: 'user',
         component: () => import('@/modules/profile/pages/Profile.vue'),
         meta: {
+            title: 'User Profile',
             layout: 'HeaderLayout'
         },
     },
@@ -38,34 +42,38 @@ const publicRoutes = [
 
 const authRoutes = [
     {
-        path: '/auth/login',
-        name: 'Login',
+        path: '/auth/Login',
+        name: 'login',
         component: () => import('@/modules/auth/pages/Login.vue'),
         meta: {
+            title: 'Login',
             layout: 'AuthLayout'
         }
     },
     {
         path: '/auth/register',
-        name: 'Register',
+        name: 'register',
         component: () => import('@/modules/auth/pages/Register.vue'),
         meta: {
+            title: 'Register',
             layout: 'AuthLayout'
         }
     },
     {
         path: '/auth/confirmation',
-        name: 'Confirmation',
+        name: 'confirmation',
         component: () => import('@/modules/auth/pages/Confirmation.vue'),
         meta: {
+            title: 'Confirmation',
             layout: 'AuthLayout'
         }
     },
     {
         path: '/auth/forgot-password',
-        name: 'Forgot Password',
+        name: 'forgot-password',
         component: () => import('@/modules/auth/pages/ForgotPassword.vue'),
         meta: {
+            title: 'Forgot Password',
             layout: 'AuthLayout'
         }
     }
@@ -89,17 +97,19 @@ const authRoutes = [
 const privateRoutes = [
     {
         path: '/profile',
-        name: 'Profile',
+        name: 'profile',
         component: () => import('@/modules/profile/pages/Profile.vue'),
         meta: {
+            title: 'Profile',
             layout: 'HeaderLayout'
         }
     },
     {
         path: '/account/settings',
-        name: 'Account Settings',
+        name: 'account-settings',
         component: () => import('@/modules/account/pages/Settings.vue'),
         meta: {
+            title: 'Account Settings',
             layout: 'HeaderLayout'
         }
     }
