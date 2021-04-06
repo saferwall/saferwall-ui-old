@@ -1,24 +1,26 @@
 <template>
     <base-layout>
-        <Header>
+        <template v-slot:navbar>
             <div class="logo">
                 <logo />
             </div>
-        </Header>
-        <Content class="main-content">
-            <slot />
-        </Content>
+        </template>
+        <template v-slot:main>
+            <Content class="main-content">
+                <slot />
+            </Content>
+        </template>
     </base-layout>
 </template>
 
 <script>
-import Header from "@/common/components/partials/Header.vue"
+import BaseLayout from "@/layouts/BaseLayout.vue"
 import Logo from '@/common/components/elements/Logo.vue'
 import Content from "@/common/components/content/Content.vue"
 
 export default {
     components: {
-        Header,
+        BaseLayout,
         Content,
         Logo
     },

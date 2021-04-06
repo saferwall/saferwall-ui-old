@@ -9,7 +9,7 @@
     <div class="btn-menu btn-border profile-menu" tabindex="4" @focusout="menuDisplay = false">
         <div class="profile-content" @click="menuDisplay = !menuDisplay">
             <avatar width="36px" height="36px" />
-            <span class="text-dark">{{ username }}</span>
+            <span class="text-dark">{{ getProfile().username }}</span>
             <svg xmlns="http://www.w3.org/2000/svg" width="10" height="8" viewBox="0 0 10 8">
                 <path  d="M5,0l5,8H0Z" transform="translate(10 8) rotate(180)" />
             </svg>
@@ -34,7 +34,7 @@
                     </svg>
                     Settings
                 </a>
-                <a @click="$router.push('/profile')" class="dropmenu-item">
+                <a @click="$router.push('/auth/logout')" class="dropmenu-item">
                     <svg xmlns="http://www.w3.org/2000/svg" width="15.056" height="16.198" viewBox="0 0 15.056 16.198">
                         <g id="Icon" transform="translate(0.15 0.15)" style="isolation: isolate">
                             <g transform="translate(0 0)">
@@ -53,18 +53,18 @@
 
 
 <script>
-import Avatar from '@/common/components/elements/Avatar';
-import DropMenu from '@/common/components/elements/DropMenu.vue';
+import { userGetters } from "@/state/helpers";
+
+import Avatar from "@/common/components/elements/Avatar";
+import DropMenu from "@/common/components/elements/DropMenu.vue";
+
 export default {
     components: {
         Avatar,
         DropMenu
     },
-    props : {
-        username : {
-            default: 'Username',
-            type: String
-        }
+    computed: {
+        ...userGetters
     },
     data(){
         return {

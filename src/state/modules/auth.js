@@ -26,32 +26,34 @@ export const mutations = {
     }
   },
   LOGOUT(state) {
-    clearState('auth.session');
     state.session = null;
-    router.push('/auth/login');
+    clearState('auth.session');
+    router.push({
+      path: '/auth/login'
+    });
   }
 }
 
 export const getters = {
   // Whether the session is currently logged in.
   loggedIn(state) {
-    return !!state.session && !this.tokenExpired(state.session.token);
+    return state.session != null && !getters.tokenExpired(state);
   },
   tokenExpired(state) {
     if (state.session == null || state.session.token == null) {
       return true;
     }
-
-    let token = state.session.token;
+    let dt, expired, token = state.session.token;
 
     try {
-      let dt = jwtDecode(token);
-      return !dt || dt.exp - (Date.now() / 1000) <= 0;
+      dt = jwtDecode(token);
+      expired = !dt || dt.exp - (Date.now() / 1000) <= 0;
     } catch (e) {
       // jwtDecode failed
       console.warn(e, token);
     }
-    return true;
+
+    return expired;
   }
 }
 
@@ -64,23 +66,30 @@ export const actions = {
   },
 
   // Logs in the current session.
-  logIn({ commit, dispatch, getters }, { email, password } = {}) {
+  logIn({ commit, dispatch, getters }, { username, password } = {}) {
     if (getters.loggedIn) return dispatch('validate')
 
     return axios
-      .post('/auth/login/', { email, password })
+      .post('/auth/login/', { username, password })
       .then((response) => {
-        const session = response.data.token;
+        const session = response.data;
         commit('SET_CURRENT_SESSION', session)
         // dispatch('profile/updateProfile', null, { root: true });
         return session
       })
   },
 
+  logOut({ commit }){
+    commit('LOGOUT');
+  },
+
   // Validates the current session's token and refreshes it
   // with new data from the API.
-  validate({ state }) {
-    if (!state.session) return Promise.resolve(null)
+  validate({ state, dispatch }) {
+    if (!getters.loggedIn(state)) return Promise.resolve(null)
+    
+    dispatch('user/fetchCurrentUser', state.session.name, { root: true });
+    return Promise.resolve(state.session);
   },
 }
 

@@ -86,10 +86,15 @@ export default {
         },
         ...userMethods
     },
-    async created() {
-        this.username = this.$route.params.id;
-        this.profile = await  this.fetchProfile(this.username);
+    async beforeMount() {
+        // self user profile
+        let userProfile = this.getProfile();
 
+        // data
+        this.username = this.$route.params.id || userProfile?.username;
+        this.profile = this.username && (await this.fetchProfile(this.username)) || userProfile;
+
+        // Tab
         this.activeTab = this.profileTabs[0].name;
         
         // Update Profile Count

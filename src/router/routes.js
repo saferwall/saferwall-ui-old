@@ -31,7 +31,7 @@ const publicRoutes = [
     {
         path: '/user/:id',
         name: 'user',
-        component: () => import('@/modules/profile/pages/Profile.vue'),
+        component: () => import('@/modules/profile/pages/User.vue'),
         meta: {
             title: 'User Profile',
             layout: 'HeaderLayout'
@@ -42,7 +42,7 @@ const publicRoutes = [
 
 const authRoutes = [
     {
-        path: '/auth/Login',
+        path: '/auth/login',
         name: 'login',
         component: () => import('@/modules/auth/pages/Login.vue'),
         meta: {
@@ -76,7 +76,19 @@ const authRoutes = [
             title: 'Forgot Password',
             layout: 'AuthLayout'
         }
-    }
+    },
+    {
+        path: '/auth/logout',
+        name: 'logout',
+        component: () => import('@/modules/auth/pages/Login.vue'),
+        meta: {
+          authRequired: true,
+          beforeResolve() {
+            store.dispatch('auth/logOut')
+          },
+        },
+      },
+    
 ].map(route => {
     route.meta = route.meta ? route.meta : {
       beforeResolve(routeTo, routeFrom, next) {
@@ -101,8 +113,8 @@ const privateRoutes = [
         component: () => import('@/modules/profile/pages/Profile.vue'),
         meta: {
             title: 'Profile',
-            layout: 'HeaderLayout'
-        }
+            layout: 'HeaderLayout',
+        },
     },
     {
         path: '/account/settings',
@@ -113,7 +125,13 @@ const privateRoutes = [
             layout: 'HeaderLayout'
         }
     }
-]
+].map(route=> {
+    route.meta = {
+        ...route.meta,
+        authRequired: true
+    }
+    return route;
+})
 
 
 const routes = [...publicRoutes, ...privateRoutes, ...authRoutes].map(_route => {
