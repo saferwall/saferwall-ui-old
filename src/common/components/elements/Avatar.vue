@@ -1,5 +1,5 @@
 <template>
-    <img v-show="false" height="20" width="20" :src="getSource" @error="onError" />
+    <img v-show="false" height="20" width="20" :src="getSource" @load="onLoad" @error="onError" />
     <div class="avatar inline-grid rounded-full" :style="{ backgroundImage: `url(${getBackground})` , width: width  , height: height}"></div>
 </template>
 
@@ -28,20 +28,21 @@ export default {
     },
     data(){
         return {
-            background : 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mPcXA8AAesBNGQg4IAAAAAASUVORK5CYII='
+            background : '',
+            loaded: false
         }
     },
     methods: {
         onError(){
             this.background = 'data:image/svg+xml;utf8,'+generateFromString(this.username);
-        }
+        },
     },
     computed : {
         getSource(){
             return this.username && generateAvatar(this.username) || this.source;
         },
         getBackground(){
-            return `"${this.background.replace(/"/gm,"'")}"`
+            return `"${this.background.replace(/"/gm,"'") || this.getSource}"`
         }
     }
 }
