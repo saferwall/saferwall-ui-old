@@ -1,8 +1,10 @@
 <template>
-    <div class="avatar inline-grid rounded-full" :style="{ backgroundImage: `url(${getSource})` , width: width  , height: height}"></div>
+    <img v-show="false" height="20" width="20" :src="getSource" @error="onError" />
+    <div class="avatar inline-grid rounded-full" :style="{ backgroundImage: `url(${getBackground})` , width: width  , height: height}"></div>
 </template>
 
 <script>
+import { generateFromString } from 'generate-avatar';
 import { generateAvatar } from '@/common/helpers';
 
 export default {
@@ -22,11 +24,24 @@ export default {
         height: {
             default :  '72px',
             type: String
+        },
+    },
+    data(){
+        return {
+            background : 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mPcXA8AAesBNGQg4IAAAAAASUVORK5CYII='
+        }
+    },
+    methods: {
+        onError(){
+            this.background = 'data:image/svg+xml;utf8,'+generateFromString(this.username);
         }
     },
     computed : {
         getSource(){
             return this.username && generateAvatar(this.username) || this.source;
+        },
+        getBackground(){
+            return `"${this.background.replace(/"/gm,"'")}"`
         }
     }
 }
