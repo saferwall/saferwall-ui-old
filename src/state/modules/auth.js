@@ -79,6 +79,17 @@ export const actions = {
       })
   },
 
+  // Logs in the current session.
+  register({ dispatch, getters }, { username, email, password } = {}) {
+    if (getters.loggedIn) return dispatch('validate')
+
+    return axios
+      .post('/auth/register/', { username, email, password })
+      .then((response) => {
+        return response.data;
+      })
+  },
+
   logOut({ commit }){
     commit('LOGOUT');
   },

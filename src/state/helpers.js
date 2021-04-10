@@ -19,7 +19,7 @@ const userMethods = mapActions('user' , ['fetchProfile']);
  * Methods
  */
 const authGetters = mapGetters('auth',['loggedIn']);
-const authMethods = mapActions('auth',['logIn']);
+const authMethods = mapActions('auth',['logIn' , 'register']);
 
 export {
     activityGetters, activityMethods,
