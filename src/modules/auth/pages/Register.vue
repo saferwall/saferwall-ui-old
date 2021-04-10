@@ -92,12 +92,6 @@ export default {
                     this.password = null;
                     this.email = null;
                     this.sent = true;
-                    // Redirect to the originally requested page, or to the home page
-                    // this.$router.push(
-                    //     this.$route.query.redirectFrom || {
-                    //         name: 'profile'
-                    //     }
-                    // )
                 })
                 .catch((error) => {
                     this.errors.push(error.response ? error.response.data.verbose_msg : 'Internal Server Error')
