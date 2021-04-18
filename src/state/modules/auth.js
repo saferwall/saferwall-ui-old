@@ -105,7 +105,7 @@ export const actions = {
 }
 
 function setDefaultAuthHeaders(state) {
-  axios.defaults.headers.common.Authorization = state.session
-    ? `Bearer ${state.session.token}`
-    : ''
+  if ( state.session ) {
+    axios.defaults.headers.common.Authorization = `Bearer ${state.session.token}`
+  }
 }

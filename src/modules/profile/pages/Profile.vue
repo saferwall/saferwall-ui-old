@@ -78,7 +78,8 @@ export default {
                     title: 'Comments (0)'
                 },
             ],
-            activeTab: null
+            activeTab: null,
+            userExist: false
         }
     },
     computed: {
@@ -88,6 +89,8 @@ export default {
     methods: {
         ...userMethods,
         async switchTab(tab) {
+            if (!this.userExist) return;
+            
             // Fetch tab
             await this.fetchSection({
                 username: this.username, 
@@ -98,27 +101,40 @@ export default {
             this.activeTab = tab;
             this.dataTabs[tab] = this.getSection(this.username, tab);
         },
+        refreshProfile(profile){
+            // Update Profile Count & return first Tab
+            this.profileTabs.map(
+                (tab)=> {
+                    console.log(profile)
+                    let count = this.dataTabs[tab.name];
+                    count = profile[`${tab.name}_count`] || 0;
+                    tab.title = tab.title.replace(/([\d])/gm, count);
+                    return tab;
+                }
+            );
+
+            // Select default tab
+            this.switchTab(this.profileTabs[0].name);
+        }
     },
     async beforeMount() {
         // Self user profile
         let userProfile = this.getProfile();
-
         // Profile data
         this.username = this.$route.params.id || userProfile?.username;
-        this.profile = this.username && (await this.fetchProfile(this.username)) || userProfile;
-
-        // Update Profile Count & return first Tab
-        this.profileTabs.map(
-            (tab)=> {
-                let count = this.dataTabs[tab.name];
-                count = this.profile[`${tab.name}_count`] || count && count.length || 0;
-                tab.title = tab.title.replace(/([\d])/gm, count);
-                return tab;
-            }
-        );
-
-        // Select default tab
-        this.switchTab(this.profileTabs[0].name);
+        this.profile = this.username && 
+            (await (
+                async ()=>{ 
+                    let profile = await this.fetchProfile(this.username)
+                        .then(data=>{
+                            console.log('data: ', data)
+                            this.userExist = true;
+                            return data;
+                        });
+                    this.refreshProfile(profile)
+                    return profile;
+                }
+            ))() || userProfile;
     }
 }
 </script>

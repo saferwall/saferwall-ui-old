@@ -2,16 +2,19 @@
     <div class="like-box">
         <div class="row-hash">
             <hash-input :hash="sha256" class="input-hash" />
-            <btn-like :liked="liked" />
+            <btn-like :liked="liked" @click="toggleLike" />
         </div>
         <file-meta :classification="classification" :scan="getScore" :filename="filename" />
     </div>
 </template>
 
 <script>
+import { fileActions } from '@/state/helpers'
+
 import HashInput from '@/common/components/elements/HashInput.vue'
 import FileMeta from '../FileMeta.vue'
 import BtnLike from '../button/BtnLike.vue'
+
 export default {
     components: {
         HashInput,
@@ -46,6 +49,14 @@ export default {
                 total: s[1]
             }
         }
+    },
+    methods : {
+        ...fileActions,
+        toggleLike(){
+            if (this.liked) 
+                return this.doUnLike({ id: this.sha256 }) 
+            this.doLike({ id: this.sha256 });
+        }
     }
 }
 </script>
@@ -56,6 +67,7 @@ export default {
 
     .row-hash{
         @apply flex items-center ;
+
         .input-hash{
             @apply flex-grow;
         }

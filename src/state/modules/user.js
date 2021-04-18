@@ -70,7 +70,7 @@ export const actions = {
 
 export const mappers = {
     mapProfile(profile){
-        let data = {}; ["followers_count","followers_count","likes_count","comments_count","submissions_count"].forEach(key=> data[key] = profile[key]);
+        let data = {}; ["following_count","followers_count","likes_count","comments_count","submissions_count"].forEach(key=> data[key] = profile[key]);
         return {
             ...data,
             __expire_at: Date.now()  + 1000 * 60 * 3 // 3min

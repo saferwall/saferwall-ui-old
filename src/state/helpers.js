@@ -21,8 +21,15 @@ const userMethods = mapActions('user' , ['fetchProfile', 'fetchSection']);
 const authGetters = mapGetters('auth',['loggedIn']);
 const authMethods = mapActions('auth',['logIn' , 'register']);
 
+/**
+ * Actions
+ */
+const fileActions = mapActions('actions', ['doLike','doUnLike']);
+const userActions = mapActions('actions', ['doFollow','doUnFollow']);
+
 export {
     activityGetters, activityMethods,
     userGetters, userMethods,
-    authGetters ,authMethods
+    authGetters, authMethods,
+    fileActions, userActions
 }
