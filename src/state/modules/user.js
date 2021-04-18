@@ -2,12 +2,16 @@ import axios from '@/services/axios'
 
 export const state = {
     user : {},
-    profiles: {}
+    profiles: {},
+    activities : {}
 }
 
 export const getters = {
     getProfile : (state) => (id) =>{
         return id && state.profiles[id] || state.user;
+    },
+    getSection: (state) => (username, name) => {
+        return name && state.activities[username] && state.activities[username][name] || [];
     }
 }
 export const mutations = {
@@ -16,6 +20,10 @@ export const mutations = {
     },
     SET_CURRENT_PROFILE(state, data){
         state.user = data;
+    },
+    SET_SECTION_LIST(state, { username, section, data }){
+        state.activities[username] = {};
+        state.activities[username][section] = data;
     }
 }
 
@@ -39,8 +47,21 @@ export const actions = {
             let data = response.data;
             commit('SET_CURRENT_PROFILE', {
                 username: username,
-                data: mappers.mapUser(data),
+                data: data,
                 __expire_at: Date.now()  + 1000 * 60 * 3 // 3min
+            });
+            return data;
+        });
+    },
+    fetchSection({ commit }, { username, section }){
+        return  axios
+        .get(`users/${username}/${section}`)
+        .then(response => {
+            let data = response.data;
+            commit('SET_SECTION_LIST', {
+                username: username,
+                section: section,
+                data: data,
             });
             return data;
         }); 
@@ -55,11 +76,4 @@ export const mappers = {
             __expire_at: Date.now()  + 1000 * 60 * 3 // 3min
         }
     },
-    mapUser(user){
-        let data = user;
-        return {
-            ...data,
-            __expire_at: Date.now()  + 1000 * 60 * 3 // 3min
-        }
-    }
 }

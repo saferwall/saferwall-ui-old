@@ -1,10 +1,10 @@
 <template>
     <div class="like-box">
         <div class="row-hash">
-            <hash-input :hash="hash" class="input-hash" />
+            <hash-input :hash="sha256" class="input-hash" />
             <btn-like :liked="liked" />
         </div>
-        <file-meta :classification="classification" :scan="scan" :filename="filename" />
+        <file-meta :classification="classification" :scan="getScore" :filename="filename" />
     </div>
 </template>
 
@@ -18,11 +18,11 @@ export default {
         FileMeta,
         BtnLike,
     },
-        props: {
+    props: {
         id: {
             type: String
         },
-        hash: {
+        sha256: {
             type: String
         },
         classification: {
@@ -31,13 +31,22 @@ export default {
         filename: {
             type: String
         },
-        scan: {
-            type: Object
+        multiav: {
+            type: String
         },
         liked: {
             type: Boolean
         }
     },
+    computed:{
+        getScore(){
+            let s = (this.multiav || "").split('/');
+            return {
+                value: s[0],
+                total: s[1]
+            }
+        }
+    }
 }
 </script>
 

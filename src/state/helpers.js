@@ -11,8 +11,8 @@ const activityMethods = mapActions('activity', ['fetchActivities']);
  * User
  * Methods, Getters
  */
-const userGetters = mapGetters('user' , ['getProfile']);
-const userMethods = mapActions('user' , ['fetchProfile']);
+const userGetters = mapGetters('user' , ['getProfile' , 'getSection']);
+const userMethods = mapActions('user' , ['fetchProfile', 'fetchSection']);
 
 /**
  * Authentification

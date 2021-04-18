@@ -42,6 +42,9 @@ export default {
         TabTypeFollow,
         TabTypeComment,
     },
+    pageTitle(){
+        return this.username
+    },
     data() {
         return {
             username: null,
@@ -53,9 +56,10 @@ export default {
                 following: [],
                 comments: [],
             },
-            profileTabs: [{
+            profileTabs: [
+                {
                     name: 'likes',
-                    title: 'Like (0)'
+                    title: 'Likes (0)'
                 },
                 {
                     name: 'submissions',
@@ -78,32 +82,43 @@ export default {
         }
     },
     computed: {
-        ...userGetters
+        ...userGetters,
+        
     },
     methods: {
-        switchTab(tab) {
+        ...userMethods,
+        async switchTab(tab) {
+            // Fetch tab
+            await this.fetchSection({
+                username: this.username, 
+                section: tab
+            });
+
+            // Set new data
             this.activeTab = tab;
+            this.dataTabs[tab] = this.getSection(this.username, tab);
         },
-        ...userMethods
     },
     async beforeMount() {
-        // self user profile
+        // Self user profile
         let userProfile = this.getProfile();
 
-        // data
+        // Profile data
         this.username = this.$route.params.id || userProfile?.username;
         this.profile = this.username && (await this.fetchProfile(this.username)) || userProfile;
 
-        // Tab
-        this.activeTab = this.profileTabs[0].name;
-        
-        // Update Profile Count
-        this.profileTabs.map(tab=> {
-            let count = this.dataTabs[tab.name];
-            count = this.profile[`${tab.name}_count`] || count && count.length || 0;
-            tab.title = tab.title.replace(/([\d])/gm, count);
-            return tab;
-        })
+        // Update Profile Count & return first Tab
+        this.profileTabs.map(
+            (tab)=> {
+                let count = this.dataTabs[tab.name];
+                count = this.profile[`${tab.name}_count`] || count && count.length || 0;
+                tab.title = tab.title.replace(/([\d])/gm, count);
+                return tab;
+            }
+        );
+
+        // Select default tab
+        this.switchTab(this.profileTabs[0].name);
     }
 }
 </script>

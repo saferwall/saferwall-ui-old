@@ -9,13 +9,18 @@ import AppLayout from '@/layouts/AppLayout.vue'
 /**
  * Css ( +TailwindCss )
  */
-import './assets/css/index.css'
+import '@/assets/css/index.css'
 
 /**
  * Plugins
  */
 import KProgress from 'k-progress-v3';
 
+/**
+ * Mixins
+ */
+import titleMixin from '@/common/mixins/titleMixin'
+ 
 /**
  * Vue Application 
  * Use Many Plugins
@@ -24,6 +29,7 @@ import KProgress from 'k-progress-v3';
 createApp(App)
     .use(store)
     .use(router)
+    .mixin(titleMixin)
     .component('k-progress', KProgress)
     .component('AppLayout', AppLayout)
     .mount('#app')
