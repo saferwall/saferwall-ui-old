@@ -15,7 +15,8 @@ export default {
             default: false,
             type: Boolean
         }
-    }
+    },
+    emits: [ 'toggleFollow' ]
 }
 </script>
 

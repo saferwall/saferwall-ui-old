@@ -25,6 +25,7 @@ export default {
         ActivityBlock,
         ShowMore
     },
+    emits: [ 'showMore' ],
     props : {
         more : {
             type : Boolean,

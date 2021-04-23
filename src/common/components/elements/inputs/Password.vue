@@ -30,6 +30,7 @@ export default {
             required: true
         }
     },
+    emits: [ 'update:modelValue' ],
     data(){
         return {
             visible : true
