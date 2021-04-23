@@ -10,22 +10,22 @@
                     </p>
                 </div>
             </router-link>
-            <div class="buttons mt-3">
-                <div :class="follow ? 'active': ''" class="follow inline-grid font-bold text-primary border rounded-md border-gray py-2 w-max px-6 cursor-pointer">
+            <div class="buttons mt-3" v-if="notSelfUser" >
+                <button @click="toggleFollow" :class="follow ? 'active': ''" class="follow inline-grid font-bold text-primary border rounded-md border-gray py-2 w-max px-6 cursor-pointer">
                     {{ follow ? 'UnFollow' :'Follow' }}
-                </div>
+                </button>
             </div>
         </div>
         <div class="activity-content col-span-4 grid md:grid-cols-4">
-                <div class="info col-span-3 mr-10">
-                    <router-link :to="`/file/${file.hash}/summary`">
-                        <p class="title">
-                            <b>{{ author.username }}</b> submitted a file <span class="text-sm">{{ getActivityTimeAgo }} ago</span>
-                        </p>
-                    </router-link>
-                    <hash-input :hash="file.hash" class="mt-4"></hash-input>
-                    <file-meta :filename="file.name" :classification="{ name: file.classification, icon : 'souspicious'}" :scan="file.scan"  />
-                </div>
+            <div class="info col-span-3 mr-10">
+                <router-link :to="`/file/${file.sha256}/summary`">
+                    <p class="title">
+                        <b>{{ author.username }}</b> {{ getActivityTitle }} a file <span class="text-sm">{{ getActivityTimeAgo }} ago</span>
+                    </p>
+                </router-link>
+                <hash-input :hash="file.sha256" class="mt-4"></hash-input>
+                <file-meta :filename="file.name" :classification="{ name: file.classification, icon : 'souspicious'}" :scan="file.scan"  />
+            </div>
             <div class="tags">
                 <h3>Tags</h3>
                 <ul class="list flex flex-wrap">
@@ -40,12 +40,17 @@
 
 <script>
 import { timeAgoCounts, timeAgo, isAnAVG } from '@/common/functions';
+import { followActions, userGetters } from '@/state/helpers';
 import HashInput from './HashInput.vue';
 import FileMeta from './FileMeta.vue';
 import Avatar from './Avatar.vue';
 
 export default {
-    components: {HashInput, Avatar, FileMeta},
+    components: {
+        HashInput, 
+        Avatar, 
+        FileMeta
+    },
     props: {
         author : {
             default: function(){
@@ -59,7 +64,7 @@ export default {
         file : {
             default : function(){
                 return {
-                    hash: null,
+                    shae256: null,
                     name: null,
                     classification: null,
                     score : {
@@ -78,14 +83,30 @@ export default {
         follow : {
             default : true,
             type: Boolean
+        },
+        type : {
+            default: 'submit',
+            type: String
         }
     },
     computed: {
+        ...userGetters,
         getActivityTimeAgo(){
             return timeAgoCounts(this.activity_date);
         },
         getJoinedAgo(){
             return timeAgo(this.author.member_since);
+        },
+        getActivityTitle(){
+            let typeActivity = [
+                {key:'like', title:'Liked'},
+                {key:'submit', title:'Submitted'},
+                {key:'follow', title:'Followed'},
+                {key:'comment', title:'Commented'},
+            ].find(type=>{
+                return type.key == this.type;
+            });
+            return typeActivity && typeActivity.title || 'Unknown';
         },
         getTags(){
             let tags = this.file.tags;
@@ -103,6 +124,18 @@ export default {
                     )
                 ]
             } , []);
+        },
+        notSelfUser(){
+            console.log(this.author.username , this.getUser && this.getUser.username)
+            return this.author.username !== this.getUser && this.getUser.username;
+        }
+    },
+    methods:{
+        ...followActions,
+        toggleFollow(){
+            if (this.followed)
+                return this.doUnFollow({ id: this.author.username })
+            this.doFollow({ id: this.author.username })
         }
     }
 }
@@ -114,8 +147,7 @@ export default {
         @apply py-4 px-6 md:p-10;
     }
     .header {
-        border:none;
-        @apply flex flex-wrap w-full justify-between md:justify-center flex-grow;
+        @apply flex flex-wrap w-full justify-between md:justify-center flex-grow border-none;
 
         .profile-link{
             @apply flex space-x-4 md:block md:space-x-0;

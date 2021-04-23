@@ -38,7 +38,7 @@ export const mappers = {
                 },
                 file: {
                     name: 'Unknown',
-                    hash: activity.content.sha256,
+                    sha256: activity.content.sha256,
                     classification: 'Unknown',
                     tags: activity.tags,
                     score : {

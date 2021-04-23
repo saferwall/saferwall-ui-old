@@ -1,5 +1,5 @@
 <template>
-    <btn :class="followed ? 'btn-active':''">
+    <btn :class="followed ? 'btn-active':''" @click="$emit('toggleFollow', $target)">
         {{ followed ?  'UnFollow' : 'Follow' }}
     </btn>
 </template>

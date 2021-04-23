@@ -1,7 +1,7 @@
 <template>
 <div class="activities my-9">
     <div v-if="latestActivities"  class="content">
-        <template v-for="activity in getActivities" v-bind:key="activity.hash">
+        <template v-for="(activity, index) in getActivities" v-bind:key="`${activity.type}_${index}`">
             <activity-block v-bind="activity"></activity-block>
         </template>
     </div>

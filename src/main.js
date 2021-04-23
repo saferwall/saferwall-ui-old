@@ -27,9 +27,9 @@ import titleMixin from '@/common/mixins/titleMixin'
  */
 
 createApp(App)
+    .mixin(titleMixin)
     .use(store)
     .use(router)
-    .mixin(titleMixin)
     .component('k-progress', KProgress)
     .component('AppLayout', AppLayout)
     .mount('#app')

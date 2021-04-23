@@ -7,6 +7,9 @@ export const state = {
 }
 
 export const getters = {
+    getUser(state){
+        return state.user;
+    },
     getProfile : (state) => (id) =>{
         return id && state.profiles[id] || state.user;
     },
@@ -14,6 +17,7 @@ export const getters = {
         return name && state.activities[username] && state.activities[username][name] || [];
     }
 }
+
 export const mutations = {
     SET_PROFILE(state, { id , data }){
         state.profiles[id] = data;

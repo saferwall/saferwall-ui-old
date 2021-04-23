@@ -105,7 +105,6 @@ export default {
             // Update Profile Count & return first Tab
             this.profileTabs.map(
                 (tab)=> {
-                    console.log(profile)
                     let count = this.dataTabs[tab.name];
                     count = profile[`${tab.name}_count`] || 0;
                     tab.title = tab.title.replace(/([\d])/gm, count);
