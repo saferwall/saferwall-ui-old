@@ -4,12 +4,13 @@
             <hash-input :hash="sha256" class="input-hash" />
             <btn-like :liked="dliked" @click="toggleLike" />
         </div>
-        <file-meta :classification="classification" :scan="getScore" :filename="filename" />
+        <file-meta :classification="getClassification" :scan="getScore" :filename="filename" />
     </div>
 </template>
 
 <script>
 import { fileActions } from '@/state/helpers'
+import { getClass } from '@/common/classification'
 
 import HashInput from '@/common/components/elements/HashInput.vue'
 import BtnLike from '../button/BtnLike.vue'
@@ -28,7 +29,7 @@ export default {
         sha256: {
             type: String
         },
-        classification: {
+        class: {
             type: Object
         },
         filename: {
@@ -39,6 +40,10 @@ export default {
         },
         liked: {
             type: Boolean
+        },
+        tags : {
+            type: Array,
+            default: ()=>{return []}
         }
     },
     data(){
@@ -53,6 +58,9 @@ export default {
                 value: s[0],
                 total: s[1]
             }
+        },
+        getClassification(){
+            return getClass(this.class)
         }
     },
     methods : {

@@ -9,12 +9,12 @@
                 <p>Developed with ❤ by {{ name }}.</p>
                 <a :href="media?.github" class="ml-2">
                     <svg width="20" height="20">
-                        <image width="20" height="20" xlink:href="assets/icons/github.svg" />
+                        <image width="20" height="20" xlink:href="/assets/icons/github.svg" />
                     </svg>
                 </a>
                 <a :href="media?.twitter" class="ml-2">
                     <svg width="20" height="20">
-                        <image width="20" height="20" xlink:href="assets/icons/twitter.svg" />
+                        <image width="20" height="20" xlink:href="/assets/icons/twitter.svg" />
                     </svg>
                 </a>
             </div>

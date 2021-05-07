@@ -1,7 +1,7 @@
 <template>
 <div class="profile">
     <profile-box :username="username" v-bind="{ bio: profile.bio , member_since: profile.member_since }"/>
-    <card-tabs :tabs="profileTabs" class="profile-stats" v-on:switchTab="switchTab($event)">
+    <card-tabs :tabs="profileTabs" class="profile-stats" v-on:switchTab="switchTabEvent($event)">
         <tab-type-submission :active="activeTab == 'likes'" :rows="dataTabs.likes">
             <template v-slot:emptymessage>{{ username }} has not liked anything yet for the moment</template>
         </tab-type-submission>
@@ -88,7 +88,7 @@ export default {
     },
     methods: {
         ...userMethods,
-        async switchTab(tab) {
+        async switchTabEvent(tab) {
             if (!this.userExist) return;
             
             // Fetch tab
@@ -113,7 +113,7 @@ export default {
             );
 
             // Select default tab
-            this.switchTab(this.profileTabs[0].name);
+            this.switchTabEvent(this.profileTabs[0].name);
         }
     },
     async beforeMount() {

@@ -1,5 +1,5 @@
 <template>
-    <div class="activity md:grid items-center justify-center md:grid-cols-5 md:gap-4  bg-white my-3 md:rounded-xl">
+    <div class="activity md:grid items-center justify-center md:grid-cols-5 md:gap-4 bg-white my-3 md:rounded-xl">
         <div class="header border text-center">
             <router-link class="profile-link" :to="`/user/${author.username}`">
                 <avatar :username="author.username" :source="`//avatar.saferwall.com/${author.username}`"/>
@@ -24,7 +24,7 @@
                     </p>
                 </router-link>
                 <hash-input :hash="file.sha256" class="mt-4"></hash-input>
-                <file-meta :filename="file.name" :classification="{ name: file.classification, icon : 'souspicious'}" :scan="file.scan"  />
+                <file-meta :filename="file.name" :classification="getClassification" :scan="file.scan"  />
             </div>
             <div class="tags">
                 <h3>Tags</h3>
@@ -41,6 +41,8 @@
 <script>
 import { timeAgoCounts, timeAgo, isAnAVG } from '@/common/functions';
 import { followActions, userGetters } from '@/state/helpers';
+import { getClass } from '@/common/classification'
+
 import HashInput from './HashInput.vue';
 import FileMeta from './FileMeta.vue';
 import Avatar from './Avatar.vue';
@@ -128,6 +130,9 @@ export default {
         notSelfUser(){
             console.log(this.author.username , this.getUser && this.getUser.username)
             return this.author.username !== this.getUser && this.getUser.username;
+        },
+        getClassification(){
+            return getClass(this.file.classification);
         }
     },
     methods:{

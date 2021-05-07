@@ -9,8 +9,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "@tailwindcss/postcss7-compat": "^2.0.2",
-    "autoprefixer": "^9",
+    "@tailwindcss/postcss7-compat": "^2.1.2",
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
     "dateformat": "^4.5.1",
@@ -20,8 +19,6 @@
     "jwt-decode": "^3.1.2",
     "k-progress-v3": "^1.0.0",
     "nprogress": "^0.2.0",
-    "postcss": "^7",
-    "tailwindcss": "npm:@tailwindcss/postcss7-compat",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0-0",
     "vue2-circle-progress": "^1.2.3",
@@ -35,11 +32,14 @@
     "@vue/cli-plugin-vuex": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
     "@vue/compiler-sfc": "^3.0.0",
+    "autoprefixer": "^9",
     "babel-eslint": "^10.1.0",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^7.0.0-0",
+    "postcss": "^7",
     "sass": "^1.32.5",
-    "sass-loader": "^10.1.1"
+    "sass-loader": "^10.1.1",
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat"
   },
   "eslintConfig": {
     "root": true,
