@@ -1,4 +1,53 @@
 import store from '@/state/store'
+import { createToast } from 'mosha-vue-toastify';
+
+const scanModuleRoutes = [
+    {
+        path: 'summary',
+        name: 'summary',
+        component: () => import('@/modules/scan/pages/Summary.vue'),
+        meta: {
+            title: 'File Summary',
+            layout: 'SidebarLayout'
+        }
+    },
+].map(route => {
+    route.path = `/file/:id/${route.path}`;
+    route.meta = {
+        ...route.meta,
+        async beforeResolve(routeTo, routeFrom, next) {
+            let selectedFile = await store.getters['scan/FileSummary'];
+            if (!selectedFile) {
+                selectedFile = store.dispatch('scan/fetchFileSummary', routeTo.params.id);
+
+                return selectedFile.catch(err => {
+                    if (err) {
+                        if (err.response.status == 404) {
+                            createToast('File not found', { type: 'danger', position: 'bottom-right' });
+                        } else
+                            createToast(err.message, { type: 'danger', position: 'bottom-right' });
+                        return next({ path: '/' })
+                    }
+                    return next();
+                })
+            }
+
+            return next();
+        }
+    }
+
+    return route;
+});
+
+const classificationModuleRoutes = [
+    {
+        path: '/tag/:tag',
+        name: 'onetag',
+        meta: {
+            title: 'Tag'
+        }
+    }
+];
 
 const publicRoutes = [
     {
@@ -8,15 +57,6 @@ const publicRoutes = [
         meta: {
             title: 'Home',
             layout: 'Default',
-        }
-    },
-    {
-        path: '/summary',
-        name: 'summary',
-        component: () => import('@/modules/scan/pages/Summary.vue'),
-        meta: {
-            title: 'Summary',
-            layout: 'SidebarLayout'
         }
     },
     {
@@ -37,7 +77,10 @@ const publicRoutes = [
             layout: 'HeaderLayout'
         },
     },
+    ...scanModuleRoutes,
+    ...classificationModuleRoutes
 ]
+
 
 
 const authRoutes = [
@@ -82,28 +125,28 @@ const authRoutes = [
         name: 'logout',
         component: () => import('@/modules/auth/pages/Login.vue'),
         meta: {
-          authRequired: true,
-          beforeResolve() {
-            store.dispatch('auth/logOut')
-          },
+            authRequired: true,
+            beforeResolve() {
+                store.dispatch('auth/logOut')
+            },
         },
-      },
-    
+    },
+
 ].map(route => {
     route.meta = route.meta ? route.meta : {
-      beforeResolve(routeTo, routeFrom, next) {
-        // If the user is already logged in
-        if (store.getters['auth/loggedIn']) {
-          // Redirect to the home page instead
-          next({ path : '/' })
-        } else {
-          // Continue to the login page
-          next()
-        }
-      },
+        beforeResolve(routeTo, routeFrom, next) {
+            // If the user is already logged in
+            if (store.getters['auth/loggedIn']) {
+                // Redirect to the home page instead
+                next({ path: '/' })
+            } else {
+                // Continue to the login page
+                next()
+            }
+        },
     };
     return route;
-});  
+});
 
 
 const privateRoutes = [
@@ -125,7 +168,7 @@ const privateRoutes = [
             layout: 'HeaderLayout'
         }
     }
-].map(route=> {
+].map(route => {
     route.meta = {
         ...route.meta,
         authRequired: true
