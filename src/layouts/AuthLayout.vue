@@ -48,6 +48,6 @@ export default {
         @apply w-full px-6 py-5 bg-primary rounded-md text-light font-bold text-lg;
     }
     .auth-card{
-        @apply mt-4 flex min-w-full md:min-w-6/7 lg:min-w-5/7 xl:min-w-3/7 bg-light md:rounded-2xl pt-20 pb-8 px-24 shadow-sm;
+        @apply mt-4 flex min-w-full md:min-w-6/7 lg:min-w-5/7 xl:min-w-6/12 bg-light md:rounded-2xl pt-20 pb-8 px-20 shadow-sm;
     }
 </style>

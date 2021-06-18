@@ -10,7 +10,7 @@ export const state = {
 
 
 export const getters = {
-    FileSummary(state) {
+    getFileSummary(state) {
         return state.selectedFile;
     }
 }

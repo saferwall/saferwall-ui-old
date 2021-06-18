@@ -99,7 +99,7 @@ export default {
 
             // Set new data
             this.activeTab = tab;
-            this.dataTabs[tab] = this.getSection(this.username, tab);
+            this.dataTabs[tab] = this.getSection({ username : this.username, name: tab });
         },
         refreshProfile(profile){
             // Update Profile Count & return first Tab
@@ -118,22 +118,26 @@ export default {
     },
     async beforeMount() {
         // Self user profile
-        let userProfile = this.getProfile();
+        let userProfile = await this.getProfile();
+
+
         // Profile data
         this.username = this.$route.params.id || userProfile?.username;
-        this.profile = this.username && 
-            (await (
+        if (this.username){
+            this.profile = (await (
                 async ()=>{ 
                     let profile = await this.fetchProfile(this.username)
                         .then(data=>{
-                            console.log('data: ', data)
                             this.userExist = true;
                             return data;
                         });
                     this.refreshProfile(profile)
                     return profile;
                 }
-            ))() || userProfile;
+            ))();
+        }
+        this.profile = { ... this.profile , ... (userProfile && userProfile.data || {})};
+        console.log("Profile : ", this.profile);
     }
 }
 </script>

@@ -1,44 +1,9 @@
-import store from '@/state/store'
-import { createToast } from 'mosha-vue-toastify';
+import authMiddleware, { noAuthMiddleware } from '@/middlewares/auth';
+import scanMiddleware from '@/middlewares/scan';
 
-const scanModuleRoutes = [
-    {
-        path: 'summary',
-        name: 'summary',
-        component: () => import('@/modules/scan/pages/Summary.vue'),
-        meta: {
-            title: 'File Summary',
-            layout: 'SidebarLayout'
-        }
-    },
-].map(route => {
-    route.path = `/file/:id/${route.path}`;
-    route.meta = {
-        ...route.meta,
-        async beforeResolve(routeTo, routeFrom, next) {
-            let selectedFile = await store.getters['scan/FileSummary'];
-            if (!selectedFile) {
-                selectedFile = store.dispatch('scan/fetchFileSummary', routeTo.params.id);
-
-                return selectedFile.catch(err => {
-                    if (err) {
-                        if (err.response.status == 404) {
-                            createToast('File not found', { type: 'danger', position: 'bottom-right' });
-                        } else
-                            createToast(err.message, { type: 'danger', position: 'bottom-right' });
-                        return next({ path: '/' })
-                    }
-                    return next();
-                })
-            }
-
-            return next();
-        }
-    }
-
-    return route;
-});
-
+/**
+ * Tags Module routes
+ */
 const classificationModuleRoutes = [
     {
         path: '/tag/:tag',
@@ -49,6 +14,42 @@ const classificationModuleRoutes = [
     }
 ];
 
+/**
+ * Scan Module routes
+ */
+const scanModuleRoutes = [
+    {
+        path: '',
+        name: 'file-index',
+        redirect: { name: 'file-summary' }
+    },
+    {
+        path: '/summary',
+        name: 'file-summary',
+        component: () => import('@/modules/scan/pages/Summary.vue'),
+        meta: {
+            title: 'File Summary',
+            layout: 'SidebarLayout'
+        }
+    },
+].map(route => {
+    route.path = `/file/:id${route.path}`;
+    route.meta = {
+        middleware: [
+            scanMiddleware
+        ],
+        ...route.meta,
+    }
+    return route;
+});
+
+
+/**
+ * All non auth required routes
+ * - Home
+ * - Hot Activities
+ * etc.
+ */
 const publicRoutes = [
     {
         path: '/',
@@ -81,8 +82,12 @@ const publicRoutes = [
     ...classificationModuleRoutes
 ]
 
-
-
+/**
+ * Auth routes
+ * - Login
+ * - Register
+ * etc.
+ */
 const authRoutes = [
     {
         path: '/auth/login',
@@ -125,30 +130,32 @@ const authRoutes = [
         name: 'logout',
         component: () => import('@/modules/auth/pages/Login.vue'),
         meta: {
-            authRequired: true,
-            beforeResolve() {
-                store.dispatch('auth/logOut')
-            },
+            middleware: [
+                authMiddleware,
+                function beforeResolve({ store, next }) {
+                    store.dispatch('auth/logOut')
+
+                    next({ name: 'home' });
+                }
+            ]
         },
     },
-
 ].map(route => {
-    route.meta = route.meta ? route.meta : {
-        beforeResolve(routeTo, routeFrom, next) {
-            // If the user is already logged in
-            if (store.getters['auth/loggedIn']) {
-                // Redirect to the home page instead
-                next({ path: '/' })
-            } else {
-                // Continue to the login page
-                next()
-            }
-        },
+    route.meta = {
+        middleware: [
+            noAuthMiddleware
+        ],
+        ...route.meta
     };
     return route;
 });
 
-
+/**
+ * Routes that require authentication
+ * - Profile
+ * - Settings
+ * etc.
+ */
 const privateRoutes = [
     {
         path: '/profile',
@@ -171,16 +178,24 @@ const privateRoutes = [
 ].map(route => {
     route.meta = {
         ...route.meta,
-        authRequired: true
+        middleware: [
+            authMiddleware
+        ]
     }
     return route;
 })
 
 
+/**
+ * All Routes
+ */
 const routes = [...publicRoutes, ...privateRoutes, ...authRoutes].map(_route => {
     return _route;
 });
 
 
-
+/**
+ * Exportations
+ */
+export default routes;
 export { routes, publicRoutes, privateRoutes, authRoutes };

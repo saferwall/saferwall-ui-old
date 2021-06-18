@@ -64,6 +64,7 @@ export default {
     },
     computed: {
         getMemberSince(){
+            console.log(this.member_since);
             return timeAgo(this.member_since)
         }
     }

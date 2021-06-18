@@ -18,7 +18,7 @@ export const mutations = {
         state.session = jwtDecode(session.token);
         state.session.token = session.token;
       } catch (e) {
-          console.warn('Token decode failed' , session)
+        console.warn('Token decode failed', session)
       }
 
       saveState('auth.session', state.session)
@@ -90,7 +90,7 @@ export const actions = {
       })
   },
 
-  logOut({ commit }){
+  logOut({ commit }) {
     commit('LOGOUT');
   },
 
@@ -98,14 +98,14 @@ export const actions = {
   // with new data from the API.
   validate({ state, dispatch }) {
     if (!getters.loggedIn(state)) return Promise.resolve(null)
-    
+
     dispatch('user/fetchCurrentUser', state.session.name, { root: true });
     return Promise.resolve(state.session);
   },
 }
 
 function setDefaultAuthHeaders(state) {
-  if ( state.session ) {
+  if (state.session) {
     axios.defaults.headers.common.Authorization = `Bearer ${state.session.token}`
   }
 }
