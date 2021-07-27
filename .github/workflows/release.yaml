@@ -1,24 +1,7 @@
-name: UI CI
-
-on: [push]
+name: UI Release
+on: workflow_dispatch
 jobs:
-  yarn-build:
-    runs-on: ubuntu-20.04
-    strategy:
-      matrix:
-        node-version: [14.x]
-    steps:
-      - name: Check out the repo
-        uses: actions/checkout@v2
-
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ matrix.node-version }}
-      - run: yarn install
-      - run: yarn build
-
-  docker-build:
+  docker-release:
     runs-on: ubuntu-20.04
     steps:
       - name: Set up QEMU
@@ -33,9 +16,18 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      - name: Generate build version
+        id: prep
+        run: |
+          version=$(cat VERSION)
+          echo "::set-output name=BUILD_VERSION::${version}"
+
       - name: Build and push
         id: docker_build
         uses: docker/build-push-action@v2
         with:
-          push: false
+          push: true
           tags: saferwall/ui:latest
+          tags: |
+            ${{ env.IMAGE }}:latest
+            ${{ env.IMAGE }}:${{ steps.prep.outputs.BUILD_VERSION }}
