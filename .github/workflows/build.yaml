@@ -1,6 +1,7 @@
 name: UI CI
-
 on: [push]
+env:
+  IMAGE: saferwall/ui
 jobs:
   yarn-build:
     runs-on: ubuntu-20.04
@@ -38,4 +39,4 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: false
-          tags: saferwall/ui:latest
+          tags: ${{ env.IMAGE }}:latest

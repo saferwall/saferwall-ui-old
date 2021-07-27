@@ -1,4 +1,8 @@
-# saferui
+# saferwall ui
+
+Saferwall.com UI
+
+[![UI CI](https://github.com/saferwall/saferwall-ui/actions/workflows/build.yaml/badge.svg)](https://github.com/saferwall/saferwall-ui/actions/workflows/build.yaml)
 
 ## Project setup
 ```
