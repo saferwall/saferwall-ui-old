@@ -81,7 +81,6 @@ import Card from "@/common/components/elements/Card.vue";
 import Progress from "@/common/components/Progress.vue";
 import TableCols from "@/common/components/tables/TableCols.vue";
 import Gallery from "@/common/components/tables/Gallery.vue";
-import { submission } from "@/common/data/data.test";
 import { scanGetters } from "@/state/helpers";
 
 export default {
@@ -94,9 +93,7 @@ export default {
   data() {
     return {
       file: null,
-      submissions: submission({
-        examples: 10,
-      }),
+      submissions: []
     };
   },
   computed: {
@@ -132,8 +129,9 @@ export default {
       return this.file !== null;
     },
   },
-  created() {
+  beforeMount() {
     this.file = this.getFileSummary;
+
     console.log("Component Created ? ", this.file !== null);
   },
 };

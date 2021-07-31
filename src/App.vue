@@ -14,6 +14,7 @@ export default {
 <style lang="scss">
 body,html {
   background: $background-color;
+  min-height: 100%;
 }
 
 body * {

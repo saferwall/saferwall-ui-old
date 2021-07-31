@@ -9,3 +9,7 @@ html {
   font-family: "Open Sans", "Franklin Gothic Medium", "Arial Narrow", Arial,
     sans-serif;
 }
+
+*{
+  word-wrap: all;
+}
