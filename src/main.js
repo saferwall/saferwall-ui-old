@@ -24,6 +24,13 @@ import moshaToast from 'mosha-vue-toastify'
 import titleMixin from '@/common/mixins/titleMixin'
 
 /**
+ * Setups
+ */
+import setupInterceptors from '@/services/setupInterceptors';
+
+setupInterceptors(store);
+
+/**
  * Vue Application 
  * Use Many Plugins
  */
