@@ -1,6 +1,16 @@
 <template>
   <div
-    class="activity md:grid items-center justify-center md:grid-cols-5 md:gap-4 bg-white my-3 md:rounded-xl"
+    class="
+      activity
+      lg:grid
+      items-center
+      justify-center
+      lg:grid-cols-5
+      lg:gap-4
+      bg-white
+      my-3
+      lg:rounded-xl
+    "
   >
     <div class="header border text-center">
       <router-link class="profile-link" :to="`/user/${author.username}`">
@@ -13,32 +23,47 @@
           <p class="text-gray">Member since {{ getJoinedAgo }}</p>
         </div>
       </router-link>
-      <div class="buttons mt-3" v-if="notSelfUser">
+      <div class="buttons mt-3" v-if="!isSelfUser">
         <button
           @click="toggleFollow"
           :class="follow ? 'active' : ''"
-          class="follow inline-grid font-bold text-primary border rounded-md border-gray py-2 w-max px-6 cursor-pointer"
+          class="
+            follow
+            inline-grid
+            font-bold
+            text-primary
+            border
+            rounded-md
+            border-gray
+            py-2
+            w-max
+            px-6
+            cursor-pointer
+          "
         >
           {{ follow ? "UnFollow" : "Follow" }}
         </button>
       </div>
     </div>
-    <div class="activity-content col-span-4 grid md:grid-cols-4">
-      <div class="info col-span-3 mr-10">
+    <div class="activity-content col-span-4 grid lg:grid-cols-4">
+      <div
+        class="info mr-10"
+        :class="(!hasTags && 'col-span-4') || 'col-span-3'"
+      >
         <router-link :to="getFileSummaryRoute">
           <p class="title">
             <b>{{ author.username }}</b> {{ getActivityTitle }} a file
             <span class="text-sm">{{ getActivityTimeAgo }} ago</span>
           </p>
-          <hash-input :hash="file.sha256" class="mt-4"></hash-input>
+          <hash-input :hash="file.hash" class="mt-4"></hash-input>
         </router-link>
         <file-meta
-          :filename="file.name"
+          :filename="file.filename"
           :classification="getClassification"
-          :scan="file.scan"
+          :scan="file.multiav"
         />
       </div>
-      <div class="tags">
+      <div v-if="hasTags" class="tags">
         <h3>Tags</h3>
         <ul class="list flex flex-wrap">
           <li
@@ -72,6 +97,7 @@ export default {
     FileMeta,
   },
   props: {
+    id: String,
     author: {
       default: function () {
         return {
@@ -84,9 +110,9 @@ export default {
     file: {
       default: function () {
         return {
-          shae256: null,
+          hash: null,
           name: null,
-          classification: null,
+          class: null,
           score: {
             value: 0,
             total: 0,
@@ -96,8 +122,8 @@ export default {
       },
       type: Object,
     },
-    activity_date: {
-      default: null,
+    timestamp: {
+      default: 0,
       type: [String, Number],
     },
     follow: {
@@ -109,10 +135,13 @@ export default {
       type: String,
     },
   },
+  data: () => ({
+    tags: [],
+  }),
   computed: {
     ...userGetters,
     getActivityTimeAgo() {
-      return timeAgoCounts(this.activity_date);
+      return timeAgoCounts(this.timestamp);
     },
     getJoinedAgo() {
       return timeAgo(this.author.member_since);
@@ -129,28 +158,20 @@ export default {
       return (typeActivity && typeActivity.title) || "Unknown";
     },
     getTags() {
-      let tags = this.file.tags;
-      let tagkeys = Object.keys(tags || {}) || [];
-      return tagkeys.reduce((_tags, tagkey) => {
-        return [
-          ..._tags,
-          ...(tags[tagkey].map((tag) => {
-            return {
-              name: tag,
-              avg: isAnAVG(tagkey),
-            };
-          }) || []),
-        ];
-      }, []);
+      return this.tags;
     },
-    notSelfUser() {
+    hasTags() {
+      return this.getTags.length > 0;
+    },
+    isSelfUser() {
       return this.author.username !== this.getUser && this.getUser.username;
     },
     getClassification() {
-      return getClass(this.file.classification);
+      console.log(this.file.class);
+      return getClass(this.file.class);
     },
     getFileSummaryRoute() {
-      return `/file/${this.file.sha256}/summary`;
+      return `/file/${this.file.hash}/summary`;
     },
   },
   methods: {
@@ -159,6 +180,23 @@ export default {
       if (this.followed) return this.doUnFollow({ id: this.author.username });
       this.doFollow({ id: this.author.username });
     },
+    filterTags() {
+      let tags = this.file.tags;
+      let tagkeys = Object.keys(tags || {});
+
+      this.tags = tagkeys.reduce((all, tagKey) => {
+        return [
+          ...all,
+          ...(tags[tagKey] || []).map((tag) => ({
+            name: tag,
+            avg: isAnAVG(tag),
+          })),
+        ];
+      }, []);
+    },
+  },
+  created() {
+    this.filterTags();
   },
 };
 </script>
@@ -166,13 +204,13 @@ export default {
 <style lang="scss" scoped>
 .activity {
   > * {
-    @apply py-4 px-6 md:p-10;
+    @apply py-4 px-6 lg:p-10;
   }
   .header {
-    @apply flex flex-wrap w-full justify-between md:justify-center flex-grow border-none;
+    @apply flex flex-wrap w-full justify-between lg:justify-center flex-grow border-none;
 
     .profile-link {
-      @apply flex space-x-4 md:block md:space-x-0;
+      @apply flex space-x-4 lg:block lg:space-x-0;
     }
   }
   .activity-content {
@@ -180,7 +218,7 @@ export default {
 
     &,
     .tags {
-      @apply border-l-0 md:border-l md:border-gray md:border-opacity-10;
+      @apply border-l-0 lg:border-l lg:border-gray lg:border-opacity-10;
     }
 
     .info {
@@ -190,7 +228,7 @@ export default {
     }
 
     .tags {
-      @apply mt-8 mx-0 px-0 md:px-4 w-full;
+      @apply mt-8 mx-0 px-0 lg:px-4 w-full;
       .list li {
         @apply flex py-1 px-2 bg-blue-500 m-1 rounded text-light;
 

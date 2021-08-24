@@ -33,7 +33,7 @@ export function timeAgo(dateParam) {
         return 'Today'
     } else if (isYesterday) {
         return 'Yesterday'
-    } 
+    }
     return today.getFullYear();
 }
 
@@ -46,16 +46,19 @@ export function timeAgo(dateParam) {
  */
 export function timeAgoCounts(dateParam) {
     const time = typeof dateParam === 'number' ? dateParam : Date.parse(dateParam);
-    let seconds = Math.floor((Date.now() - time) / 1000);
-    let intervals = { 'year': 31536000 ,  'month': 2592000,  'day':86400, 'hours':3600 , 'minutes':60 , 'second':1 };
+
+    let seconds = Math.floor((Date.now() - time * 1000) / 1000);
+
+    let intervals = { 'year': 31536000, 'month': 2592000, 'day': 86400, 'hours': 3600, 'minutes': 60, 'second': 1 };
     let interval = 0;
-    let intkey = Object.keys(intervals).find(_key=>{
+
+    let intkey = Object.keys(intervals).find(_key => {
         interval = seconds / intervals[_key];
         return interval > 1;
     });
 
     let fi = Math.floor(interval);
-    return `${fi} ${intkey}${fi === 1 ? '':'s'}`;
+    return `${fi} ${intkey}${fi === 1 ? '' : 's'}`;
 }
 
 /**
@@ -63,7 +66,6 @@ export function timeAgoCounts(dateParam) {
  * @param {String} name 
  * @returns {Boolean}
  */
-export  function isAnAVG(name)
-{
-    return avgList.find(avg=> avg.toLowerCase() === name.toLowerCase()) !== undefined;
+export function isAnAVG(name) {
+    return avgList.find(avg => avg.toLowerCase() === name.toLowerCase()) !== undefined;
 }

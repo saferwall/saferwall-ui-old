@@ -1,26 +1,16 @@
 <template>
-  <upload-file />
-  <latest-activities :activities="getActivities" />
+  <!-- <upload-file /> -->
+  <latest-activities />
 </template>
 
 <script>
-import LatestActivities from '@/common/components/LatestActivities.vue'
-import UploadFile from '@/common/components/UploadFile.vue'
-import { activityGetters, activityMethods } from '@/state/helpers';
+// import UploadFile from "@/common/components/UploadFile.vue";
+import LatestActivities from "@/common/components/LatestActivities.vue";
 
 export default {
-  components:  {
-    UploadFile,
-    LatestActivities
+  components: {
+    // UploadFile,
+    LatestActivities,
   },
-  computed: {
-    ...activityGetters
-  },
-  methods: {
-    ...activityMethods
-  },
-  created(){
-    this.fetchActivities();
-  }
-}
+};
 </script>
