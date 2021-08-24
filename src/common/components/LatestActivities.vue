@@ -45,7 +45,9 @@ export default {
         this.activities = [
           ...this.activities,
           ...data.activities.filter(
-            (item) => !this.activities.find((a) => a.id === item.id)
+            (item) =>
+              item.type === "submit" &&
+              !this.activities.find((a) => a.id === item.id)
           ),
         ];
         this.pagination = { ...this.pagination, pages: data.pagination.pages };
