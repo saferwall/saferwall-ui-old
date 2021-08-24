@@ -11,6 +11,7 @@ export const state = {
 export const mutations = {
   SET_CURRENT_SESSION(state, session) {
     if (session === null) {
+      state.session = null;
       clearState('auth.session');
     } else {
 
@@ -22,12 +23,11 @@ export const mutations = {
       }
 
       saveState('auth.session', state.session)
-      setDefaultAuthHeaders(state)
     }
+    setDefaultAuthHeaders(state)
   },
   LOGOUT(state) {
-    state.session = null;
-    clearState('auth.session');
+    this.SET_CURRENT_SESSION(state, null);
     router.push({
       path: '/auth/login'
     });

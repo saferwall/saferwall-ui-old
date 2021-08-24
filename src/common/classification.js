@@ -1,12 +1,17 @@
 export const defaultclass = {
-    title: 'Benign',
+    title: 'Unknown',
     icon: 'unsafe',
-    color: 'red'
+    color: 'yellow'
 }
 export const classes = {
     'Label.BENIGN': {
-        title: 'Unknown',
+        title: 'Benign',
         icon: 'unsafe',
+        color: 'red'
+    },
+    'Label.MALICIOUS': {
+        title: 'Malicious',
+        icon: 'unsage',
         color: 'red'
     },
 }

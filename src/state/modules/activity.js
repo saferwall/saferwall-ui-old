@@ -1,59 +1,61 @@
 import axios from '@/services/axios'
 
 export const state = {
-    activities: []
+    activities: [],
+    pagination: {
+        page: 0,
+        pages: 0,
+        rows: 0,
+        total: 0
+    }
 }
 
 export const getters = {
-    getActivities(state){
+    getActivities(state) {
         return state.activities;
+    },
+    getPagination(state) {
+        return state.pagination;
     }
 }
 export const mutations = {
-    SET_ACTIVITIES(state,data){
+    SET_ACTIVITIES(state, data) {
         state.activities = data;
+    },
+    SET_PAGINATION(state, data) {
+        state.pagination = { ...state.pagination, ...data };
     }
 }
 
 export const actions = {
-    fetchActivities({ commit }){
+    fetchActivities({ commit, getters }, { pagination } = { pagination: { page: 0, rows: 10 } }) {
+        let params = {
+            per_page: pagination.rows,
+            page: pagination.page
+        };
+
+        console.log(params);
+
         return axios
-            .get('users/activities')
+            .get('users/activities', {
+                params
+            })
             .then(response => {
+
                 let data = response.data;
-                commit('SET_ACTIVITIES', mappers.mapActivities(data));
-                return data;
+                commit('SET_ACTIVITIES', data.items);
+
+                commit('SET_PAGINATION', {
+                    page: data.page,
+                    pages: data.page_count,
+                    limit: data.per_page,
+                    total: data.total_count,
+                });
+
+                return {
+                    activities: getters.getActivities,
+                    pagination: getters.getPagination,
+                };
             });
     },
-}
-
-export const mappers = {
-    mapActivities(activities){
-        return activities.map(activity => {
-            return {
-                type: activity.type,
-                author: {
-                    username: activity.username,
-                    member_since: activity.timestamp 
-                },
-                file: {
-                    name: 'Unknown',
-                    sha256: activity.content.sha256,
-                    classification: 'Unknown',
-                    tags: activity.tags,
-                    score : {
-                        value: activity.av_count || 0,
-                        total: 12
-                    },
-                },
-                activity_date: activity.timestamp,
-                comment : activity.content.body || null,
-                target : {
-                    username : activity.content.user || null,
-                    member_since : '2020'
-                },
-                follow: false,
-            }
-        })
-    }
 }
