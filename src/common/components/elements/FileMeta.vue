@@ -63,7 +63,7 @@ export default {
   computed: {
     getFileName() {
       const max = 30;
-      let name = this.filename;
+      let name = this.filename || "";
 
       if (name.length > max) {
         name = name.slice(0, max * 0.4) + "..." + name.slice(-max * 0.4);

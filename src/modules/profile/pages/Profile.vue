@@ -10,7 +10,10 @@
       v-on:switchTab="switchTabEvent($event)"
       :active="activeTab"
     >
-      <tab-type-submission :active="activeTab == 'likes'" :rows="data.likes">
+      <tab-type-submission
+        :active="activeTab == 'likes'"
+        :rows="data.likes || []"
+      >
         <template v-slot:emptymessage
           >{{ username }} has not liked anything yet for the moment</template
         >
@@ -18,7 +21,7 @@
 
       <tab-type-submission
         :active="activeTab == 'submissions'"
-        :rows="data.submissions"
+        :rows="data.submissions || []"
       >
         <template v-slot:emptymessage
           >{{ username }} has not made any submissions for the moment</template
@@ -27,7 +30,7 @@
 
       <tab-type-follow
         :active="activeTab == 'followers'"
-        :rows="data.followers"
+        :rows="data.followers || []"
       >
         <template v-slot:emptymessage
           >{{ username }} has no followers for the moment</template
@@ -36,14 +39,17 @@
 
       <tab-type-follow
         :active="activeTab == 'following'"
-        :rows="data.following"
+        :rows="data.following || []"
       >
         <template v-slot:emptymessage
           >{{ username }} does not subscribed to anyonefor the moment</template
         >
       </tab-type-follow>
 
-      <tab-type-comment :active="activeTab == 'comments'" :rows="data.comments">
+      <tab-type-comment
+        :active="activeTab == 'comments'"
+        :rows="data.comments || []"
+      >
         <template v-slot:emptymessage
           >{{ username }} has not commented on any filesfor the moment</template
         >
