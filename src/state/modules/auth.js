@@ -71,11 +71,12 @@ export const actions = {
 
     return axios
       .post('/auth/login/', { username, password })
-      .then((response) => {
+      .then(async (response) => {
         const session = response.data;
         commit('SET_CURRENT_SESSION', session)
+
         // dispatch('profile/updateProfile', null, { root: true });
-        return session
+        return await dispatch('user/fetchCurrentUser', username, { root: true });
       })
   },
 
