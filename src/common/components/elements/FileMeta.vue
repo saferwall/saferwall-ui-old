@@ -72,7 +72,6 @@ export default {
       return name;
     },
     getScore() {
-      console.log(this.scan);
       return this.scan;
     },
     getClassification() {

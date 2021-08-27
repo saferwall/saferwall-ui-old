@@ -8,6 +8,7 @@
       :tabs="profileTabs"
       class="profile-stats"
       v-on:switchTab="switchTabEvent($event)"
+      :active="activeTab"
     >
       <tab-type-submission :active="activeTab == 'likes'" :rows="data.likes">
         <template v-slot:emptymessage
@@ -140,8 +141,11 @@ export default {
 
       // Set new data
       this.activeTab = tab;
+      this.$router.replace({ params: { tab: tab } });
     },
-    refreshProfile(profile) {
+    refreshProfile() {
+      let profile = this.profile;
+
       // Update Profile Count & return first Tab
       this.profileTabs.map((tab) => {
         let count = this.tabs[tab.name];
@@ -149,9 +153,6 @@ export default {
         tab.title = tab.title.replace(/([\d])/gm, count);
         return tab;
       });
-
-      // Select default tab
-      this.switchTabEvent(this.profileTabs[0].name);
     },
     initPaginators() {
       this.tabs = {
@@ -174,7 +175,17 @@ export default {
     if (this.username && this.profile.username) {
       this.userExist = true;
       this.initPaginators();
-      this.refreshProfile(this.profile);
+      this.refreshProfile();
+
+      // Active Tabs
+      let defaultTab = (this.$route.params.tab || "").toLowerCase();
+      if (defaultTab) {
+        if (
+          Object.values(this.profileTabs).find((tab) => tab.name == defaultTab)
+        ) {
+          this.switchTabEvent(defaultTab);
+        }
+      }
 
       return;
     }

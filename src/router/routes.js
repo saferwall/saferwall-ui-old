@@ -70,7 +70,7 @@ const publicRoutes = [
         }
     },
     {
-        path: '/user/:id',
+        path: '/user/:id/:tab?',
         name: 'user',
         component: () => import('@/modules/profile/pages/User.vue'),
         meta: {
