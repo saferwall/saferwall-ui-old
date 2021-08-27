@@ -48,7 +48,7 @@ export const actions = {
                 let data = response.data;
                 commit('SET_CURRENT_PROFILE', {
                     username: username,
-                    data: data,
+                    ...data,
                     __expire_at: Date.now() + 1000 * 60 * 3 // 3min
                 });
                 return data;

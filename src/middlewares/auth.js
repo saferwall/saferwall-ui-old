@@ -5,6 +5,14 @@ export default async ({ store, next }) => {
     next({ name: 'login' })
   } else {
     // Continue to the login page
+    let username = store.getters['auth/getUsername'];
+
+    if (store.getters['user/getUser'].username) {
+      return next()
+    }
+
+    await store.dispatch('user/fetchCurrentUser', username, { root: true });
+
     next()
   }
 }

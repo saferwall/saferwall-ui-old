@@ -54,6 +54,9 @@ export const getters = {
     }
 
     return expired;
+  },
+  getUsername(state) {
+    return state.session.id;
   }
 }
 

@@ -11,12 +11,14 @@ import AppLayout from '@/layouts/AppLayout.vue'
  */
 import '@/assets/css/index.css'
 import 'mosha-vue-toastify/dist/style.css'
+import 'nprogress/nprogress.css';
 
 /**
  * Plugins
  */
 import KProgress from 'k-progress-v3';
-import moshaToast from 'mosha-vue-toastify'
+import moshaToast from 'mosha-vue-toastify';
+
 
 /**
  * Mixins
