@@ -80,7 +80,6 @@ export default class Paginatior {
     }
 
     getItems() {
-        console.log('Get Items : ', this.items);
         return this.items;
     }
 

@@ -167,7 +167,6 @@ export default {
       return this.author.username !== this.getUser && this.getUser.username;
     },
     getClassification() {
-      console.log(this.file.class);
       return getClass(this.file.class);
     },
     getFileSummaryRoute() {

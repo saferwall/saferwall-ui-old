@@ -4,7 +4,11 @@
       <h2><slot name="emptymessage" /></h2>
     </div>
     <template v-else>
-      <short-follower v-for="row in rows" :key="row.id" v-bind="row" />
+      <short-follower
+        v-for="row in rows"
+        :key="row.id"
+        v-bind="{ ...row, username: row.username || row.user }"
+      />
     </template>
   </card-tab>
 </template>
