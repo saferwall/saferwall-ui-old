@@ -49,6 +49,9 @@
         >
       </tab-type-comment>
     </card-tabs>
+    <show-more v-if="hasMore" v-on:click="showMore">
+      <p>Show more activities</p>
+    </show-more>
   </div>
 </template>
 
@@ -62,6 +65,7 @@ import ProfileBox from "../components/ProfileBox.vue";
 import TabTypeFollow from "../components/TabTypeFollow.vue";
 import TabTypeComment from "../components/TabTypeComment.vue";
 import TabTypeSubmission from "../components/TabTypeSubmission.vue";
+import ShowMore from "@/common/components/elements/button/ShowMore.vue";
 
 export default {
   components: {
@@ -70,6 +74,7 @@ export default {
     TabTypeSubmission,
     TabTypeFollow,
     TabTypeComment,
+    ShowMore,
   },
   pageTitle() {
     return this.username;
@@ -122,6 +127,9 @@ export default {
     getItems: (tab) => {
       return this.data[tab];
     },
+    hasMore() {
+      return this.activeTab && this.tabs[this.activeTab].isNextPossible();
+    },
   },
   methods: {
     ...userMethods,
@@ -132,12 +140,9 @@ export default {
       let paginator = this.tabs[tab];
 
       paginator
-        .setPage(1)
         .setLimit(10)
         .fetchItems()
-        .then((data) => {
-          this.data[tab] = data.items;
-        });
+        .then((data) => this.appendToTab(tab, data));
 
       // Set new data
       this.activeTab = tab;
@@ -163,10 +168,20 @@ export default {
         comments: new Paginator(`users/${this.username}/comments`),
       };
     },
+    showMore() {
+      // Fetch tab
+      let tab = this.activeTab;
+      let paginator = this.tabs[tab];
+
+      paginator.nextPage().then((data) => this.appendToTab(tab, data));
+    },
+    appendToTab(tab, data = []) {
+      this.data[tab] = [...this.data[tab], ...data.items];
+    },
   },
   async beforeMount() {
     // Profile data
-    this.username = this.$route.params.id;
+    this.username = this.$route.params.id || this.getUser.username;
 
     this.profile = await this.fetchProfile(this.username).catch(() => {
       this.$router.push({ path: "/" });
@@ -184,8 +199,11 @@ export default {
           Object.values(this.profileTabs).find((tab) => tab.name == defaultTab)
         ) {
           this.switchTabEvent(defaultTab);
+          return;
         }
       }
+
+      this.switchTabEvent(this.profileTabs[0].name);
 
       return;
     }

@@ -6,22 +6,23 @@
 
 <script>
 export default {
-  name : 'App'
-}
+  name: "App",
+};
 </script>
 
 
 <style lang="scss">
-body,html {
+body,
+html {
   background: $background-color;
   min-height: 100%;
 }
 
 body * {
-    max-width: 100%;
+  max-width: 100%;
 }
 
-#app{
-  min-height: 100%;
+#app {
+  @apply min-h-screen flex flex-col justify-start;
 }
 </style>

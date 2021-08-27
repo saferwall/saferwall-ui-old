@@ -99,7 +99,7 @@ export const actions = {
   validate({ state, dispatch }) {
     if (!getters.loggedIn(state)) return Promise.resolve(null)
 
-    dispatch('user/fetchCurrentUser', state.session.name, { root: true });
+    dispatch('user/fetchCurrentUser', state.session.id, { root: true });
     return Promise.resolve(state.session);
   },
 }

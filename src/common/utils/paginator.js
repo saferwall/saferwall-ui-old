@@ -39,7 +39,7 @@ export default class Paginatior {
     async fetchItems(params = {}) {
         return axios
             .get(this.apiURL, {
-                params: this.mapParams(params)
+                params: this.mapParams({ ...this.params, ...params })
             })
             .then(response => {
 
