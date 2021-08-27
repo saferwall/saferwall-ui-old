@@ -34,8 +34,6 @@ export const actions = {
             page: pagination.page
         };
 
-        console.log(params);
-
         return axios
             .get('users/activities', {
                 params

@@ -19,13 +19,25 @@
     </div>
     <div>
       <h4>File Name</h4>
-      <p>{{ filename }}</p>
+      <p @click="nameHover = true" v-if="!nameHover" :alt="filename">
+        {{ getFileName }}
+      </p>
+      <input
+        v-if="nameHover"
+        type="text"
+        :value="filename"
+        @mouseenter="$event.target.select()"
+        @mouseleave="nameHover = false"
+      />
     </div>
   </div>
 </template>
 
 <script>
 export default {
+  data: () => ({
+    nameHover: false,
+  }),
   props: {
     filename: {
       type: String,
@@ -41,6 +53,18 @@ export default {
       default: () => {
         return {};
       },
+    },
+  },
+  computed: {
+    getFileName() {
+      const max = 30;
+      let name = this.filename;
+
+      if (name.length > max) {
+        name = name.slice(0, max * 0.4) + "..." + name.slice(-max * 0.4);
+      }
+
+      return name;
     },
   },
 };

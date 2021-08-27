@@ -9,17 +9,14 @@
 </template>
 
 <script>
+import Paginator from "@/common/utils/paginator";
+
 import ListActivities from "./ListActivities.vue";
-import { activityGetters, activityMethods } from "@/state/helpers";
 
 export default {
   data: () => ({
     activities: [],
-    pagination: {
-      rows: 5,
-      page: 0,
-      pages: 0,
-    },
+    paginator: new Paginator("users/activities"),
   }),
   components: {
     ListActivities,
@@ -28,29 +25,17 @@ export default {
     getLatestActivities() {
       return this.activities;
     },
-    ...activityGetters,
     hasMore() {
-      return this.pagination.page < this.pagination.pages;
+      return this.paginator.isNextPossible();
     },
   },
   methods: {
-    ...activityMethods,
     showMore() {
-      console.log(this.pagination);
-      this.pagination.page++;
-
-      this.fetchActivities({
-        pagination: this.pagination,
-      }).then((data = { activities: [], pagination: {} }) => {
-        this.activities = [
-          ...this.activities,
-          ...data.activities.filter(
-            (item) =>
-              item.type === "submit" &&
-              !this.activities.find((a) => a.id === item.id)
-          ),
-        ];
-        this.pagination = { ...this.pagination, pages: data.pagination.pages };
+      this.paginator.nextPage().then((data) => {
+        if (data.items)
+          this.activities = [...this.activities, ...data.items].filter(
+            (v, i, l) => l.indexOf(v) === i
+          );
       });
     },
   },

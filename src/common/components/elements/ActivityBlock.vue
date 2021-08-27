@@ -55,8 +55,8 @@
             <b>{{ author.username }}</b> {{ getActivityTitle }} a file
             <span class="text-sm">{{ getActivityTimeAgo }} ago</span>
           </p>
-          <hash-input :hash="file.hash" class="mt-4"></hash-input>
         </router-link>
+        <hash-input :hash="file.hash" class="mt-4"></hash-input>
         <file-meta
           :filename="file.filename"
           :classification="getClassification"

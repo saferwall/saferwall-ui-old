@@ -27,7 +27,7 @@ export const mutations = {
     setDefaultAuthHeaders(state)
   },
   LOGOUT(state) {
-    this.SET_CURRENT_SESSION(state, null);
+    mutations.SET_CURRENT_SESSION(state, null);
     router.push({
       path: '/auth/login'
     });
