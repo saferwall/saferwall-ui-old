@@ -16,6 +16,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 
+- Fix Meta file with empty filename
 - Fix Auth by fetching user on the success logging
 - Fix Profile Tabs (API format changed)
 - Fix Short activities of Profile Tabs
