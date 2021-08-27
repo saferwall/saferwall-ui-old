@@ -53,28 +53,21 @@ export const actions = {
                 });
                 return data;
             });
-    },
-    fetchSection({ commit }, { username, section }) {
-        return axios
-            .get(`users/${username}/${section}`)
-            .then(response => {
-                let data = response.data;
-                commit('SET_SECTION_LIST', {
-                    username: username,
-                    section: section,
-                    data: data,
-                });
-                return data;
-            });
-    },
-    getSection: ({ state }, { username, name }) => {
-        return name && state.activities[username] && state.activities[username][name] || [];
     }
 }
 
 export const mappers = {
     mapProfile(profile) {
-        let data = {};["following_count", "followers_count", "likes_count", "comments_count", "submissions_count"].forEach(key => data[key] = profile[key]);
+        let data = {};
+        [
+            "following_count",
+            "followers_count",
+            "likes_count",
+            "comments_count",
+            "submissions_count",
+            ...Object.keys(profile)
+        ].forEach(key => data[key] = profile[key]);
+
         return {
             ...data,
             __expire_at: Date.now() + 1000 * 60 * 3 // 3min

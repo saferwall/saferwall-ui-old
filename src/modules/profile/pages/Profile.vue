@@ -9,10 +9,7 @@
       class="profile-stats"
       v-on:switchTab="switchTabEvent($event)"
     >
-      <tab-type-submission
-        :active="activeTab == 'likes'"
-        :rows="dataTabs.likes"
-      >
+      <tab-type-submission :active="activeTab == 'likes'" :rows="data.likes">
         <template v-slot:emptymessage
           >{{ username }} has not liked anything yet for the moment</template
         >
@@ -20,7 +17,7 @@
 
       <tab-type-submission
         :active="activeTab == 'submissions'"
-        :rows="dataTabs.submissions"
+        :rows="data.submissions"
       >
         <template v-slot:emptymessage
           >{{ username }} has not made any submissions for the moment</template
@@ -29,7 +26,7 @@
 
       <tab-type-follow
         :active="activeTab == 'followers'"
-        :rows="dataTabs.followers"
+        :rows="data.followers"
       >
         <template v-slot:emptymessage
           >{{ username }} has no followers for the moment</template
@@ -38,17 +35,14 @@
 
       <tab-type-follow
         :active="activeTab == 'following'"
-        :rows="dataTabs.following"
+        :rows="data.following"
       >
         <template v-slot:emptymessage
           >{{ username }} does not subscribed to anyonefor the moment</template
         >
       </tab-type-follow>
 
-      <tab-type-comment
-        :active="activeTab == 'comments'"
-        :rows="dataTabs.comments"
-      >
+      <tab-type-comment :active="activeTab == 'comments'" :rows="data.comments">
         <template v-slot:emptymessage
           >{{ username }} has not commented on any filesfor the moment</template
         >
@@ -58,13 +52,15 @@
 </template>
 
 <script>
+import Paginator from "@/common/utils/paginator";
 import { userMethods, userGetters } from "@/state/helpers";
 
 import CardTabs from "@/common/components/elements/CardTabs.vue";
+
 import ProfileBox from "../components/ProfileBox.vue";
-import TabTypeSubmission from "../components/TabTypeSubmission.vue";
 import TabTypeFollow from "../components/TabTypeFollow.vue";
 import TabTypeComment from "../components/TabTypeComment.vue";
+import TabTypeSubmission from "../components/TabTypeSubmission.vue";
 
 export default {
   components: {
@@ -81,11 +77,17 @@ export default {
     return {
       username: null,
       profile: {},
-      dataTabs: {
+      tabs: {
+        likes: {},
+        submissions: {},
+        followers: {},
+        following: {},
+        comments: {},
+      },
+      data: {
         likes: [],
         submissions: [],
         followers: [],
-        following: [],
         comments: [],
       },
       profileTabs: [
@@ -116,6 +118,9 @@ export default {
   },
   computed: {
     ...userGetters,
+    getItems: (tab) => {
+      return this.data[tab];
+    },
   },
   methods: {
     ...userMethods,
@@ -123,22 +128,23 @@ export default {
       if (!this.userExist) return;
 
       // Fetch tab
-      await this.fetchSection({
-        username: this.username,
-        section: tab,
-      });
+      let paginator = this.tabs[tab];
+
+      paginator
+        .setPage(1)
+        .setLimit(10)
+        .fetchItems()
+        .then((data) => {
+          this.data[tab] = data.items;
+        });
 
       // Set new data
       this.activeTab = tab;
-      this.dataTabs[tab] = this.getSection({
-        username: this.username,
-        name: tab,
-      });
     },
     refreshProfile(profile) {
       // Update Profile Count & return first Tab
       this.profileTabs.map((tab) => {
-        let count = this.dataTabs[tab.name];
+        let count = this.tabs[tab.name];
         count = profile[`${tab.name}_count`] || 0;
         tab.title = tab.title.replace(/([\d])/gm, count);
         return tab;
@@ -147,31 +153,31 @@ export default {
       // Select default tab
       this.switchTabEvent(this.profileTabs[0].name);
     },
+    initPaginators() {
+      this.tabs = {
+        likes: new Paginator(`users/${this.username}/likes`),
+        submissions: new Paginator(`users/${this.username}/submissions`),
+        followers: new Paginator(`users/${this.username}/followers`),
+        following: new Paginator(`users/${this.username}/following`),
+        comments: new Paginator(`users/${this.username}/comments`),
+      };
+    },
   },
   async beforeMount() {
-    // Self user profile
-    let userProfile = await this.getProfile();
-
     // Profile data
-    this.username = this.$route.params.id || userProfile?.username;
-    if (this.username) {
-      this.profile = (
-        await (async () => {
-          let profile = await this.fetchProfile(this.username).then((data) => {
-            this.userExist = true;
+    this.username = this.$route.params.id;
 
-            console.log(data);
-            return data;
-          });
-          this.refreshProfile(profile);
-          return profile;
-        })
-      )();
+    this.profile = await this.fetchProfile(this.username).catch(() => {
+      this.$router.push({ path: "/" });
+    });
+
+    if (this.username && this.profile.username) {
+      this.userExist = true;
+      this.initPaginators();
+      this.refreshProfile(this.profile);
+
+      return;
     }
-    this.profile = {
-      ...this.profile,
-      ...((userProfile && userProfile.data) || {}),
-    };
   },
 };
 </script>

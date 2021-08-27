@@ -44,8 +44,10 @@ export default class Paginatior {
             .then(response => {
 
                 let data = response.data;
+                let items = data.items || [];
 
-                this.setItems(data.items);
+                this.setItems(items);
+
                 this.setPagination({
                     page: data.page,
                     pages: data.page_count,
@@ -54,7 +56,7 @@ export default class Paginatior {
                 });
 
                 return {
-                    items: data.items,
+                    items: items,
                     pagination: this.getPagination(),
                 };
             });
@@ -63,22 +65,35 @@ export default class Paginatior {
 
     setPage(page) {
         this.params.page = page;
+
+        return this;
     }
 
     setLimit(limit) {
         this.params.limit = limit;
+
+        return this;
     }
 
     getPagination() {
         return this.pagination;
     }
 
+    getItems() {
+        console.log('Get Items : ', this.items);
+        return this.items;
+    }
+
     setPagination(items = {}) {
         this.pagination = { ...this.pagination, ...items };
+
+        return this;
     }
 
     setItems(items = []) {
         this.items = items;
+
+        return this;
     }
 
     isNextPossible() {

@@ -2,20 +2,20 @@
   <div class="filemeta">
     <div>
       <h4>Classification</h4>
-      <p :class="classification.color">
+      <p :class="getClassification.color">
         <svg class="mr-1" width="22" height="22" viewBox="0 0 24 24">
           <use
-            :xlink:href="`/assets/icons/classification.svg#${classification.icon}`"
+            :xlink:href="`/assets/icons/classification.svg#${getClassification.icon}`"
             width="15"
             height="15"
           ></use>
         </svg>
-        <span>{{ classification.title }}</span>
+        <span>{{ getClassification.title }}</span>
       </p>
     </div>
     <div>
       <h4>Antivirus</h4>
-      <p>{{ scan.value }}/{{ scan.count }}</p>
+      <p>{{ getScore.value }}/{{ getScore.count }}</p>
     </div>
     <div>
       <h4>File Name</h4>
@@ -34,6 +34,8 @@
 </template>
 
 <script>
+import { getClass } from "@/common/classification";
+
 export default {
   data: () => ({
     nameHover: false,
@@ -45,7 +47,10 @@ export default {
     scan: {
       type: Object,
       default: () => {
-        return {};
+        return {
+          count: 0,
+          value: 0,
+        };
       },
     },
     classification: {
@@ -65,6 +70,13 @@ export default {
       }
 
       return name;
+    },
+    getScore() {
+      console.log(this.scan);
+      return this.scan;
+    },
+    getClassification() {
+      return getClass(this.classification);
     },
   },
 };
