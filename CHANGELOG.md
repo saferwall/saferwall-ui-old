@@ -13,11 +13,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 
+- Fix (Un).(Follow/Likes) Actions
+- Fix On logout remove default authorization header
+- Fix Responsive for activity type of follow
 - Fix Activiy type follow
 - Fix Classification, Lowercase issues
 
 ### Change
 
+- Change FileMeta, Hide score(avg) when its not available
 - Change `Unlik` to `Unlike`
 - Change key `timestamp` to `date`
 - Chanage Icons, Colors of Classification func

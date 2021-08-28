@@ -13,7 +13,7 @@
         <span>{{ getClassification.title }}</span>
       </p>
     </div>
-    <div>
+    <div v-if="getScore.count">
       <h4>Antivirus</h4>
       <p>{{ getScore.value }}/{{ getScore.count }}</p>
     </div>

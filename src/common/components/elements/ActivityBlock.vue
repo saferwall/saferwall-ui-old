@@ -216,7 +216,7 @@ export default {
     @apply flex md:flex-row w-full;
 
     .profile-link {
-      @apply flex flex-col lg:flex-row items-center space-x-4 justify-between;
+      @apply text-xs sm:text-base flex flex-col lg:flex-row items-center space-x-4 justify-between;
 
       &.target {
         @apply flex-col-reverse lg:flex-row;

@@ -12,22 +12,23 @@ export const mutations = {
   SET_CURRENT_SESSION(state, session) {
     if (session === null) {
       state.session = null;
-      clearState('auth.session');
-    } else {
-
-      try {
-        state.session = jwtDecode(session.token);
-        state.session.token = session.token;
-      } catch (e) {
-        console.warn('Token decode failed', session)
-      }
-
-      saveState('auth.session', state.session)
+      setDefaultAuthHeaders(state)
+      return clearState('auth.session');
     }
+
+    try {
+      state.session = jwtDecode(session.token);
+      state.session.token = session.token;
+    } catch (e) {
+      console.warn('Token decode failed', session)
+    }
+
     setDefaultAuthHeaders(state)
+    saveState('auth.session', state.session)
   },
   LOGOUT(state) {
     mutations.SET_CURRENT_SESSION(state, null);
+
     router.push({
       path: '/auth/login'
     });
@@ -110,6 +111,8 @@ export const actions = {
 
 function setDefaultAuthHeaders(state) {
   if (state.session) {
-    axios.defaults.headers.common.Authorization = `Bearer ${state.session.token}`
+    return axios.defaults.headers.common.Authorization = `Bearer ${state.session.token}`
   }
+
+  return axios.defaults.headers.common.Authorization = null
 }
