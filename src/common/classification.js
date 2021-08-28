@@ -1,23 +1,23 @@
 export const defaultclass = {
     title: 'Unknown',
     icon: 'unsafe',
-    color: 'yellow'
+    color: 'orange'
 }
 export const classes = {
-    'Label.BENIGN': {
+    'label.benign': {
         title: 'Benign',
-        icon: 'unsafe',
-        color: 'red'
+        icon: 'safe',
+        color: 'green'
     },
-    'Label.MALICIOUS': {
+    'label.malicious': {
         title: 'Malicious',
-        icon: 'unsage',
+        icon: 'danger',
         color: 'red'
     },
 }
 
 export const getClass = (c) => {
-    return classes[c] || defaultclass
+    return classes[(c + "").toLowerCase()] || defaultclass
 }
 
 

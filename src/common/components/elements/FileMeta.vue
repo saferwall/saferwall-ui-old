@@ -94,15 +94,15 @@ export default {
   }
 
   .red {
-    @apply text-danger;
+    @apply stroke-white fill-danger text-danger;
   }
 
   .green {
-    @apply text-success;
+    @apply stroke-white fill-success text-success;
   }
 
   .orange {
-    @apply text-warning;
+    @apply stroke-white fill-warning text-warning;
   }
 }
 </style>

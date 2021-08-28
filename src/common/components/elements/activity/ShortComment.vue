@@ -45,13 +45,13 @@ export default {
       default: false,
       type: Boolean,
     },
-    timestamp: {
+    date: {
       type: [Number, String],
     },
   },
   computed: {
     getCommentedDate() {
-      return new Date(this.timestamp).toDateString();
+      return new Date(this.date).toDateString();
     },
     getContent() {
       return (this.comment || "").replace(/<\/?[^>]+>/gi, " ");

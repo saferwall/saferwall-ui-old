@@ -16,7 +16,7 @@ import ListActivities from "./ListActivities.vue";
 export default {
   data: () => ({
     activities: [],
-    paginator: new Paginator("users/activities"),
+    paginator: new Paginator("users/activities").setLimit(100),
   }),
   components: {
     ListActivities,
@@ -34,7 +34,7 @@ export default {
       this.paginator.nextPage().then((data) => {
         if (data.items)
           this.activities = [...this.activities, ...data.items].filter(
-            (v, i, l) => l.indexOf(v) === i
+            (v, i, l) => l.filter((r) => r.id === v.id).length <= 1
           );
       });
     },

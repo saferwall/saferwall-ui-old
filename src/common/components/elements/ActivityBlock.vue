@@ -1,51 +1,40 @@
 <template>
-  <div
-    class="
-      activity
-      lg:grid
-      items-center
-      justify-center
-      lg:grid-cols-5
-      lg:gap-4
-      bg-white
-      my-3
-      lg:rounded-xl
-    "
-  >
+  <div class="activity" :class="isFollow ? 'followtype' : 'filetype'">
     <div class="header border text-center">
       <router-link class="profile-link" :to="`/user/${author.username}`">
-        <avatar
-          :username="author.username"
-          :source="`//avatar.saferwall.com/${author.username}`"
-        />
+        <avatar :username="author.username" />
         <div class="info mt-3">
           <h3 class="text-xl font-bold">{{ author.username }}</h3>
           <p class="text-gray">Member since {{ getJoinedAgo }}</p>
         </div>
       </router-link>
-      <div class="buttons mt-3" v-if="!isSelfUser">
+      <div v-if="isFollow" class="flex flex-col justify-center">
+        <p>Followed</p>
+        <p>{{ getActivityTimeAgo }} ago</p>
+      </div>
+      <div class="buttons mt-3" v-if="!isSelfUser && !isFollow">
         <button
           @click="toggleFollow"
           :class="follow ? 'active' : ''"
-          class="
-            follow
-            inline-grid
-            font-bold
-            text-primary
-            border
-            rounded-md
-            border-gray
-            py-2
-            w-max
-            px-6
-            cursor-pointer
-          "
+          class="follow"
         >
           {{ follow ? "UnFollow" : "Follow" }}
         </button>
       </div>
+      <template v-else-if="isFollow">
+        <router-link class="profile-link target" :to="`/user/${target}`">
+          <div class="info mt-3">
+            <h3 class="text-xl font-bold">{{ target }}</h3>
+            <p class="text-gray">Member since {{ getJoinedAgo }}</p>
+          </div>
+          <avatar :username="target" />
+        </router-link>
+      </template>
     </div>
-    <div class="activity-content col-span-4 grid lg:grid-cols-4">
+    <div
+      class="activity-content col-span-4 grid lg:grid-cols-4"
+      v-if="!isFollow"
+    >
       <div
         class="info mr-10"
         :class="(!hasTags && 'col-span-4') || 'col-span-3'"
@@ -58,9 +47,9 @@
         </router-link>
         <hash-input :hash="file.hash" class="mt-4"></hash-input>
         <file-meta
-          :filename="file.filename"
-          :classification="getClassification"
           :scan="file.multiav"
+          :filename="file.filename"
+          :classification="file.class"
         />
       </div>
       <div v-if="hasTags" class="tags">
@@ -122,13 +111,17 @@ export default {
       },
       type: Object,
     },
-    timestamp: {
+    date: {
       default: 0,
       type: [String, Number],
     },
     follow: {
       default: true,
       type: Boolean,
+    },
+    target: {
+      default: null,
+      type: String,
     },
     type: {
       default: "submit",
@@ -141,7 +134,7 @@ export default {
   computed: {
     ...userGetters,
     getActivityTimeAgo() {
-      return timeAgoCounts(this.timestamp);
+      return timeAgoCounts(this.date);
     },
     getJoinedAgo() {
       return timeAgo(this.author.member_since);
@@ -171,6 +164,9 @@ export default {
     },
     getFileSummaryRoute() {
       return `/file/${this.file.hash}/summary`;
+    },
+    isFollow() {
+      return this.type == "follow" || this.target != null;
     },
   },
   methods: {
@@ -202,16 +198,40 @@ export default {
 
 <style lang="scss" scoped>
 .activity {
+  @apply items-center justify-center bg-white my-3 lg:rounded-xl;
+
+  &.filetype {
+    @apply lg:grid-cols-5 lg:gap-4 lg:grid;
+
+    .header {
+      @apply lg:justify-center;
+
+      .profile-link {
+        @apply flex space-x-4 lg:block lg:space-x-0;
+      }
+    }
+  }
+
+  &.followtype {
+    @apply flex md:flex-row w-full;
+
+    .profile-link {
+      @apply flex flex-col lg:flex-row items-center space-x-4 justify-between;
+
+      &.target {
+        @apply flex-col-reverse lg:flex-row;
+      }
+    }
+  }
+
+  .header {
+    @apply flex flex-wrap w-full justify-between flex-grow border-none;
+  }
+
   > * {
     @apply py-4 px-6 lg:p-10;
   }
-  .header {
-    @apply flex flex-wrap w-full justify-between lg:justify-center flex-grow border-none;
 
-    .profile-link {
-      @apply flex space-x-4 lg:block lg:space-x-0;
-    }
-  }
   .activity-content {
     @apply my-3 break-all;
 
@@ -244,6 +264,10 @@ export default {
         @apply bg-primary bg-opacity-10 border-none;
       }
     }
+  }
+
+  .follow {
+    @apply inline-grid font-bold text-primary border rounded-md border-gray py-2 w-max px-6 cursor-pointer;
   }
 }
 </style>
