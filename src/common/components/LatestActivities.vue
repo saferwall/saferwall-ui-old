@@ -16,7 +16,7 @@ import ListActivities from "./ListActivities.vue";
 export default {
   data: () => ({
     activities: [],
-    paginator: new Paginator("users/activities").setLimit(100),
+    paginator: new Paginator("users/activities").setLimit(5),
   }),
   components: {
     ListActivities,
