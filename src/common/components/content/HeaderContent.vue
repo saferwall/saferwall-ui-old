@@ -51,7 +51,7 @@ export default {
 
 <style lang="scss" scoped>
 .app-content {
-  @apply md:w-9/12 lg:w-8/12 mx-auto pt-32 pb-10;
+  @apply mx-auto pt-24 pb-10;
 
   .page-header {
     @apply flex flex-wrap p-8 md:p-0;

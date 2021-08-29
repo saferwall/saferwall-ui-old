@@ -1,12 +1,16 @@
 import axios from '@/services/axios'
+import nProgress from 'nprogress';
 
 export const actions = {
     doAction(_, { id, type, action }) {
+        nProgress.start();
+
         return axios
             .post(
                 `${type}/${id}/${action}`
             )
             .then(response => {
+                nProgress.done();
                 return response.data;
             })
     },

@@ -5,15 +5,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 
-## [Unreleased] - 2021-08-29
+## [Unreleased]
+
+
+## [1.1.2] - 2021-08-29
+
+### Added
+
+- Add a counter updated when self profile do (+un) follow/like actions
 
 ### Fixed
 
-- Fix duplicated activities on profile tabs
+- Fix avatar by setting the default generated avatar and change on avatar image is loaded successfully
 - Fix Profile following tab
+- Fix duplicated activities on profile tabs
 - Fix the padding of activities of profile in mobile 
 
-# [1.1.1] 2021-08-28
+### Change
+
+- Keep Same width size for all content
 
 ### Added
 

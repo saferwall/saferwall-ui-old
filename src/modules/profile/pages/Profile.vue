@@ -13,6 +13,7 @@
       <tab-type-submission
         :active="activeTab == 'likes'"
         :rows="data.likes || []"
+        @doAction="onTabAction"
       >
         <template v-slot:emptymessage
           >{{ username }} has not liked anything yet for the moment</template
@@ -22,6 +23,7 @@
       <tab-type-submission
         :active="activeTab == 'submissions'"
         :rows="data.submissions || []"
+        @doAction="onTabAction"
       >
         <template v-slot:emptymessage
           >{{ username }} has not made any submissions for the moment</template
@@ -31,6 +33,7 @@
       <tab-type-follow
         :active="activeTab == 'followers'"
         :rows="data.followers || []"
+        @doAction="onTabAction"
       >
         <template v-slot:emptymessage
           >{{ username }} has no followers for the moment</template
@@ -40,6 +43,7 @@
       <tab-type-follow
         :active="activeTab == 'following'"
         :rows="data.following || []"
+        @doAction="onTabAction"
       >
         <template v-slot:emptymessage
           >{{ username }} does not subscribed to anyonefor the moment</template
@@ -49,6 +53,7 @@
       <tab-type-comment
         :active="activeTab == 'comments'"
         :rows="data.comments || []"
+        @doAction="onTabAction"
       >
         <template v-slot:emptymessage
           >{{ username }} has not commented on any filesfor the moment</template
@@ -89,7 +94,7 @@ export default {
     return {
       username: null,
       profile: {},
-      tabs: {
+      paginators: {
         likes: {},
         submissions: {},
         followers: {},
@@ -100,30 +105,41 @@ export default {
         likes: [],
         submissions: [],
         followers: [],
+        following: [],
         comments: [],
       },
-      profileTabs: [
-        {
+      profileTabs: {
+        likes: {
           name: "likes",
-          title: "Likes (0)",
+          _title: "Likes",
+          count: 0,
+          title: "",
         },
-        {
+        submissions: {
           name: "submissions",
-          title: "Submissions (0)",
+          _title: "Submissions",
+          count: 0,
+          title: "",
         },
-        {
+        followers: {
           name: "followers",
-          title: "Followers (0)",
+          _title: "Followers",
+          count: 0,
+          title: "",
         },
-        {
+        following: {
           name: "following",
-          title: "Following (0)",
+          _title: "Following",
+          count: 0,
+          title: "",
         },
-        {
+        comments: {
           name: "comments",
-          title: "Comments (0)",
+          _title: "Comments",
+          count: 0,
+          title: "",
         },
-      ],
+      },
       activeTab: null,
       userExist: false,
     };
@@ -134,7 +150,7 @@ export default {
       return this.data[tab];
     },
     hasMore() {
-      return this.activeTab && this.tabs[this.activeTab].isNextPossible();
+      return this.activeTab && this.paginators[this.activeTab].isNextPossible();
     },
   },
   methods: {
@@ -143,7 +159,7 @@ export default {
       if (!this.userExist) return;
 
       // Fetch tab
-      let paginator = this.tabs[tab];
+      let paginator = this.paginators[tab];
 
       paginator
         .setLimit(10)
@@ -158,15 +174,12 @@ export default {
       let profile = this.profile;
 
       // Update Profile Count & return first Tab
-      this.profileTabs.map((tab) => {
-        let count = this.tabs[tab.name];
-        count = profile[`${tab.name}_count`] || 0;
-        tab.title = tab.title.replace(/([\d])/gm, count);
-        return tab;
+      Object.values(this.profileTabs).map((tab) => {
+        this.profileTabs[tab.name].count = profile[`${tab.name}_count`] || 0;
       });
     },
     initPaginators() {
-      this.tabs = {
+      this.paginators = {
         likes: new Paginator(`users/${this.username}/likes`),
         submissions: new Paginator(`users/${this.username}/submissions`),
         followers: new Paginator(`users/${this.username}/followers`),
@@ -177,7 +190,7 @@ export default {
     showMore() {
       // Fetch tab
       let tab = this.activeTab;
-      let paginator = this.tabs[tab];
+      let paginator = this.paginators[tab];
 
       paginator.nextPage().then((data) => this.appendToTab(tab, data));
     },
@@ -185,13 +198,39 @@ export default {
       this.data[tab] = this.data[tab] || [];
 
       data.items.forEach((item) => {
-        console.log(item);
         if (
           !item.id ||
           this.data[tab].filter((_item) => _item.id == item.id).length === 0
         ) {
           this.data[tab].push(item);
         }
+      });
+    },
+    onTabAction({ type }) {
+      if (this.getUser.username !== this.username) return;
+
+      switch (type) {
+        case "like":
+          this.profileTabs.likes.count++;
+          break;
+        case "unlike":
+          this.profileTabs.likes.count--;
+          break;
+        case "follow":
+          this.profileTabs.following.count++;
+          break;
+        case "unfollow":
+          this.profileTabs.following.count--;
+          break;
+      }
+
+      console.log(" action", type);
+
+      this.refreshTabTitles();
+    },
+    refreshTabTitles() {
+      Object.values(this.profileTabs).forEach((tab) => {
+        this.profileTabs[tab.name].title = `${tab._title} (${tab.count})`;
       });
     },
   },
@@ -207,6 +246,7 @@ export default {
       this.userExist = true;
       this.initPaginators();
       this.refreshProfile();
+      this.refreshTabTitles();
 
       // Active Tabs
       let defaultTab = (this.$route.params.tab || "").toLowerCase();
@@ -219,7 +259,7 @@ export default {
         }
       }
 
-      this.switchTabEvent(this.profileTabs[0].name);
+      this.switchTabEvent("likes");
 
       return;
     }

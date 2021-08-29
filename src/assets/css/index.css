@@ -13,3 +13,7 @@ html {
 *{
   word-wrap: all;
 }
+
+.app-content {
+  @apply mt-20 md:w-10/12 lg:w-9/12 xl:w-8/12 justify-start mx-auto flex flex-grow flex-col;
+}

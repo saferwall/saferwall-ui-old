@@ -7,6 +7,7 @@
       <short-follower
         v-for="row in rows"
         :key="row.id"
+        @doAction="$emit('doAction', $event)"
         v-bind="{ ...row, username: row.username || row.user }"
       />
     </template>
@@ -22,6 +23,7 @@ export default {
     CardTab,
     ShortFollower,
   },
+  emits: ["doAction"],
   props: {
     rows: {
       type: Array,

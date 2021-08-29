@@ -28,6 +28,7 @@ export default {
     FileMeta,
     BtnLike,
   },
+  emits: ["doAction"],
   props: {
     id: {
       type: String,
@@ -50,10 +51,12 @@ export default {
       if (this.dliked) {
         return this.doUnLike({ id: this.file.hash }).then(() => {
           this.dliked = false;
+          this.$emit("doAction", { type: "unlike", target: this.file.hash });
         });
       }
       this.doLike({ id: this.file.hash }).then(() => {
         this.dliked = true;
+        this.$emit("doAction", { type: "like", target: this.file.hash });
       });
     },
   },

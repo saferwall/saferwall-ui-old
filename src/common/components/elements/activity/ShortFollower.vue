@@ -35,6 +35,7 @@ export default {
     Avatar,
     BtnFollow,
   },
+  emits: ["doAction"],
   props: {
     username: {
       type: String,
@@ -67,10 +68,12 @@ export default {
       if (this.dfollowed) {
         return this.doUnFollow({ id: this.username }).then(() => {
           this.dfollowed = false;
+          this.$emit("doAction", { type: "unfollow", target: this.username });
         });
       }
       this.doFollow({ id: this.username }).then(() => {
         this.dfollowed = true;
+        this.$emit("doAction", { type: "follow", target: this.username });
       });
     },
   },
@@ -85,7 +88,7 @@ export default {
   @apply flex flex-wrap items-center justify-between md:p-6 md:mx-4 my-4;
 
   .fuser-username {
-    @apply font-bold text-base  md:text-lg break-all;
+    @apply font-bold text-base break-all;
   }
   .fuser-resgistred {
     @apply text-gray-medium mt-1;

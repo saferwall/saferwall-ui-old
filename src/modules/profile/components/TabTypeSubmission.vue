@@ -4,7 +4,12 @@
       <h2><slot name="emptymessage" /></h2>
     </div>
     <template v-else>
-      <short-submission v-for="row in getRows" :key="row.id" v-bind="row" />
+      <short-submission
+        v-for="row in getRows"
+        :key="row.id"
+        v-bind="row"
+        @doAction="$emit('doAction', $event)"
+      />
     </template>
   </card-tab>
 </template>
@@ -18,6 +23,7 @@ export default {
     CardTab,
     ShortSubmission,
   },
+  emits: ["doAction"],
   props: {
     rows: {
       default: [],
