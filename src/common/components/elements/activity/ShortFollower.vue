@@ -82,10 +82,10 @@ export default {
 
 <style lang="scss" scoped>
 .short-follower {
-  @apply flex flex-wrap items-center justify-between p-6 m-4;
+  @apply flex flex-wrap items-center justify-between md:p-6 md:mx-4 my-4;
 
   .fuser-username {
-    @apply font-bold  text-lg;
+    @apply font-bold text-base  md:text-lg break-all;
   }
   .fuser-resgistred {
     @apply text-gray-medium mt-1;

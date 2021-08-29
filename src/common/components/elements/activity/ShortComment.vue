@@ -62,10 +62,14 @@ export default {
 
 <style lang="scss" scoped>
 .short-comment {
-  @apply flex flex-wrap items-center justify-between p-6 m-4 space-y-6;
+  @apply flex flex-wrap items-center justify-between md:p-6 md:mx-4 my-4 space-y-6;
 
   .cmt-info {
-    @apply flex flex-col space-y-2;
+    @apply flex flex-col space-y-2 mt-4;
+
+    .cmt-body {
+      @apply break-all;
+    }
   }
 
   .cmt-date {

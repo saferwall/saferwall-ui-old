@@ -5,19 +5,26 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 
-## [Unreleased] 
+## [Unreleased] - 2021-08-29
+
+### Fixed
+
+- Fix Profile following tab
+- Fix the padding of activities of profile in mobile 
+
+# [1.1.1] 2021-08-28
 
 ### Added
 
-- Add Follow Activity block type
+- Add New type to activity: Follow
 
 ### Fixed
 
 - Fix (Un).(Follow/Likes) Actions
-- Fix On logout remove default authorization header
-- Fix Responsive for activity type of follow
-- Fix Activiy type follow
-- Fix Classification, Lowercase issues
+- Fix on logout remove default authorization header
+- Fix of the responsiveness for the type follow activity
+- Fix activity type follow
+- Fix classification, Lowercase issues
 
 ### Change
 
@@ -25,7 +32,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Change `Unlik` to `Unlike`
 - Change key `timestamp` to `date`
 - Chanage Icons, Colors of Classification func
-- Change Displayed activities to all on latest activities
+- Change the displayed activities to all the most recent ones
 
 
 ## [1.1.0] - 2021-08-27

@@ -1,6 +1,6 @@
 <template>
   <footer>
-    <div class="content grid grid-cols-3 gap-4 flex items-center">
+    <div class="content">
       <div class="copyright justify-start">
         &copy; {{ copyright }} {{ name }}. All rights reserved.
       </div>
@@ -53,10 +53,11 @@ export default {
 
 <style lang="scss" scoped>
 footer {
-  @apply w-full  bg-white justify-end mt-auto;
+  @apply w-full bg-white justify-end mt-auto;
 
   .content {
-    @apply md:w-9/12 lg:w-8/12 m-auto h-20;
+    @apply md:w-9/12 lg:w-8/12 m-auto md:h-20 p-1 text-center;
+    @apply flex flex-col md:grid md:grid-cols-3 md:gap-4 flex items-center;
   }
   &.sactive .content {
     @apply w-full;

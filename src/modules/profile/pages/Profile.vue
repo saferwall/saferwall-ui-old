@@ -182,7 +182,7 @@ export default {
       paginator.nextPage().then((data) => this.appendToTab(tab, data));
     },
     appendToTab(tab, data = []) {
-      this.data[tab] = [...this.data[tab], ...data.items];
+      this.data[tab] = [...(this.data[tab]||[]), ...(data.items||[])];
     },
   },
   async beforeMount() {

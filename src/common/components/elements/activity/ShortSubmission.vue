@@ -65,7 +65,7 @@ export default {
 
 <style lang="scss" scoped>
 .like-box {
-  @apply px-8 py-8;
+  @apply md:px-8 py-8;
 
   .row-hash {
     @apply flex items-center;
