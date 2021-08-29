@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 
+- Fix duplicated activities on profile tabs
 - Fix Profile following tab
 - Fix the padding of activities of profile in mobile 
 
