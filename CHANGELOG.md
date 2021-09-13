@@ -4,15 +4,21 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
-## [Unreleased] - [1.1.3] - 2021-08-29
+## [Unreleased]
+
+## [1.1.3] - 2021-08-29
 
 ### Added
 
-- Update basic profile information (settings page)
+- Settings : Update basic profile information (settings page)
+- Settings : Update Password
+- Settings : Update Email
 
 ### Change
 
 - Remove elements input and textarea and add css classes custom-input
+- Custom Btn bind attrs
+- Remove Tab delete account (tmp)
 
 ## [1.1.2] - 2021-08-29
 

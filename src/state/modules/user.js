@@ -1,6 +1,10 @@
 import axios from '@/services/axios'
 import { createToast } from 'mosha-vue-toastify';
 
+const onCatchError = (err) => {
+    createToast(err.response.data && err.response.data.message || err.message || "Update faild ! try again", { type: "danger", position: "bottom-right" });
+}
+
 export const state = {
     user: {},
     profiles: {},
@@ -26,6 +30,9 @@ export const mutations = {
     SET_SECTION_LIST(state, { username, section, data }) {
         state.activities[username] = {};
         state.activities[username][section] = data;
+    },
+    UPDATE_PROFILE(state, data) {
+        state.user = { ...state.user, ...data };
     }
 }
 
@@ -62,7 +69,7 @@ export const actions = {
             .then(response => {
                 let data = response.data;
 
-                commit('SET_CURRENT_PROFILE', {
+                commit('UPDATE_PROFILE', {
                     ...data,
                     __expire_at: Date.now() + 1000 * 60 * 3 // 3min
                 });
@@ -72,10 +79,25 @@ export const actions = {
                 return response;
             }).catch((err) => {
                 createToast(
-                    (err.response.status == 404 && "Update faild ! try again") || err.response.data && err.response.data.message || err.message,
+                    err.response.data && err.response.data.message || err.message || "Update faild ! try again",
                     { type: "danger", position: "bottom-right" }
                 );
             });
+    },
+    updateEmail({ commit, state }, { email, password }) {
+        let user = state.user;
+
+        return axios.patch(`users/${user.username}/email`, { email, password })
+            .then(resp => {
+                let data = resp.data;
+
+                commit('UPDATE_PROFILE', {
+                    ...data,
+                    __expire_at: Date.now() + 1000 * 60 * 3 // 3min
+                });
+
+                createToast('Email updated successfully !', { type: "success", position: "bottom-right" });
+            }).catch(onCatchError);
     },
     updateAvatar({ state }, avatar) {
         let user = state.user;
@@ -84,14 +106,15 @@ export const actions = {
         form.append('file', avatar);
 
         return axios.post(`users/${user.username}/avatar`, form)
-            .then(() => {
-                createToast('Profile avatar updated successfully !', { type: "success", position: "bottom-right" });
-            }).catch((err) => {
-                createToast(
-                    (err.response.status == 404 && "Update faild ! try again") || err.response.data && err.response.data.message || err.message,
-                    { type: "danger", position: "bottom-right" }
-                );
-            });
+            .then(() => createToast('Profile avatar updated successfully !', { type: "success", position: "bottom-right" }))
+            .catch(onCatchError);
+    },
+    updatePassword({ state }, { password, newpassword }) {
+        let user = state.user;
+
+        return axios.patch(`users/${user.username}/password`, { old: password, new: newpassword })
+            .then(() => { createToast('Password updated successfully !', { type: "success", position: "bottom-right" }); return true })
+            .catch(() => { createToast("Invalid password !", { type: "danger", position: "bottom-right" }); return false });
     }
 }
 
