@@ -1,4 +1,5 @@
 import axios from '@/services/axios'
+import { createToast } from 'mosha-vue-toastify';
 
 export const state = {
     user: {},
@@ -52,6 +53,44 @@ export const actions = {
                     __expire_at: Date.now() + 1000 * 60 * 3 // 3min
                 });
                 return data;
+            });
+    },
+    updateProfile({ commit, state }, data) {
+        let user = state.user;
+
+        return axios.patch(`users/${user.username}`, data)
+            .then(response => {
+                let data = response.data;
+
+                commit('SET_CURRENT_PROFILE', {
+                    ...data,
+                    __expire_at: Date.now() + 1000 * 60 * 3 // 3min
+                });
+
+                createToast('Profile updated successfully !', { type: "success", position: "bottom-right" });
+
+                return response;
+            }).catch((err) => {
+                createToast(
+                    (err.response.status == 404 && "Update faild ! try again") || err.response.data && err.response.data.message || err.message,
+                    { type: "danger", position: "bottom-right" }
+                );
+            });
+    },
+    updateAvatar({ state }, avatar) {
+        let user = state.user;
+
+        let form = new FormData();
+        form.append('file', avatar);
+
+        return axios.post(`users/${user.username}/avatar`, form)
+            .then(() => {
+                createToast('Profile avatar updated successfully !', { type: "success", position: "bottom-right" });
+            }).catch((err) => {
+                createToast(
+                    (err.response.status == 404 && "Update faild ! try again") || err.response.data && err.response.data.message || err.message,
+                    { type: "danger", position: "bottom-right" }
+                );
             });
     }
 }

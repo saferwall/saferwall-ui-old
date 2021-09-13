@@ -2,7 +2,11 @@
   <div class="profile">
     <profile-box
       :username="username"
-      v-bind="{ bio: profile.bio, member_since: profile.member_since }"
+      v-bind="{
+        bio: profile.bio,
+        member_since: profile.member_since,
+        name: profile.name,
+      }"
     />
     <card-tabs
       :tabs="profileTabs"

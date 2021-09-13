@@ -12,7 +12,7 @@ const activityMethods = mapActions('activity', ['fetchActivities']);
  * Methods, Getters
  */
 const userGetters = mapGetters('user', ['getProfile', 'getUser']);
-const userMethods = mapActions('user', ['fetchProfile', 'getSection', 'fetchSection']);
+const userMethods = mapActions('user', ['fetchProfile', 'getSection', 'fetchSection', 'updateProfile', 'updateAvatar']);
 
 /**
  * Authentification

@@ -1,8 +1,18 @@
 <template>
   <card-tab class="settings-information space-y-10" :active="active">
     <div class="si-avatar relative">
-      <avatar width="120px" height="120px" :username="username" />
-      <span class="si-avatar-icon absolute bottom-0 left-20">
+      <avatar width="120px" height="120px" :username="user.username" />
+      <span
+        class="si-avatar-icon absolute bottom-0 left-20 cursor-pointer"
+        @click="$refs.avatarFileInput.click()"
+      >
+        <input
+          ref="avatarFileInput"
+          type="file"
+          class="hidden"
+          @change="onAvatarUpdate($event.target)"
+          accept="image/*"
+        />
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="42"
@@ -31,45 +41,61 @@
 
     <div class="si-form flex flex-col space-y-4">
       <input-group id="name" title="Name">
-        <custom-input name="name" placeholder="Name" v-model="name" />
+        <input
+          class="custom-input"
+          name="name"
+          placeholder="Name"
+          v-model="user.name"
+          maxlength="32"
+        />
       </input-group>
       <input-group id="bio" title="Bio">
-        <custom-textarea name="bio" placeholder="Bio" v-model="bio" />
+        <textarea
+          class="custom-input"
+          name="bio"
+          placeholder="Bio"
+          v-model="user.bio"
+          maxlength="64"
+        ></textarea>
       </input-group>
       <input-group id="location" title="Location">
-        <custom-input
+        <input
+          class="custom-input"
           name="location"
           placeholder="Location"
-          v-model="location"
+          v-model="user.location"
+          maxlength="16"
         />
       </input-group>
       <input-group id="url" title="Url">
-        <custom-input name="url" placeholder="Url" v-model="url" />
+        <input
+          class="custom-input"
+          name="url"
+          placeholder="Url"
+          v-model="user.url"
+          maxlength="64"
+        />
       </input-group>
 
       <div class="si-group">
-        <btn size="xl" class="active"> Save </btn>
+        <btn size="xl" class="active" v-on:click="onSubmitUpdate()"> Save </btn>
       </div>
     </div>
   </card-tab>
 </template>
 
 <script>
-import CustomInput from "./elements/Input.vue";
 import InputGroup from "./elements/InputGroup.vue";
-import CustomTextarea from "./elements/Textarea.vue";
 import Avatar from "@/common/components/elements/Avatar.vue";
 import Btn from "@/common/components/elements/button/Btn.vue";
 import CardTab from "@/common/components/elements/CardTab.vue";
 
-import { userGetters } from "@/state/helpers";
+import { userGetters, userMethods } from "@/state/helpers";
 
 export default {
   components: {
     CardTab,
     Avatar,
-    CustomInput,
-    CustomTextarea,
     InputGroup,
     Btn,
   },
@@ -90,10 +116,17 @@ export default {
   computed: {
     ...userGetters,
   },
+  methods: {
+    ...userMethods,
+    onSubmitUpdate() {
+      this.updateProfile(this.user);
+    },
+    onAvatarUpdate(input) {
+      this.updateAvatar(input.files[0]);
+    },
+  },
   beforeMount() {
     let user = this.getUser;
-
-    console.log(user);
 
     Object.keys(this.user).forEach((key) => {
       if (user[key]) {

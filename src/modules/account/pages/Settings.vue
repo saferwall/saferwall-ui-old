@@ -14,11 +14,12 @@
 </template>
 
 <script>
-import CardTabs from "@/common/components/elements/CardTabs.vue";
-import TabInformation from "../components/TabInformation.vue";
 import TabEmail from "../components/TabEmail.vue";
 import TabPassword from "../components/TabPassword.vue";
+import TabInformation from "../components/TabInformation.vue";
+import CardTabs from "@/common/components/elements/CardTabs.vue";
 import TabDeleteAccount from "../components/TabDeleteAccount.vue";
+
 export default {
   components: {
     CardTabs,

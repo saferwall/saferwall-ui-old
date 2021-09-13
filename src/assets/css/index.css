@@ -17,3 +17,7 @@ html {
 .app-content {
   @apply mt-20 md:w-10/12 lg:w-9/12 xl:w-8/12 justify-start mx-auto flex flex-grow flex-col;
 }
+
+.custom-input{
+  @apply px-4 py-3 border-2 border-gray-light rounded-md;
+}

@@ -5,7 +5,7 @@
     </div>
     <div class="profile-info">
       <h1 class="profile-title">
-        {{ username }}
+        {{ name || username }}
       </h1>
       <a href="#" class="profile-username"> @{{ username }} </a>
       <p class="profile-desc">
@@ -53,6 +53,10 @@ export default {
     Btn,
   },
   props: {
+    name: {
+      type: String,
+      default: null,
+    },
     username: {
       type: String,
       default: "Username",
