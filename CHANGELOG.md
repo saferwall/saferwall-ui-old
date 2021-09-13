@@ -4,9 +4,15 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
+## [Unreleased] - [1.1.3] - 2021-08-29
 
-## [Unreleased]
+### Added
 
+- Update basic profile information (settings page)
+
+### Change
+
+- Remove elements input and textarea and add css classes custom-input
 
 ## [1.1.2] - 2021-08-29
 
@@ -19,11 +25,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Fix avatar by setting the default generated avatar and change on avatar image is loaded successfully
 - Fix Profile following tab
 - Fix duplicated activities on profile tabs
-- Fix the padding of activities of profile in mobile 
+- Fix the padding of activities of profile in mobile
 
 ### Change
 
 - Keep Same width size for all content
+
+## [1.1.1] - 2021-08-28
 
 ### Added
 
@@ -44,7 +52,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Change key `timestamp` to `date`
 - Chanage Icons, Colors of Classification func
 - Change the displayed activities to all the most recent ones
-
 
 ## [1.1.0] - 2021-08-27
 
