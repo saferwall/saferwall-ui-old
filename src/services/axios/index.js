@@ -1,5 +1,6 @@
 import axios from 'axios'
+import APP_CONFIGS from "@/common/config";
 
 export default axios.create({
-    baseURL: process.env.API_BASE_URL || process.env.VUE_APP_API_BASE_URL,
+    baseURL: APP_CONFIGS.apiURL,
 })

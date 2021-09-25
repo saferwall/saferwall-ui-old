@@ -10,75 +10,135 @@
           <router-link to="/">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="22.835"
-              height="17.507"
-              viewBox="0 0 22.835 17.507"
+              class="h-6 w-6 ml-2"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
             >
-              <g transform="translate(0 0)">
-                <g>
-                  <path
-                    d="M19.025,60.812A7.866,7.866,0,0,0,9.5,55.264a7.7,7.7,0,0,0-5.917,6.854A4.18,4.18,0,0,0,.058,66.905,4.249,4.249,0,0,0,4.3,70.394H7.866V69H4.3a2.778,2.778,0,1,1,0-5.555.7.7,0,0,0,.714-.694A6.337,6.337,0,0,1,11.427,56.5a6.38,6.38,0,0,1,6.307,5.04.706.706,0,0,0,.606.555,3.488,3.488,0,0,1,3.029,3.926A3.537,3.537,0,0,1,17.855,69H15v1.389h2.854a4.848,4.848,0,0,0,1.17-9.582Z"
-                    transform="translate(0 -55.032)"
-                    fill="#c3c3c3"
-                  />
-                  <path
-                    d="M183.9,249.219l-2.86,2.86,1.008,1.008,1.645-1.637v6.857h1.43V251.45l1.637,1.637,1.008-1.008-2.86-2.86A.715.715,0,0,0,183.9,249.219Z"
-                    transform="translate(-172.969 -240.8)"
-                    fill="#c3c3c3"
-                  />
-                </g>
-              </g>
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+              />
             </svg>
 
             Browse files
           </router-link>
         </li>
 
-        <li class="active">
-          <router-link to="/summary">
+        <li :class="isPageActive('summary') ? 'active' : ''">
+          <router-link :to="getPageLink('summary')">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="21.085"
-              height="18.809"
-              viewBox="0 0 21.085 18.809"
+              class="h-6 w-6 ml-2"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
             >
-              <g
-                transform="translate(0.19 -27.632)"
-                style="isolation: isolate"
-              >
-                <g
-                  transform="translate(-0.001 27.798)"
-                >
-                  <g
-                    transform="translate(0 0)"
-                  >
-                    <path
-                      d="M20.524,35.1l-9.834-7.2a.539.539,0,0,0-.637,0L.22,35.1a.539.539,0,1,0,.637.87L10.372,29l9.515,6.967a.539.539,0,0,0,.637-.87Z"
-                      transform="translate(0.001 -27.797)"
-                      fill="#c3c3c3"
-                      stroke="#c3c3c3"
-                      stroke-width="0.3"
-                    />
-                  </g>
-                </g>
-                <g
-                  transform="translate(2.287 36.093)"
-                >
-                  <g  >
-                    <path
-                      id="Tracé_21"
-                      d="M72.084,232.543a.539.539,0,0,0-.539.539v8.58H67.233v-4.683a2.7,2.7,0,1,0-5.391,0v4.683H57.53v-8.58a.539.539,0,0,0-1.078,0V242.2a.539.539,0,0,0,.539.539h5.39a.539.539,0,0,0,.537-.5.4.4,0,0,0,0-.042v-5.222a1.617,1.617,0,1,1,3.235,0V242.2a.4.4,0,0,0,0,.042.539.539,0,0,0,.537.5h5.39a.539.539,0,0,0,.539-.539v-9.119A.539.539,0,0,0,72.084,232.543Z"
-                      transform="translate(-56.452 -232.543)"
-                      fill="#c3c3c3"
-                      stroke="#c3c3c3"
-                      stroke-width="0.3"
-                    />
-                  </g>
-                </g>
-              </g>
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A13.916 13.916 0 008 11a4 4 0 118 0c0 1.017-.07 2.019-.203 3m-2.118 6.844A21.88 21.88 0 0015.171 17m3.839 1.132c.645-2.266.99-4.659.99-7.132A8 8 0 008 4.07M3 15.364c.64-1.319 1-2.8 1-4.364 0-1.457.39-2.823 1.07-4"
+              />
+            </svg>
+
+            Summary
+          </router-link>
+        </li>
+
+        <li :class="isPageActive('static-analysis') ? 'active' : ''">
+          <router-link :to="getPageLink('static-analysis/pe')">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-6 w-6 ml-2"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"
+              />
             </svg>
 
             Static Analysis
+          </router-link>
+
+          <ul
+            class="sub-items"
+            :class="isPageActive('static-analysis') ? '' : 'hide'"
+          >
+            <li :class="isPageActive('static-analysis/pe') ? 'active' : ''">
+              <router-link :to="getPageLink('static-analysis/pe')">
+                PE
+              </router-link>
+            </li>
+            <li
+              :class="isPageActive('static-analysis/strings') ? 'active' : ''"
+            >
+              <router-link :to="getPageLink('static-analysis/strings')">
+                Strings
+              </router-link>
+            </li>
+            <li
+              :class="isPageActive('static-analysis/antivirus') ? 'active' : ''"
+            >
+              <router-link :to="getPageLink('static-analysis/antivirus')">
+                Antivirus
+              </router-link>
+            </li>
+          </ul>
+        </li>
+
+        <li :class="isPageActive('dynamic-analysis') ? 'active' : ''">
+          <router-link :to="getPageLink('dynamic-analysis')">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-6 w-6 ml-2"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+              />
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+              />
+            </svg>
+
+            Dynamic Analysis
+          </router-link>
+        </li>
+
+        <li :class="isPageActive('comments') ? 'active' : ''">
+          <router-link :to="getPageLink('comments')">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-6 w-6 ml-2"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"
+              />
+            </svg>
+
+            Comments
           </router-link>
         </li>
       </ul>
@@ -91,11 +151,33 @@
 </template>
 
 <script>
+import { scanGetters } from "@/state/helpers";
+
 import Logo from "@/common/components/elements/Logo.vue";
 import Btn from "@/common/components/elements/button/Btn.vue";
 
 export default {
   components: { Logo, Btn },
+  data: () => ({
+    file: null,
+    hash: null,
+  }),
+  computed: {
+    ...scanGetters,
+  },
+  methods: {
+    getPageLink(to) {
+      return `/file/${this.hash}/${to}`;
+    },
+    isPageActive(to) {
+      let pageActive = this.$route.fullPath.indexOf(this.getPageLink(to));
+      return pageActive >= 0;
+    },
+  },
+  async beforeMount() {
+    this.file = await this.getFileSummary;
+    this.hash = this.file.properties.SHA256;
+  },
 };
 </script>
 
@@ -116,23 +198,39 @@ export default {
 
       li {
         a {
-          @apply text-lg text-black flex items-center gap-4 py-4 my-1 p-4 w-9/10 rounded-r-md;
+          @apply text-lg text-gray flex items-center gap-4 py-4 my-1 p-4 w-9/10 rounded-r-md;
         }
-        &.active a,
-        a:hover {
-          @apply bg-primary bg-opacity-5 text-primary;
+        &.active > a,
+        > a:hover {
+          @apply bg-primary bg-opacity-5 text-primary font-semibold;
+        }
+      }
+    }
 
-          svg {
-            display: none;
-          }
+    .sub-items {
+      @apply pl-8 mr-1;
+      max-height: 300px;
+      opacity: 1;
+      transition: all 0.4s ease-in;
 
-          &::before {
-            @apply bg-primary rounded-full;
-            content: " ";
-            display: block;
-            width: 20px;
-            height: 20px;
+      &.hide {
+        opacity: 0;
+        max-height: 0;
+        transition: all 0.5s ease-out;
+        overflow: hidden;
+      }
+
+      li {
+        &.active,
+        &:hover {
+          @apply border-l-4 border-primary;
+
+          a {
+            @apply pl-4;
           }
+        }
+        a {
+          @apply py-2 pl-0;
         }
       }
     }

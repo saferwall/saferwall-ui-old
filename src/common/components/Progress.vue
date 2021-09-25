@@ -2,14 +2,14 @@
   <div class="progress grid grid-cols-10 gap-2">
     <div class="circle col-span-1">
       <strong class="rate">{{ rate.value }}</strong>
-      <span>/{{ rate.total }}</span>
-      <svg :height="radius * 2" :width="radius * 2">
+      <span>/{{ rate.count }}</span>
+      <svg :height="radius * 2" :width="radius * 2" class="circle-rate">
         <circle
           :class="`type${getRateColor}`"
           :stroke-dasharray="circumference + ' ' + circumference"
           :style="{ strokeDashoffset: strokeDashoffset }"
           :stroke-width="stroke"
-          fill="transparent"
+          fill="rgba(25,25,25,0.05)"
           :r="normalizedRadius"
           :cx="radius"
           :cy="radius"
@@ -17,46 +17,27 @@
       </svg>
     </div>
 
-    <div 
-      class="message col-span-5" 
-      :class="`type${getRateColor}`"
-      >
+    <div class="message col-span-5" :class="`type${getRateColor}`">
       <svg
-        class="mr-2"
         xmlns="http://www.w3.org/2000/svg"
-        width="22.645"
-        height="22.645"
-        viewBox="0 0 22.645 22.645"
+        class="h-6 w-6 mr-2"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
       >
-        <g id="icon" transform="translate(-0.461 -0.732)">
-          <text
-            id="_"
-            transform="translate(9.462 16.732)"
-            fill="white"
-            font-size="14"
-            font-family="OpenSans-Semibold, Open Sans"
-            font-weight="600"
-          >
-            <tspan x="0" y="0">!</tspan>
-          </text>
-          <g
-            transform="translate(0.461 0.732)"
-            fill="none"
-            stroke-width="1.7"
-          >
-            <circle cx="11.322" cy="11.322" r="11.322" stroke="none" />
-            <circle cx="11.322" cy="11.322" r="10.472" fill="none" />
-          </g>
-        </g>
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+        />
       </svg>
 
       {{ message }}
     </div>
 
     <div class="submission grid col-span-2">
-      <strong class="uppercase text-gray">
-        First Submission
-      </strong>
+      <strong class="uppercase text-gray"> First Submission </strong>
       <time class="font-bold">{{ getDateSubmission }}</time>
     </div>
 
@@ -169,7 +150,7 @@ export default {
       type: String,
     },
     submission: {
-      default: Date.now(),
+      default: Date.now() / 1000,
       type: Number,
     },
     radius: {
@@ -180,19 +161,19 @@ export default {
       default: 8,
       type: Number,
     },
-    rate : {
-      default : { value: 9 , total : 10},
-    }
+    rate: {
+      default: { value: 9, count: 10 },
+    },
   },
   data(props) {
     const normalizedRadius = this.radius - this.stroke * 2;
     const circumference = normalizedRadius * 2 * Math.PI;
-    const progress = props.rate.value/props.rate.total * 100;
-    
+    const progress = (props.rate.value / props.rate.count) * 100;
+
     return {
       normalizedRadius,
       circumference,
-      progress
+      progress,
     };
   },
   computed: {
@@ -201,24 +182,24 @@ export default {
     },
     getDateSubmission() {
       let d = new Date(1970, 0, 1);
-      d.setSeconds(this.submission / 1000);
+      d.setSeconds(this.submission);
       return "d/m/Y"
         .replace("Y", d.getFullYear())
         .replace("m", `${d.getMonth() + 1}`.padStart(2, "0"))
         .replace("d", `${d.getDate()}`.padStart(2, "0"));
     },
-    getRateColor(){
+    getRateColor() {
       const percentages = [
-        [0, 30 , 'danger'],
-        [30, 60 , 'warning'],
-        [60, 100 , 'success'],
+        [0, 30, "success"],
+        [30, 60, "warning"],
+        [60, 100, "danger"],
       ];
-      let p =this.progress;
+      let p = this.progress;
 
-      return (percentages.find(item => {
+      return (percentages.find((item) => {
         return p >= item[0] && p < item[1];
       }) || percentages[2])[2];
-    }
+    },
   },
 };
 </script>
@@ -231,7 +212,7 @@ export default {
     @apply flex text-danger font-bold pl-4;
   }
   .circle {
-    @apply p-0 m-0 rounded-full  bg-light grid items-center content-center justify-center;
+    @apply p-0 m-0 rounded-full  bg-light flex flex-col items-center justify-center content-center;
 
     height: 150px;
     width: 150px;
@@ -266,16 +247,15 @@ export default {
     border-right: $border-color 1.5px solid;
   }
 
-
-  .typedanger{
+  .typedanger {
     @apply stroke-danger text-danger;
   }
 
-  .typewarning{
+  .typewarning {
     @apply stroke-warning text-warning;
   }
 
-  .typesuccess{
+  .typesuccess {
     @apply stroke-success text-success;
   }
 }

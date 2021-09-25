@@ -1,9 +1,9 @@
 <template>
   <div class="summary">
     <template v-if="isFileLoaded">
-      <!-- <Card>
-        <Progress />
-      </Card> -->
+      <Card>
+        <Progress :submission="getFirstSubmission" :rate="getScanScore" />
+      </Card>
 
       <Card v-if="getProperties.length" title="Basic Properties">
         <TableCols
@@ -57,10 +57,11 @@
 
 <script>
 import Card from "@/common/components/elements/Card.vue";
-// import Progress from "@/common/components/Progress.vue";
+import Progress from "@/common/components/Progress.vue";
 import TableCols from "@/common/components/tables/TableCols.vue";
 import Gallery from "@/common/components/tables/Gallery.vue";
 import { scanGetters } from "@/state/helpers";
+
 import {
   translateKey,
   translateValue,
@@ -71,7 +72,7 @@ import { timestampToDate } from "@/common/utils/date-format";
 export default {
   components: {
     Card,
-    // Progress,
+    Progress,
     TableCols,
     Gallery,
   },
@@ -136,6 +137,15 @@ export default {
     },
     isFileLoaded() {
       return this.file !== null;
+    },
+    getFirstSubmission() {
+      return (this.file.submissions || []).reduce((latest, sub) => {
+        if (!latest || latest < sub.timestamp) return sub.timestamp;
+        return latest;
+      }, null);
+    },
+    getScanScore() {
+      return this.file.multiav;
     },
   },
   methods: {

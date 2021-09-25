@@ -1,7 +1,7 @@
 <template>
   <div class="like-box">
     <div class="row-hash">
-      <router-link :to="`file/${file.hash}/summary`" class="input-hash">
+      <router-link :to="`/file/${file.hash}/summary`" class="input-hash">
         <hash-input :hash="file.hash" />
       </router-link>
 

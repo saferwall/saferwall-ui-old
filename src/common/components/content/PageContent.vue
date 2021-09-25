@@ -26,25 +26,7 @@
           {{ title }}
         </h1>
         <div class="buttons">
-          <btn>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="19.004"
-              height="17.708"
-              viewBox="0 0 19.004 17.708"
-            >
-              <path
-                d="M14.81,9.36,9.252,14.529,3.694,9.36l1.022-.951,3.813,3.546V0H9.975V11.955l3.813-3.546Zm3.694,6.5H0v1.344H18.5Zm0,0"
-                transform="translate(0.25 0.25)"
-                fill="#0d9677"
-                stroke="#0d9677"
-                stroke-width="0.5"
-              />
-            </svg>
-
-            Download File
-          </btn>
-          <btn>
+          <btn v-if="false" class="disabled">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="14.684"
@@ -66,25 +48,7 @@
 
             Rescan File
           </btn>
-          <btn>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16.791"
-              height="15.005"
-              viewBox="0 0 16.791 15.005"
-            >
-              <path
-                d="M8.1,14.4a.949.949,0,0,1-.626-.235c-.654-.572-1.285-1.109-1.841-1.583l0,0A34.241,34.241,0,0,1,1.606,8.81,6.026,6.026,0,0,1,0,4.866,5.06,5.06,0,0,1,1.284,1.41,4.354,4.354,0,0,1,4.523,0,4.072,4.072,0,0,1,7.067.878,5.2,5.2,0,0,1,8.1,1.952,5.205,5.205,0,0,1,9.124.878,4.072,4.072,0,0,1,11.668,0a4.354,4.354,0,0,1,3.239,1.41,5.06,5.06,0,0,1,1.284,3.456A6.026,6.026,0,0,1,14.585,8.81a34.233,34.233,0,0,1-4.019,3.773c-.557.475-1.189,1.013-1.844,1.586A.95.95,0,0,1,8.1,14.4ZM4.523.948a3.416,3.416,0,0,0-2.541,1.1A4.116,4.116,0,0,0,.948,4.866a5.071,5.071,0,0,0,1.388,3.34,33.694,33.694,0,0,0,3.9,3.656l0,0c.558.476,1.192,1.016,1.85,1.592.663-.577,1.3-1.118,1.856-1.594a33.7,33.7,0,0,0,3.9-3.656,5.071,5.071,0,0,0,1.388-3.34,4.116,4.116,0,0,0-1.033-2.813,3.415,3.415,0,0,0-2.541-1.1,3.145,3.145,0,0,0-1.964.68A4.6,4.6,0,0,0,8.61,2.895a.6.6,0,0,1-1.028,0A4.6,4.6,0,0,0,6.487,1.628,3.145,3.145,0,0,0,4.523.948Zm0,0"
-                transform="translate(0.3 0.3)"
-                fill="#0d9677"
-                stroke="#0d9677"
-                stroke-width="0.6"
-              />
-            </svg>
-
-            Like
-          </btn>
-          <btn>
+          <btn v-if="false" class="disabled">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="20.786"
@@ -104,6 +68,27 @@
 
             Share
           </btn>
+          <btn :link="downloadLink" :target="'_blank'">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="19.004"
+              height="17.708"
+              viewBox="0 0 19.004 17.708"
+            >
+              <path
+                d="M14.81,9.36,9.252,14.529,3.694,9.36l1.022-.951,3.813,3.546V0H9.975V11.955l3.813-3.546Zm3.694,6.5H0v1.344H18.5Zm0,0"
+                transform="translate(0.25 0.25)"
+                fill="#0d9677"
+                stroke="#0d9677"
+                stroke-width="0.5"
+              />
+            </svg>
+
+            Download File
+          </btn>
+          <btn-like @click="toggleLike" :liked="dliked">
+            {{ dliked ? "Unlike" : "Like" }}
+          </btn-like>
         </div>
       </div>
     </div>
@@ -114,18 +99,55 @@
 </template>
 
 <script>
+import APP_CONFIGS from "@/common/config";
+
 import Btn from "@/common/components/elements/button/Btn.vue";
+import BtnLike from "@/common/components/elements/button/BtnLike.vue";
+import { scanGetters, fileActions } from "@/state/helpers";
+
 export default {
-  components: { Btn },
+  components: { Btn, BtnLike },
   props: {
     title: {
-      default: "Summary",
+      default: "File Summary",
       type: String,
     },
   },
+  data: () => ({
+    file: null,
+    dliked: false,
+    hash: null,
+    downloadLink: null,
+  }),
+  computed: {
+    ...scanGetters,
+  },
   methods: {
+    ...fileActions,
     goBack() {
       this.$router.go(-1);
+    },
+    async toggleLike() {
+      if (!this.hash) return;
+
+      if (this.dliked) {
+        return this.doUnLike({ id: this.hash }).then(() => {
+          this.dliked = false;
+        });
+      }
+      this.doLike({ id: this.hash }).then(() => {
+        this.dliked = true;
+      });
+    },
+    async refreshContent() {
+      this.file = await this.getFileSummary;
+      this.hash = this.file.properties.SHA256;
+      this.downloadLink = `${APP_CONFIGS.apiURL}files/${this.hash}/download/`;
+    },
+  },
+  watch: {
+    $route() {
+      this.refreshContent();
     },
   },
 };
@@ -154,21 +176,27 @@ export default {
       @apply grid grid-cols-3 gap-4 py-2 mt-8 w-full;
 
       .title {
-        @apply text-3xl col-span-1;
+        @apply capitalize text-3xl col-span-1;
       }
 
       .buttons {
         @apply flex justify-end col-span-2;
 
-        .btn {
+        .btn,
+        .btn-like {
           @apply ml-2 bg-light border-none font-semibold rounded-md shadow-sm;
           height: 50px;
         }
       }
     }
     .buttons {
-      .btn {
+      .btn,
+      .btn-like {
+        margin: 0;
         &:hover {
+        }
+        &.disabled {
+          @apply bg-gray-2xlight cursor-not-allowed;
         }
       }
     }

@@ -29,12 +29,60 @@ const scanModuleRoutes = [
         component: () => import('@/modules/scan/pages/Summary.vue'),
         meta: {
             title: 'File Summary',
-            layout: 'SidebarLayout'
+        }
+    },
+    {
+        path: '/static-analysis',
+        name: 'static-analysis',
+        component: () => import('@/modules/scan/pages/Summary.vue'),
+        meta: {
+            title: 'Static Analysis',
+        }
+    },
+    {
+        path: '/static-analysis/pe',
+        name: 'static-analysis-pe',
+        component: () => import('@/modules/scan/pages/Summary.vue'),
+        meta: {
+            title: 'PE',
+        }
+    },
+    {
+        path: '/static-analysis/strings',
+        name: 'static-analysis-strings',
+        component: () => import('@/modules/scan/pages/Summary.vue'),
+        meta: {
+            title: 'Strings',
+        }
+    },
+    {
+        path: '/static-analysis/antivirus',
+        name: 'static-analysis-antivirus',
+        component: () => import('@/modules/scan/pages/Summary.vue'),
+        meta: {
+            title: 'antivirus',
+        }
+    },
+    {
+        path: '/dynamic-analysis',
+        name: 'dynamic-analysis',
+        component: () => import('@/modules/scan/pages/Summary.vue'),
+        meta: {
+            title: 'Dynamic Analysis',
+        }
+    },
+    {
+        path: '/comments',
+        name: 'comments',
+        component: () => import('@/modules/scan/pages/Comments.vue'),
+        meta: {
+            title: 'Comments',
         }
     },
 ].map(route => {
     route.path = `/file/:id${route.path}`;
     route.meta = {
+        layout: 'SidebarLayout',
         ...route.meta,
         middleware: [
             scanMiddleware
