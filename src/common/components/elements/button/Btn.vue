@@ -1,7 +1,7 @@
 <template>
-  <router-link v-if="link !== false" :to="link" class="btn" :class="size">
+  <a v-if="link" :href="link" class="btn" :class="size" v-bind="$attrs">
     <slot />
-  </router-link>
+  </a>
   <button v-else class="btn" v-bind="$attrs">
     <slot />
   </button>

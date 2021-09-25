@@ -9,7 +9,7 @@
       </p>
     </div>
     <div class="cmt-file w-full">
-      <router-link :to="`file/${file.hash}/summary`">
+      <router-link :to="`/file/${file.hash}/summary`">
         <hash-input :hash="file.hash" />
       </router-link>
 
