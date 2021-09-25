@@ -35,10 +35,10 @@ const scanModuleRoutes = [
 ].map(route => {
     route.path = `/file/:id${route.path}`;
     route.meta = {
+        ...route.meta,
         middleware: [
             scanMiddleware
         ],
-        ...route.meta,
     }
     return route;
 });

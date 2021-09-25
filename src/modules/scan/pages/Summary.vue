@@ -1,19 +1,27 @@
 <template>
   <div class="summary">
-    <template v-if="fileLoaded">
-      <Card>
+    <template v-if="isFileLoaded">
+      <!-- <Card>
         <Progress />
+      </Card> -->
+
+      <Card v-if="getProperties.length" title="Basic Properties">
+        <TableCols
+          :striped="true"
+          :lines="getProperties"
+          :htmlFields="allowHtmlFields.properties"
+        />
       </Card>
 
-      <Card title="Basic Properties">
-        <TableCols :striped="true" :lines="getProperties" />
+      <Card v-if="getExifProps.length" title="ExifTool File Metadata">
+        <TableCols
+          :striped="true"
+          :lines="getExifProps"
+          :htmlFields="allowHtmlFields.exif"
+        />
       </Card>
 
-      <Card title="ExifTool File Metadata">
-        <TableCols :striped="true" :lines="getExistProps" />
-      </Card>
-
-      <Card title="Submissions">
+      <Card v-if="getSubmissions" title="Submissions">
         <TableCols
           :bordered="true"
           :columns="[
@@ -22,11 +30,12 @@
             { title: 'Source' },
             { title: 'Country' },
           ]"
-          :lines="submissions"
+          :lines="getSubmissions"
+          :htmlFields="[3]"
         />
       </Card>
 
-      <Card title="Indicators">
+      <Card v-if="false" title="Indicators">
         <TableCols
           :bordered="true"
           :columns="[
@@ -35,42 +44,12 @@
             { title: 'Category' },
             { title: 'Module' },
           ]"
-          :lines="[
-            [
-              'Quoniam mirari posse quosdam',
-              '<strong class=\'bg-danger px-4 py-2 rounded-md text-light\'>Malicious</strong>',
-              'Anti detection',
-              'Quoniam mirari posse quosdam',
-            ],
-            [
-              'alias, summatim causas perstringam',
-              '<strong class=\'bg-warning px-4 py-2 rounded-md text-light\'>Suspicious</strong>',
-              'Stealthymes',
-              'alias, summatim causa',
-            ],
-            [
-              'veritate sponte propria digress',
-              '<strong class=\'bg-success px-4 py-2 rounded-md text-light\'>Informative</strong>',
-              'Anti detection',
-              'veritate sponte propria ',
-            ],
-          ]"
+          :lines="[]"
         />
       </Card>
 
-      <Card title="Virtual Screen">
-        <Gallery
-          :images="[
-            { source: 'https://picsum.photos/800/350?i=' + Math.random() },
-            { source: 'https://picsum.photos/800/350?i=' + Math.random() },
-            { source: 'https://picsum.photos/800/350?i=' + Math.random() },
-            { source: 'https://picsum.photos/800/350?i=' + Math.random() },
-            { source: null },
-            { source: null },
-            { source: null },
-            { source: null },
-          ]"
-        />
+      <Card v-if="getScreenShots.length > 0" title="Virtual Screen">
+        <Gallery :images="getScreenShots" />
       </Card>
     </template>
   </div>
@@ -78,61 +57,95 @@
 
 <script>
 import Card from "@/common/components/elements/Card.vue";
-import Progress from "@/common/components/Progress.vue";
+// import Progress from "@/common/components/Progress.vue";
 import TableCols from "@/common/components/tables/TableCols.vue";
 import Gallery from "@/common/components/tables/Gallery.vue";
 import { scanGetters } from "@/state/helpers";
+import {
+  translateKey,
+  translateValue,
+  isoToCountry,
+} from "@/common/utils/translate";
+import { timestampToDate } from "@/common/utils/date-format";
 
 export default {
   components: {
     Card,
-    Progress,
+    // Progress,
     TableCols,
     Gallery,
   },
   data() {
     return {
       file: null,
-      submissions: []
+      allowHtmlFields: { properties: [], exif: [] },
     };
   },
   computed: {
     ...scanGetters,
     getProperties() {
-      return [
-        ...Object.keys(this.file)
-          .filter((key) => ["string", "number"].includes(typeof this.file[key]))
-          .map((key) => {
-            return {
-              title: key,
-              value: this.file[key],
-            };
-          }),
-        {
-          title: "Tags",
-          value: this.file.tags,
-        },
-      ];
-    },
-    getExistProps() {
-      return [
-        ...Object.keys(this.file.exif).map((key) => {
+      let items = this.file.properties || {};
+
+      return Object.keys(items)
+        .filter((key) => ["string", "number"].includes(typeof items[key]))
+        .map((key, index) => {
+          let tkey = translateKey(key);
+          let tval = translateValue(key, items[key]);
+
+          if (items[key] != tval) {
+            this.allowHtmlFields.properties.push(`${index}-value`);
+          }
+
           return {
-            title: key,
-            value: this.file.exif[key],
+            title: tkey,
+            value: tval,
           };
-        }),
-      ];
+        });
     },
-    fileLoaded() {
-      console.log("File Loaded ? ", this.file !== null);
+    getExifProps() {
+      let items = this.file.exif || {};
+
+      return Object.keys(items)
+        .filter((key) => ["string", "number"].includes(typeof items[key]))
+        .map((key, index) => {
+          let tkey = translateKey(key);
+          let tval = translateValue(key, items[key]);
+
+          if (items[key] != tval) {
+            this.allowHtmlFields.exif.push(`${index}-value`);
+          }
+
+          return {
+            title: tkey,
+            value: tval,
+          };
+        });
+    },
+    getScreenShots() {
+      return (this.file.screenshots || []).map((image) => ({ source: image }));
+    },
+    getSubmissions() {
+      return (this.file.submissions || []).map((sub) => [
+        timestampToDate(sub.timestamp),
+        sub.filename,
+        sub.src,
+        `<div class="flag"><img class="md-flag" src=${this.getFlagLink(
+          sub.country
+        )}> <span>${isoToCountry(sub.country)}</span></div>`,
+      ]);
+    },
+    isFileLoaded() {
       return this.file !== null;
     },
   },
-  beforeMount() {
-    this.file = this.getFileSummary;
-
-    console.log("Component Created ? ", this.file !== null);
+  methods: {
+    getFlagLink(iso) {
+      return `https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/flags/4x3/${iso.toLowerCase()}.svg`;
+    },
+  },
+  created() {},
+  async beforeMount() {
+    this.file = await this.getFileSummary;
   },
 };
 </script>

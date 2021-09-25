@@ -15,9 +15,24 @@ html {
 }
 
 .app-content {
-  @apply mt-20 md:w-10/12 lg:w-9/12 xl:w-8/12 justify-start mx-auto flex flex-grow flex-col;
+  @apply mt-10 md:w-10/12 lg:w-9/12 xl:w-8/12 justify-start mx-auto flex flex-grow flex-col;
 }
 
 .custom-input{
   @apply px-4 py-3 border-2 border-gray-light rounded-md;
+}
+
+.md-flag{
+  @apply w-8 h-5;
+}
+
+.flag{
+  @apply flex space-x-2 items-center;
+}
+
+.table-kval td:nth-of-type(2){
+  word-break: break-all;
+}
+.table-cval {
+  word-break: break-all;
 }

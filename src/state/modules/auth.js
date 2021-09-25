@@ -96,6 +96,7 @@ export const actions = {
   },
 
   logOut({ commit }) {
+
     commit('LOGOUT');
   },
 

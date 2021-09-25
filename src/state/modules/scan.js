@@ -1,7 +1,9 @@
 import axios from '@/services/axios'
 
 export const fields = {
-    fresh: ['md5', 'sha1', 'sha512', 'exif', 'crc32', 'first_submission', 'last_scanned', 'last_submission', 'magic', 'tags']
+    summary: [
+
+    ]
 }
 
 export const state = {
@@ -23,8 +25,8 @@ export const mutations = {
 
 
 export const actions = {
-    fetchFileSummary({ commit }, id) {
-        return axios.get(`/files/${id}?fields=${fields.fresh.join(',')}`)
+    async fetchFileSummary({ commit }, id) {
+        return axios.get(`/files/${id}/summary`)
             .then(res => {
                 let data = res.data;
 
