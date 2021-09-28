@@ -2,17 +2,20 @@
   <div :id="id" class="comment">
     <div class="profile">
       <router-link :to="getProfileRoute">
-        <avatar :username="username" height="60px" width="60px" />
+        <avatar :username="author.username" height="60px" width="60px" />
         <div>
-          <b>{{ username }}</b>
-          <p class="text-gray-medium">Member since 2021</p>
+          <b>{{ author.username }}</b>
+          <p class="text-gray-medium">Member since {{ getMemberSince }}</p>
         </div>
+      </router-link>
+
+      <div>
         <btn-follow
           v-if="!isSelfUser"
           :followed="dfollowed"
           v-on:toggleFollow="toggleFollow"
         ></btn-follow>
-      </router-link>
+      </div>
     </div>
     <div class="content" v-html="comment"></div>
     <time class="date">{{ getCommentDate }}</time>
@@ -23,6 +26,7 @@
 import Avatar from "@/common/components/elements/Avatar.vue";
 import BtnFollow from "@/common/components/elements/button/BtnFollow.vue";
 
+import { timeAgoCounts } from "@/common/utils/date-format";
 import { followActions, userGetters } from "@/state/helpers";
 import { timestampToDate } from "@/common/utils/date-format";
 
@@ -36,34 +40,37 @@ export default {
       dfollowed: false,
     };
   },
-  props: ["id", "comment", "username", "date", "follow"],
+  props: ["id", "comment", "author", "date"],
   computed: {
     ...userGetters,
     getCommentDate() {
       return timestampToDate(this.date);
     },
     isSelfUser() {
-      return this.getUser && this.username === this.getUser.username;
+      return this.getUser && this.author.username === this.getUser.username;
     },
     getProfileRoute() {
-      return `/user/${this.username}`;
+      return `/user/${this.author.username}`;
+    },
+    getMemberSince() {
+      return timeAgoCounts(this.author.member_since);
     },
   },
   methods: {
     ...followActions,
     async toggleFollow() {
       if (this.dfollowed) {
-        return this.doUnFollow({ id: this.username }).then(() => {
+        return this.doUnFollow({ id: this.author.username }).then(() => {
           this.dfollowed = false;
         });
       }
-      this.doFollow({ id: this.username }).then(() => {
+      this.doFollow({ id: this.author.username }).then(() => {
         this.dfollowed = true;
       });
     },
   },
   created() {
-    this.dfollowed = this.follow;
+    this.dfollowed = this.author.author;
   },
 };
 </script>
@@ -75,8 +82,9 @@ export default {
   @apply bg-light py-6 px-6 w-full flex flex-col space-y-2;
 
   .profile {
-    @apply justify-start;
+    @apply flex justify-start;
 
+    &,
     a {
       @apply flex items-center space-x-4;
     }

@@ -56,10 +56,10 @@ module.exports = {
         'scontent': 'calc(100% - 280px)',
       },
       height: {
-        'navbar': '4.6rem',
+        'navbar': '4.3rem',
       },
       inset: {
-        'navbar': '4.6rem',
+        'navbar': '4.3rem',
       },
     },
     minWidth: theme => ({
