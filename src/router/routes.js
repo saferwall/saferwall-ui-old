@@ -1,5 +1,6 @@
 import authMiddleware, { noAuthMiddleware } from '@/middlewares/auth';
 import scanMiddleware from '@/middlewares/scan';
+import logMiddleware from '@/middlewares/log';
 
 /**
  * Tags Module routes
@@ -29,6 +30,9 @@ const scanModuleRoutes = [
         component: () => import('@/modules/scan/pages/Summary.vue'),
         meta: {
             title: 'File Summary',
+            middleware: [
+                async ({ store, to, next }) => { await store.dispatch('scan/fetchFileSummary', to.params.id), next() }
+            ]
         }
     },
     {
@@ -77,6 +81,9 @@ const scanModuleRoutes = [
         component: () => import('@/modules/scan/pages/Comments.vue'),
         meta: {
             title: 'Comments',
+            middleware: [
+                async ({ store, to, next }) => { await store.dispatch('scan/fetchFileComments', to.params.id), next() }
+            ]
         }
     },
 ].map(route => {
@@ -85,9 +92,12 @@ const scanModuleRoutes = [
         layout: 'SidebarLayout',
         ...route.meta,
         middleware: [
-            scanMiddleware
+            logMiddleware,
+            scanMiddleware,
+            ...(route.meta && route.meta.middleware || []),
         ],
     }
+
     return route;
 });
 

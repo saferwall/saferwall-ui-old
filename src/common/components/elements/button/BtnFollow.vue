@@ -1,27 +1,31 @@
 <template>
-    <btn :class="followed ? 'btn-active':''" @click="$emit('toggleFollow', $target)">
-        {{ followed ?  'UnFollow' : 'Follow' }}
-    </btn>
+  <btn
+    :class="followed ? 'btn-active' : ''"
+    @click="$emit('toggleFollow', $target)"
+  >
+    {{ followed ? "UnFollow" : "Follow" }}
+  </btn>
 </template>
 
 <script>
-import Btn from './Btn.vue'
+import Btn from "./Btn.vue";
+
 export default {
-    components: {
-        Btn
+  components: {
+    Btn,
+  },
+  props: {
+    followed: {
+      default: false,
+      type: Boolean,
     },
-    props : {
-        followed: {
-            default: false,
-            type: Boolean
-        }
-    },
-    emits: [ 'toggleFollow' ]
-}
+  },
+  emits: ["toggleFollow"],
+};
 </script>
 
 <style scoped>
-.btn-active{
-    @apply bg-primary bg-opacity-10 border-none font-medium;
+.btn-active {
+  @apply bg-primary bg-opacity-10 border-none font-medium;
 }
 </style>

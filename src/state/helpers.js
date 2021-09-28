@@ -30,8 +30,8 @@ const followActions = mapActions('actions', ['doFollow', 'doUnFollow']);
 /**
  * Scan
  */
-const scanMethods = mapActions('scan', []);
-const scanGetters = mapGetters('scan', ['getFileSummary']);
+const scanMethods = mapActions('scan', ['fetchFileSummary', 'fetchFileComments']);
+const scanGetters = mapGetters('scan', ['getFile', 'getFileSummary', 'getFileComments']);
 
 
 export {

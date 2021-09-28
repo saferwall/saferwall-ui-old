@@ -140,8 +140,8 @@ export default {
       });
     },
     async refreshContent() {
-      this.file = await this.getFileSummary;
-      this.hash = this.file.properties.SHA256;
+      this.file = await this.getFile;
+      this.hash = this.file.sha256;
       this.downloadLink = `${APP_CONFIGS.apiURL}files/${this.hash}/download/`;
     },
   },
