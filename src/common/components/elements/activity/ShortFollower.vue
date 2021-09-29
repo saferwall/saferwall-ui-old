@@ -15,7 +15,7 @@
     </div>
     <div class="actions">
       <btn-follow
-        v-if="notSelfUser"
+        v-if="!isSelfUser"
         :followed="dfollowed"
         v-on:toggleFollow="toggleFollow"
       />
@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import { timeAgo } from "@/common/functions";
+import { timeAgo } from "@/common/utils/date-format";
 import { followActions, userGetters } from "@/state/helpers";
 
 import Avatar from "../Avatar.vue";
@@ -58,8 +58,8 @@ export default {
     getRegistredTimeAgo() {
       return timeAgo(this.member_since);
     },
-    notSelfUser() {
-      return this.username !== this.getUser && this.getUser.username;
+    isSelfUser() {
+      return this.getUser && this.username === this.getUser.username;
     },
   },
   methods: {

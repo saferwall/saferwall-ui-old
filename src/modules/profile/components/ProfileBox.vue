@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import { timeAgoCounts } from "@/common/functions";
+import { timeAgoCounts } from "@/common/utils/date-format";
 
 import Card from "@/common/components/elements/Card.vue";
 import Avatar from "@/common/components/elements/Avatar.vue";
@@ -83,7 +83,7 @@ export default {
 
 <style lang="scss" scoped>
 .profile-box {
-  @apply flex flex-wrap justify-between px-4 py-12 md:px-14 md:py-16;
+  @apply flex flex-wrap justify-between px-4 py-12 md:px-14 md:py-8;
 
   .profile-avatar {
     @apply flex px-8 md:px-0;

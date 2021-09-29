@@ -139,6 +139,9 @@
             </svg>
 
             Comments
+            {{
+              (file && file.comments_count && `(${file.comments_count}) `) || ""
+            }}
           </router-link>
         </li>
       </ul>
@@ -175,8 +178,8 @@ export default {
     },
   },
   async beforeMount() {
-    this.file = await this.getFileSummary;
-    this.hash = this.file.properties.SHA256;
+    this.file = await this.getFile;
+    this.hash = this.file.sha256;
   },
 };
 </script>

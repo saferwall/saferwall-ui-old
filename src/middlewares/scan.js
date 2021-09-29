@@ -1,10 +1,12 @@
 import { createToast } from 'mosha-vue-toastify';
 
 export default async ({ store, to, next }) => {
-    let selectedFile = await store.getters['scan/getFileSummary'];
+    let fileHash = to.params.id;
 
-    if (!selectedFile) {
-        selectedFile = store.dispatch('scan/fetchFileSummary', to.params.id);
+    let selectedFile = await store.getters['scan/getFile'];
+
+    if (!selectedFile || selectedFile.sha256 != fileHash) {
+        selectedFile = store.dispatch('scan/fetchFile', fileHash);
 
         await selectedFile.catch(err => {
             if (err) {
