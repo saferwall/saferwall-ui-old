@@ -41,26 +41,15 @@
       </div>
     </div>
 
-    <div class="submission grid col-span-2">
+    <div class="submission grid col-span-5">
       <strong class="uppercase text-gray"> First Submission </strong>
       <time class="font-bold">{{ getDateSubmission }}</time>
-    </div>
-
-    <div class="buttons col-span-3">
-      <Btn class="btn-circle h-20 w-20 flex items-center justify-center">
-        Z
-      </Btn>
-      <Btn class="btn-circle h-20 w-20 flex items-center justify-center">
-        X
-      </Btn>
     </div>
   </div>
 </template>
 
 <script>
-import Btn from "@/common/components/elements/button/Btn.vue";
 export default {
-  components: { Btn },
   props: {
     message: {
       default: "A certificate was explicitly revoked by its issuer",

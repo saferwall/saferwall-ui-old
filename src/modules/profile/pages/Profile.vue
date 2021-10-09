@@ -279,6 +279,9 @@ export default {
 
 <style lang="scss">
 .profile-stats {
+  > div {
+    @apply pt-2;
+  }
   .empty-tab {
     @apply flex justify-center items-center text-center py-8 mt-4 text-gray text-sm;
   }

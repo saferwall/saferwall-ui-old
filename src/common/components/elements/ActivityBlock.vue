@@ -71,9 +71,10 @@
 </template>
 
 <script>
-import { timeAgoCounts, timeAgo, isAnAVG } from "@/common/functions";
-import { followActions, userGetters } from "@/state/helpers";
+import { isAnAVG } from "@/common/functions";
 import { getClass } from "@/common/classification";
+import { followActions, userGetters } from "@/state/helpers";
+import { timeAgoCounts, timeAgo } from "@/common/utils/date-format";
 
 import HashInput from "./HashInput.vue";
 import FileMeta from "./FileMeta.vue";
@@ -229,7 +230,7 @@ export default {
   }
 
   > * {
-    @apply py-4 px-6 lg:p-10;
+    @apply py-4 px-6 lg:p-8;
   }
 
   .activity-content {

@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import { timeAgo } from "@/common/functions";
+import { timeAgo } from "@/common/utils/date-format";
 import { followActions, userGetters } from "@/state/helpers";
 
 import Avatar from "../Avatar.vue";

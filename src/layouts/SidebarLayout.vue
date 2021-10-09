@@ -12,6 +12,13 @@
       >
         <slot />
       </Content>
+      <div class="sidebar-footer" :class="sidebarActive ? 'sactive' : ''">
+        <Footer />
+      </div>
+    </template>
+
+    <template v-slot:footer>
+      <div></div>
     </template>
   </base-layout>
 </template>
@@ -22,6 +29,7 @@ import BaseLayout from "@/layouts/BaseLayout.vue";
 import Navbar from "@/common/components/partials/Navbar.vue";
 import Sidebar from "@/common/components/partials/Sidebar.vue";
 import Content from "@/common/components/content/PageContent.vue";
+import Footer from "@/common/components/partials/Footer.vue";
 
 export default {
   components: {
@@ -29,6 +37,7 @@ export default {
     Content,
     Sidebar,
     Navbar,
+    Footer,
   },
   data: () => ({
     title: "Summary",
@@ -63,5 +72,22 @@ export default {
 
 .sactive {
   @apply md:w-scontent md:m-0 md:ml-auto md:px-16;
+}
+</style>
+
+<style lang="scss">
+.sidebar-footer {
+  @apply h-full pb-6;
+  > * {
+    @apply shadow rounded-md;
+  }
+
+  .content {
+    width: 100% !important;
+
+    > div {
+      @apply flex px-8;
+    }
+  }
 }
 </style>
