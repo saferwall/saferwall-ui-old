@@ -45,6 +45,9 @@ export default {
 <style lang="scss" scoped>
 table {
   @apply m-3 mt-8 w-full;
+
+  max-width: calc(100% - 0.75rem * 2) !important;
+
   th {
     @apply text-gray uppercase text-left;
   }

@@ -35,8 +35,7 @@
 import Card from "@/common/components/elements/Card.vue";
 import TableCols from "@/common/components/tables/TableCols.vue";
 import { scanGetters } from "@/state/helpers";
-import { timeAgoCounts } from "@/common/functions";
-import { timestampToDate } from "@/common/utils/date-format";
+import { timeAgoCounts, timestampToDate } from "@/common/utils/date-format";
 
 export default {
   components: {
