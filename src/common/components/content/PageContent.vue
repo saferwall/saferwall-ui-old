@@ -145,6 +145,9 @@ export default {
       this.downloadLink = `${APP_CONFIGS.apiURL}files/${this.hash}/download/`;
     },
   },
+  async beforeMount() {
+    await this.refreshContent();
+  },
   watch: {
     $route() {
       this.refreshContent();

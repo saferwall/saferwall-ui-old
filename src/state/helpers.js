@@ -12,7 +12,15 @@ const activityMethods = mapActions('activity', ['fetchActivities']);
  * Methods, Getters
  */
 const userGetters = mapGetters('user', ['getProfile', 'getUser']);
-const userMethods = mapActions('user', ['fetchProfile', 'getSection', 'fetchSection', 'updateProfile', 'updateAvatar', 'updateEmail', 'updatePassword']);
+const userMethods = mapActions('user', [
+    'fetchProfile',
+    'getSection',
+    'fetchSection',
+    'updateProfile',
+    'updateAvatar',
+    'updateEmail',
+    'updatePassword'
+]);
 
 /**
  * Authentification
@@ -30,8 +38,17 @@ const followActions = mapActions('actions', ['doFollow', 'doUnFollow']);
 /**
  * Scan
  */
-const scanMethods = mapActions('scan', ['fetchFileSummary', 'fetchFileComments']);
-const scanGetters = mapGetters('scan', ['getFile', 'getFileSummary', 'getFileComments']);
+const scanMethods = mapActions('scan', [
+    'fetchFileSummary',
+    'fetchFileComments',
+    'fetchFileAvs'
+]);
+const scanGetters = mapGetters('scan', [
+    'getFile',
+    'getFileSummary',
+    'getFileComments',
+    'getFileAvs'
+]);
 
 
 export {

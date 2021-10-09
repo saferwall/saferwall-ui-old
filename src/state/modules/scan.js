@@ -2,13 +2,15 @@ import axios from '@/services/axios'
 
 export const fields = {
     file: ['sha256', 'size', 'comments_count', 'submissions'],
-    summary: []
+    summary: [],
+    avs: ['multiav']
 }
 
 export const state = {
     file: null,
     summary: {},
-    comments: []
+    comments: [],
+    avs: {}
 }
 
 
@@ -21,6 +23,9 @@ export const getters = {
     },
     getFileComments(state) {
         return state.comments;
+    },
+    getFileAvs(state) {
+        return state.avs;
     }
 }
 
@@ -33,6 +38,9 @@ export const mutations = {
     },
     SET_FILE_SUMMARY(state, file) {
         state.summary = file;
+    },
+    SET_FILE_AVS(state, avs) {
+        state.avs = { first_scan: [], last_scan: [], ...avs };
     }
 }
 
@@ -57,6 +65,15 @@ export const actions = {
                 let data = res.data;
 
                 commit('SET_FILE_SUMMARY', data);
+                return data;
+            });
+    },
+    async fetchFileAvs({ commit }, id) {
+        return axios.get(`/files/${id}?fields=` + fields.avs.join(','))
+            .then(res => {
+                let data = res.data;
+
+                commit('SET_FILE_AVS', data.multiav);
                 return data;
             });
     },

@@ -62,9 +62,12 @@ const scanModuleRoutes = [
     {
         path: '/static-analysis/antivirus',
         name: 'static-analysis-antivirus',
-        component: () => import('@/modules/scan/pages/Summary.vue'),
+        component: () => import('@/modules/scan/pages/static-analysis/Antivirus.vue'),
         meta: {
             title: 'antivirus',
+            middleware: [
+                async ({ store, to, next }) => { await store.dispatch('scan/fetchFileAvs', to.params.id), next() }
+            ]
         }
     },
     {
