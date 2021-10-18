@@ -26,7 +26,7 @@ export const KEYS_MAPS = [
 ];
 
 export function translateKey(key) {
-    return (`${key}`.match(/[A-Z][a-z]+/g) || [key]).join(' ');
+    return (`${key}`.match(/[A-Z-_][a-z0-9]+|[A-Z]+/g) || [key]).join(' ');
 }
 
 export function isoToCountry(iso) {

@@ -41,13 +41,15 @@ const followActions = mapActions('actions', ['doFollow', 'doUnFollow']);
 const scanMethods = mapActions('scan', [
     'fetchFileSummary',
     'fetchFileComments',
-    'fetchFileAvs'
+    'fetchFileAvs',
+    'fetchFilePE',
 ]);
 const scanGetters = mapGetters('scan', [
     'getFile',
     'getFileSummary',
     'getFileComments',
-    'getFileAvs'
+    'getFileAvs',
+    'getFilePE',
 ]);
 
 

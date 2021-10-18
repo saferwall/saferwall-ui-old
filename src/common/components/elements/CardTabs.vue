@@ -2,12 +2,36 @@
   <card class="card-tabs" :class="`tab-mode-${mode}`">
     <div class="tab-headers">
       <div
-        class="tab-th"
+        class="tab-th flex items-center"
         v-for="tab in tabs"
         v-bind:key="tab.name || tab.title"
         @click="switchTab(tab)"
         :class="isTabActive(tab) ? 'active' : ''"
       >
+        <template v-if="isTabActive(tab)">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5 mr-2"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              v-if="mode == 'horizontal'"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M19 9l-7 7-7-7"
+            />
+            <path
+              v-else
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9 5l7 7-7 7"
+            />
+          </svg>
+        </template>
         {{ tab.title }}
       </div>
     </div>
@@ -52,33 +76,6 @@ export default {
 .card-tabs {
   @apply px-0;
 
-  &.tab-mode-vertical {
-    @apply lg:grid lg:grid-cols-8;
-
-    .tab-headers {
-      @apply lg:border-r-2 flex self-start  lg:col-span-3 xl:col-span-2;
-    }
-    .tab-contents {
-      @apply lg:col-span-5  xl:col-span-6 h-full;
-    }
-    .tab-th {
-      &.active {
-      }
-    }
-  }
-
-  &.tab-mode-horizontal {
-    .tab-headers {
-      @apply border-b-2 md:space-x-2;
-    }
-
-    .tab-th {
-      &.active {
-        @apply md:border-b-2;
-      }
-    }
-  }
-
   .tab-headers,
   .tab-contents {
     @apply px-8;
@@ -95,9 +92,39 @@ export default {
       }
     }
   }
+  &.tab-mode-vertical {
+    @apply lg:grid lg:grid-cols-12;
 
-  .tab-contents {
-    @apply py-4;
+    .tab-headers {
+      @apply lg:border-r-2 flex items-start self-start  lg:col-span-3 xl:col-span-2;
+      @apply flex flex-col;
+    }
+    .tab-contents {
+      @apply items-start self-start;
+      @apply lg:col-span-9  xl:col-span-10 h-full;
+      @apply flex flex-col;
+    }
+    .tab-th {
+      &.active {
+      }
+    }
+
+    .tab-headers,
+    .tab-contents {
+      @apply pl-1 pr-4;
+    }
+  }
+
+  &.tab-mode-horizontal {
+    .tab-headers {
+      @apply border-b-2 md:space-x-2;
+    }
+
+    .tab-th {
+      &.active {
+        @apply md:border-b-2;
+      }
+    }
   }
 }
 </style>

@@ -46,15 +46,18 @@ const scanModuleRoutes = [
     {
         path: '/static-analysis/pe',
         name: 'static-analysis-pe',
-        component: () => import('@/modules/scan/pages/Summary.vue'),
+        component: () => import('@/modules/scan/pages/static-analysis/PE.vue'),
         meta: {
             title: 'PE',
+            middleware: [
+                async ({ store, to, next }) => { await store.dispatch('scan/fetchFilePE', to.params.id), next() }
+            ]
         }
     },
     {
         path: '/static-analysis/strings',
         name: 'static-analysis-strings',
-        component: () => import('@/modules/scan/pages/Summary.vue'),
+        component: () => import('@/modules/scan/pages/static-analysis/Strings.vue'),
         meta: {
             title: 'Strings',
         }
