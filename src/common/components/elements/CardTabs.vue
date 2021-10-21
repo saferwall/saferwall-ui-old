@@ -98,12 +98,13 @@ export default {
     }
     .tab-th {
       &.active {
+        @apply border-r-2 border-primary w-full;
       }
     }
 
     .tab-headers,
     .tab-contents {
-      @apply pl-1 pr-4;
+      @apply pl-1 pr-0;
     }
   }
 

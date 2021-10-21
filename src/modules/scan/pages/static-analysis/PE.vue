@@ -30,11 +30,15 @@
               :lines="get_IAT"
             />
           </card-tab>
+          <card-tab :active="'Header' == currentTab">
+            <code>{{ get_Header }}</code>
+          </card-tab>
           <card-tab :active="'NtHeader' == currentTab">
             <table-cols
               title="File Header"
               :htmlFields="['format']"
               :customFields="false"
+              :bordered="true"
               :lines="get_NtHeader.fileHeader"
             />
             <div class="divider"></div>
@@ -42,6 +46,7 @@
               title="Optional Header"
               :htmlFields="['format']"
               :customFields="false"
+              :bordered="true"
               :lines="get_NtHeader.optionalHeader"
             />
             <div class="divider"></div>
@@ -49,6 +54,7 @@
               title="Data Directory"
               :htmlFields="['format']"
               :customFields="false"
+              :bordered="true"
               :columns="[
                 { key: 'key', title: 'Virtual Address' },
                 { key: 'value', title: 'Size' },
@@ -58,15 +64,42 @@
             />
           </card-tab>
           <card-tab :active="'Imports' == currentTab">
-            <template v-for="(importItem, index) in get_Imports" :key="index">
-              <table-cols
-                title="Descriptor"
-                :columns="get_Descriptor_columns(importItem.Descriptor)"
-                :lines="get_Descriptor_line(importItem.Descriptor)"
-              />
-              <table-cols title="Functions" :lines="importItem.Functions" />
-              <div class="divider"></div>
-            </template>
+            <card-tabs
+              :tabs="get_Imports_tabs"
+              :mode="'vertical'"
+              :active="currentImport"
+              v-on:switchTab="switchImport($event)"
+            >
+              <card-tab
+                v-for="(importItem, index) in get_Imports"
+                :key="index"
+                :active="importItem.Name == currentImport"
+              >
+                <table-cols
+                  :striped="true"
+                  :bordered="true"
+                  :lines="[
+                    { key: 'Name', value: importItem.Name },
+                    { key: 'Offset', value: importItem.Offset },
+                  ]"
+                ></table-cols>
+                <div class="divider"></div>
+                <table-cols
+                  title="Descriptor"
+                  :bordered="true"
+                  :columns="get_Columns(importItem.Descriptor)"
+                  :lines="get_Descriptor_line(importItem.Descriptor)"
+                />
+                <div class="divider"></div>
+                <table-cols
+                  title="Functions"
+                  :bordered="true"
+                  :columns="get_Columns(importItem.Functions[0])"
+                  :lines="importItem.Functions"
+                />
+                <div class="divider"></div>
+              </card-tab>
+            </card-tabs>
           </card-tab>
         </card-tabs>
       </div>
@@ -96,6 +129,7 @@ export default {
       hexa: true,
       file: null,
       currentTab: null,
+      currentImport: null,
       treeList: [],
     };
   },
@@ -103,7 +137,10 @@ export default {
     switchTab(tab) {
       this.currentTab = tab;
     },
-    get_Descriptor_columns(obj) {
+    switchImport(tab) {
+      this.currentImport = tab;
+    },
+    get_Columns(obj) {
       return Object.keys(obj).map((key) => ({
         key: key,
         title: translateKey(key),
@@ -211,10 +248,17 @@ export default {
       let items = this.getFilePE[this.currentTab] || [];
 
       return items.map((item) => {
-        console.log(item);
-
         return item;
       });
+    },
+    get_Imports_tabs() {
+      return this.get_Imports.map((item) => ({
+        name: item.Name,
+        title: item.Offset,
+      }));
+    },
+    get_Header() {
+      return this.getFilePE[this.currentTab];
     },
   },
   async beforeMount() {
@@ -223,7 +267,9 @@ export default {
     this.treeList = this.getFirstTree.filter(
       (key) => !["Is32", "Is64"].includes(key.name)
     );
-    this.currentTab = this.treeList[3].name;
+
+    this.currentTab = this.treeList[0].name;
+    this.currentImport = this.get_Imports[0].Name;
   },
 };
 </script>
@@ -273,7 +319,14 @@ export default {
   }
 
   .divider {
-    @apply pb-2 border-b border-gray-light border-opacity-40;
+    @apply my-4 border-b border-gray-light border-opacity-80;
+  }
+
+  .tab-contents {
+    @apply break-words;
+  }
+  code {
+    @apply break-all;
   }
 }
 </style>
