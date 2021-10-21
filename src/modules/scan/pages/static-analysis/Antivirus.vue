@@ -5,7 +5,7 @@
         {{ formatDate(getLastScanDate) }}
         <small class="italic">{{ timeAgo(getLastScanDate) }} ago</small>
       </p>
-      <div class="border-b mx-4 -mb-6 mt-7 border-gray-light"></div>
+      <div class="border-b mt-7 border-gray-light"></div>
       <TableCols
         :striped="true"
         :bordered="true"
@@ -19,7 +19,7 @@
         {{ formatDate(getFirstScanDate) }}
         <small class="italic">{{ timeAgo(getFirstScanDate) }} ago</small>
       </p>
-      <div class="border-b mx-4 -mb-6 mt-7 border-gray-light"></div>
+      <div class="border-b mt-7 border-gray-light"></div>
       <TableCols
         :striped="true"
         :bordered="true"

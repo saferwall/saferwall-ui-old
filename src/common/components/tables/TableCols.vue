@@ -1,4 +1,7 @@
 <template >
+  <h2 class="title" v-if="title">
+    {{ title }}
+  </h2>
   <table :class="(striped ? ' striped' : '') + (bordered ? ' bordered' : '')">
     <thead>
       <th v-for="col in columns" v-bind:key="col">
@@ -19,10 +22,15 @@
 <script>
 export default {
   props: {
+    title: String,
     columns: Object,
     lines: Object,
     striped: Boolean,
     bordered: Boolean,
+    customFields: {
+      type: Boolean,
+      default: true,
+    },
     htmlFields: {
       type: Array(),
       default: [],
@@ -36,17 +44,19 @@ export default {
   methods: {
     isHtmlAllowed(lindex, jindex) {
       let tkey = typeof jindex == "number" ? jindex : `${lindex}-${jindex}`;
-      return this.htmlFields.includes(tkey);
+      return this.htmlFields.includes(this.customFields ? tkey : jindex);
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-table {
-  @apply m-3 mt-8 w-full;
+.title {
+  @apply text-xl font-bold p-3;
+}
 
-  max-width: calc(100% - 0.75rem * 2) !important;
+table {
+  @apply w-full;
 
   th {
     @apply text-gray uppercase text-left;

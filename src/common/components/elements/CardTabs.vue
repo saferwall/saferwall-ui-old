@@ -8,27 +8,19 @@
         @click="switchTab(tab)"
         :class="isTabActive(tab) ? 'active' : ''"
       >
-        <template v-if="isTabActive(tab)">
+        <template v-if="isTabActive(tab) && mode == 'horizontal'">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            class="h-5 w-5 mr-2"
+            class="h-5 w-5"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
           >
             <path
-              v-if="mode == 'horizontal'"
               stroke-linecap="round"
               stroke-linejoin="round"
               stroke-width="2"
               d="M19 9l-7 7-7-7"
-            />
-            <path
-              v-else
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M9 5l7 7-7 7"
             />
           </svg>
         </template>
@@ -84,8 +76,8 @@ export default {
     @apply flex flex-wrap justify-center md:justify-start items-center border-gray border-opacity-5;
 
     .tab-th {
-      @apply text-gray px-4 pb-8;
-      @apply md:px-4 md:pb-4 cursor-pointer;
+      @apply text-gray py-2;
+      @apply md:px-4 cursor-pointer;
 
       &.active {
         @apply text-primary font-bold md:border-primary md:border-opacity-50;
