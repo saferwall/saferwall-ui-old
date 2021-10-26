@@ -8,6 +8,7 @@
           :active="currentTab"
           mode="vertical"
         >
+          <!-- Start DosHeader -->
           <card-tab :active="'DosHeader' == currentTab">
             <table-cols
               :bordered="true"
@@ -18,6 +19,9 @@
               :lines="get_DosHeader"
             />
           </card-tab>
+          <!-- End DosHeader -->
+
+          <!-- Start IAT -->
           <card-tab :active="'IAT' == currentTab">
             <table-cols
               :bordered="true"
@@ -30,9 +34,15 @@
               :lines="get_IAT"
             />
           </card-tab>
+          <!-- End IAT -->
+
+          <!-- Start Header -->
           <card-tab :active="'Header' == currentTab">
             <code>{{ get_Header }}</code>
           </card-tab>
+          <!-- End Header -->
+
+          <!-- Start NtHeader -->
           <card-tab :active="'NtHeader' == currentTab">
             <table-cols
               title="File Header"
@@ -63,6 +73,9 @@
               :lines="get_NtHeader.dataDirevtory"
             />
           </card-tab>
+          <!-- End NtHeader -->
+
+          <!-- Start Imports -->
           <card-tab :active="'Imports' == currentTab">
             <card-tabs
               :tabs="get_Imports_tabs"
@@ -73,34 +86,39 @@
               <card-tab
                 v-for="(importItem, index) in get_Imports"
                 :key="index"
-                :active="importItem.Name == currentImport"
+                :active="
+                  currentImport
+                    ? importItem.name == currentImport
+                    : !currentImport && index == 0
+                "
               >
                 <table-cols
                   :striped="true"
                   :bordered="true"
                   :lines="[
-                    { key: 'Name', value: importItem.Name },
-                    { key: 'Offset', value: importItem.Offset },
+                    { key: 'Name', value: importItem.name },
+                    { key: 'Offset', value: importItem.offset },
                   ]"
                 ></table-cols>
                 <div class="divider"></div>
                 <table-cols
                   title="Descriptor"
                   :bordered="true"
-                  :columns="get_Columns(importItem.Descriptor)"
-                  :lines="get_Descriptor_line(importItem.Descriptor)"
+                  :columns="get_Columns(importItem.descriptor)"
+                  :lines="get_Descriptor_line(importItem.descriptor)"
                 />
                 <div class="divider"></div>
                 <table-cols
-                  title="Functions"
+                  title="functions"
                   :bordered="true"
-                  :columns="get_Columns(importItem.Functions[0])"
-                  :lines="importItem.Functions"
+                  :columns="get_Columns(importItem.functions[0])"
+                  :lines="importItem.functions"
                 />
                 <div class="divider"></div>
               </card-tab>
             </card-tabs>
           </card-tab>
+          <!-- End Imports -->
         </card-tabs>
       </div>
     </Card>
@@ -247,14 +265,28 @@ export default {
     get_Imports() {
       let items = this.getFilePE[this.currentTab] || [];
 
+      console.log(items);
       return items.map((item) => {
-        return item;
+        return {
+          name: item.Name,
+          offset: item.Offset,
+          functions: (item.Functions || []).map((_func) => {
+            let func = {};
+            Object.keys(_func).forEach((_key) => {
+              let val = _func[_key];
+
+              func[_key] = this.hexa && !isNaN(val) ? decToHexString(val) : val;
+            });
+            return func;
+          }),
+          descriptor: item.Descriptor,
+        };
       });
     },
     get_Imports_tabs() {
       return this.get_Imports.map((item) => ({
-        name: item.Name,
-        title: item.Offset,
+        name: item.name,
+        title: item.offset,
       }));
     },
     get_Header() {
@@ -269,7 +301,6 @@ export default {
     );
 
     this.currentTab = this.treeList[0].name;
-    this.currentImport = this.get_Imports[0].Name;
   },
 };
 </script>
