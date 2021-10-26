@@ -119,6 +119,87 @@
             </card-tabs>
           </card-tab>
           <!-- End Imports -->
+
+          <!-- Start RichHeader -->
+          <card-tab :active="'RichHeader' == currentTab">
+            <table-cols
+              title="Rich Header"
+              :htmlFields="['format']"
+              :customFields="false"
+              :bordered="true"
+              :lines="get_RichHeader.basic"
+            />
+            <div class="divider"></div>
+            <table-cols
+              title="CompIDs"
+              :customFields="false"
+              :bordered="true"
+              :columns="
+                get_RichHeader.compIds.length > 0
+                  ? get_Columns(get_RichHeader.compIds[0])
+                  : []
+              "
+              :lines="get_RichHeader.compIds"
+            />
+          </card-tab>
+          <!-- End RichHeader -->
+
+          <!-- Start Sections -->
+          <card-tab :active="'Sections' == currentTab">
+            <template v-for="section in get_Sections" :key="section.name">
+              <table-cols
+                :title="section.name"
+                :customFields="false"
+                :bordered="true"
+                :lines="section.header"
+              />
+              <div class="divider"></div>
+            </template>
+          </card-tab>
+          <!-- End Sections -->
+
+          <!-- Start Resources -->
+          <card-tab :active="'Resources' == currentTab">
+            <table-cols
+              title="Struct"
+              :customFields="false"
+              :bordered="true"
+              :htmlFields="['value']"
+              :lines="get_Resources.struct"
+            />
+            <div class="divider"></div>
+            <card-tabs
+              :tabs="get_Resources_Tabs"
+              :mode="'vertical'"
+              :active="currentEntry"
+              v-on:switchTab="switchEntry($event)"
+            >
+              <card-tab
+                v-for="(EntryItem, index) in get_Resources.entries"
+                :key="index"
+                :active="
+                  currentEntry
+                    ? EntryItem.id == currentEntry
+                    : !currentEntry && index == 0
+                "
+              >
+                <table-cols
+                  :striped="true"
+                  :bordered="true"
+                  :lines="get_Entry_Basic(EntryItem)"
+                ></table-cols>
+                <div class="divider"></div>
+                <table-cols
+                  title="Directory"
+                  :bordered="true"
+                  :columns="get_Columns(EntryItem.directory.Entries[0])"
+                  :lines="EntryItem.directory.Entries"
+                />
+                <div class="divider"></div>
+              </card-tab>
+            </card-tabs>
+          </card-tab>
+          <!-- End Resources -->
         </card-tabs>
       </div>
     </Card>
@@ -148,6 +229,7 @@ export default {
       file: null,
       currentTab: null,
       currentImport: null,
+      currentEntry: null,
       treeList: [],
     };
   },
@@ -158,8 +240,11 @@ export default {
     switchImport(tab) {
       this.currentImport = tab;
     },
+    switchEntry(tab) {
+      this.currentEntry = tab;
+    },
     get_Columns(obj) {
-      return Object.keys(obj).map((key) => ({
+      return Object.keys(obj || {}).map((key) => ({
         key: key,
         title: translateKey(key),
       }));
@@ -175,6 +260,27 @@ export default {
       });
 
       return [item];
+    },
+    getSelectedItems() {
+      return this.getFilePE[this.currentTab] || [];
+    },
+    get_Entry_Basic(item) {
+      return [
+        { key: "ID", value: item.id },
+        { key: "Name", value: item.name },
+        { key: "Struct Name", value: item.struct.Name },
+        {
+          key: "Struct OffsetToData",
+          value: item.struct.OffsetToData,
+        },
+      ].map((_item) => {
+        let val = _item.value;
+        val = translateValue(_item.key, _item.value);
+        if (this.hexa && !isNaN(val)) {
+          _item.value = decToHexString(val);
+        }
+        return _item;
+      });
     },
   },
   computed: {
@@ -263,9 +369,8 @@ export default {
       return nitems;
     },
     get_Imports() {
-      let items = this.getFilePE[this.currentTab] || [];
+      let items = this.getSelectedItems();
 
-      console.log(items);
       return items.map((item) => {
         return {
           name: item.Name,
@@ -289,8 +394,77 @@ export default {
         title: item.offset,
       }));
     },
+    get_Resources_Tabs() {
+      return this.get_Resources.entries.map((item) => ({
+        name: item.id,
+        title: item.id,
+      }));
+    },
     get_Header() {
       return this.getFilePE[this.currentTab];
+    },
+    get_RichHeader() {
+      let richeader = this.getSelectedItems();
+
+      return {
+        basic: Object.keys(richeader || {})
+          .filter((_key) =>
+            ["string", "number"].includes(typeof richeader[_key])
+          )
+          .map((_key) => {
+            let val = translateValue(_key, richeader[_key]);
+            return {
+              title: translateKey(_key),
+              value: this.hexa ? decToHexString(val) : val,
+            };
+          }),
+        compIds: (richeader.CompIDs || []).map((_item) => {
+          let item = {};
+          Object.keys(_item).forEach((_key) => {
+            let val = translateValue(_key, _item[_key]);
+            item[_key] = this.hexa ? decToHexString(val) : val;
+          });
+          return item;
+        }),
+      };
+    },
+    get_Sections() {
+      let items = this.getSelectedItems();
+
+      return items.map((_section) => {
+        let header = Object.keys(_section.Header).map((_key) => {
+          let val = _section.Header[_key];
+          return {
+            title: _key,
+            value: this.hexa && !isNaN(val) ? decToHexString(val) : val,
+          };
+        });
+        return {
+          name: `Entropy : ${_section.Entropy || ""}`,
+          header: header,
+        };
+      });
+    },
+    get_Resources() {
+      let items = this.getSelectedItems();
+
+      return {
+        struct: Object.keys(items.Struct || []).map((_struct) => {
+          let val = translateValue(_struct, items.Struct[_struct]);
+          return {
+            title: translateKey(_struct),
+            value: this.hexa && !isNaN(val) ? decToHexString(val) : val,
+          };
+        }),
+        entries: items.Entries.map((_entry) => {
+          return {
+            struct: _entry.Struct,
+            name: _entry.Name,
+            id: _entry.ID,
+            directory: _entry.Directory || [],
+          };
+        }),
+      };
     },
   },
   async beforeMount() {
@@ -300,7 +474,7 @@ export default {
       (key) => !["Is32", "Is64"].includes(key.name)
     );
 
-    this.currentTab = this.treeList[0].name;
+    this.currentTab = this.treeList[0]?.name;
   },
 };
 </script>
