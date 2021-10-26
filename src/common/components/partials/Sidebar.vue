@@ -94,8 +94,11 @@
           </ul>
         </li>
 
-        <li :class="isPageActive('dynamic-analysis') ? 'active' : ''">
-          <router-link :to="getPageLink('dynamic-analysis')">
+        <li
+          :class="isPageActive('dynamic-analysis') ? 'active' : ''"
+          class="disabled cursor-not-allowed"
+        >
+          <a class="bg-gray-2xlight">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               class="h-6 w-6 ml-2"
@@ -118,7 +121,7 @@
             </svg>
 
             Dynamic Analysis
-          </router-link>
+          </a>
         </li>
 
         <li :class="isPageActive('comments') ? 'active' : ''">
