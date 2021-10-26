@@ -119,6 +119,30 @@
             </card-tabs>
           </card-tab>
           <!-- End Imports -->
+
+          <!-- Start RichHeader -->
+          <card-tab :active="'RichHeader' == currentTab">
+            <table-cols
+              title="Rich Header"
+              :htmlFields="['format']"
+              :customFields="false"
+              :bordered="true"
+              :lines="get_RichHeader.basic"
+            />
+            <div class="divider"></div>
+            <table-cols
+              title="CompIDs"
+              :customFields="false"
+              :bordered="true"
+              :columns="
+                get_RichHeader.compIds.length > 0
+                  ? get_Columns(get_RichHeader.compIds[0])
+                  : []
+              "
+              :lines="get_RichHeader.compIds"
+            />
+          </card-tab>
+          <!-- End RichHeader -->
         </card-tabs>
       </div>
     </Card>
@@ -265,7 +289,6 @@ export default {
     get_Imports() {
       let items = this.getFilePE[this.currentTab] || [];
 
-      console.log(items);
       return items.map((item) => {
         return {
           name: item.Name,
@@ -292,6 +315,31 @@ export default {
     get_Header() {
       return this.getFilePE[this.currentTab];
     },
+    get_RichHeader() {
+      let richeader = this.getFilePE[this.currentTab] || [];
+
+      return {
+        basic: Object.keys(richeader || {})
+          .filter((_key) =>
+            ["string", "number"].includes(typeof richeader[_key])
+          )
+          .map((_key) => {
+            let val = translateValue(_key, richeader[_key]);
+            return {
+              title: translateKey(_key),
+              value: this.hexa ? decToHexString(val) : val,
+            };
+          }),
+        compIds: (richeader.CompIDs || []).map((_item) => {
+          let item = {};
+          Object.keys(_item).forEach((_key) => {
+            let val = translateValue(_key, _item[_key]);
+            item[_key] = this.hexa ? decToHexString(val) : val;
+          });
+          return item;
+        }),
+      };
+    },
   },
   async beforeMount() {
     this.file = await this.getFileSummary;
@@ -300,7 +348,7 @@ export default {
       (key) => !["Is32", "Is64"].includes(key.name)
     );
 
-    this.currentTab = this.treeList[0].name;
+    this.currentTab = this.treeList[0]?.name;
   },
 };
 </script>
