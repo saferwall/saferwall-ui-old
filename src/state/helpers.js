@@ -52,11 +52,25 @@ const scanGetters = mapGetters('scan', [
     'getFilePE',
 ]);
 
+/**
+ * upload
+ */
+const uploadMethods = mapActions('upload', [
+    'uploadFile',
+]);
+const uploadGetters = mapGetters('upload', [
+    'getFile',
+    'uploadProgress',
+    'isUploading',
+    'getStep'
+]);
+
 
 export {
     activityGetters, activityMethods,
     userGetters, userMethods,
     authGetters, authMethods,
     fileActions, followActions,
-    scanMethods, scanGetters
+    scanMethods, scanGetters,
+    uploadMethods, uploadGetters
 }
