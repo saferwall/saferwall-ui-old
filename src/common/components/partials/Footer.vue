@@ -4,7 +4,6 @@
       <div class="copyright justify-start">
         &copy; {{ copyright }} {{ name }}. All rights reserved.
       </div>
-      <div></div>
       <div class="media flex items-center justify-end">
         <p>Developed with <span class="love">❤</span> by {{ name }}.</p>
         <a :href="media?.github" class="ml-2">
@@ -66,7 +65,8 @@ footer {
 
   .content {
     @apply md:w-9/12 lg:w-8/12 m-auto md:h-20 p-1 text-center;
-    @apply flex flex-col md:grid md:grid-cols-3 md:gap-4 flex items-center;
+    @apply flex flex-col md:flex-row justify-between  md:gap-4 items-center;
+    @apply space-y-2 py-4;
   }
   &.sactive .content {
     @apply w-full;

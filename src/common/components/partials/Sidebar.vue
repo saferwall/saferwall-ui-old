@@ -1,5 +1,5 @@
 <template>
-  <aside class="z-50 z-40 w-full inest-navbar h-screen fixed bg-white">
+  <aside class="sidebar">
     <div class="logo">
       <logo />
     </div>
@@ -190,10 +190,14 @@ export default {
 <style lang="scss" scoped>
 .sidebar {
   @apply inset-0;
+  @apply bg-white;
+  @apply min-h-screen;
+  @apply hidden w-full lg:w-sidebar lg:block;
+
   border-right: solid 1px $border-color;
 
   .logo {
-    @apply w-full h-navbar max-h-20 md:w-sidebar md:px-6 px-5 flex justify-center md:justify-start text-black font-extrabold;
+    @apply w-full h-navbar max-h-20 xl:w-sidebar md:px-6 px-5 flex justify-center md:justify-start text-black font-extrabold;
   }
 
   .menu {

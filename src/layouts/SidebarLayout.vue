@@ -1,26 +1,29 @@
 <template>
-  <base-layout>
-    <template v-slot:navbar>
-      <Navbar />
-    </template>
-    <template v-slot:main>
-      <Sidebar class="sidebar" v-show="sidebarActive" />
-      <Content
-        class="content"
-        :title="getCurrentTitle"
-        :class="sidebarActive ? 'sactive' : ''"
-      >
-        <slot />
-      </Content>
-      <div class="sidebar-footer" :class="sidebarActive ? 'sactive' : ''">
-        <Footer />
-      </div>
-    </template>
-
-    <template v-slot:footer>
-      <div></div>
-    </template>
-  </base-layout>
+  <main>
+    <base-layout>
+      <template v-slot:navbar>
+        <Navbar />
+      </template>
+      <template v-slot:main>
+        <Sidebar class="sidebar" v-show="sidebarActive" />
+        <div class="flex flex-col w-full app-content">
+          <Content
+            class="content"
+            :title="getCurrentTitle"
+            :class="sidebarActive ? 'sactive' : ''"
+          >
+            <slot />
+          </Content>
+          <div class="footer-sidebar">
+            <Footer />
+          </div>
+        </div>
+      </template>
+      <template v-slot:footer>
+        <div></div>
+      </template>
+    </base-layout>
+  </main>
 </template>
 
 <script>
@@ -66,28 +69,33 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.sidebar {
-  @apply w-sidebar;
-}
+main {
+  @apply flex;
 
-.sactive {
-  @apply md:w-scontent md:m-0 md:ml-auto md:px-16;
+  .content {
+    @apply mt-20 p-4 xl:p-8;
+  }
+
+  .app-content {
+    @apply mt-0;
+  }
 }
 </style>
 
-<style lang="scss">
-.sidebar-footer {
-  @apply h-full pb-6;
+<style lang="scss" scoped>
+.footer-sidebar {
+  @apply lg:py-4 lg:px-8 w-full;
+
   > * {
-    @apply shadow rounded-md;
+    @apply lg:shadow lg:rounded-md;
   }
 
-  .content {
-    width: 100% !important;
+  // .content {
+  //   width: 100% !important;
 
-    > div {
-      @apply flex px-8;
-    }
-  }
+  //   > div {
+  //     @apply flex px-8;
+  //   }
+  // }
 }
 </style>

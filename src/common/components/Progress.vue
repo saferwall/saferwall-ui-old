@@ -70,6 +70,10 @@ export default {
     rate: {
       default: { value: 9, count: 10 },
     },
+    classification: {
+      type: String,
+      default: null,
+    },
   },
   data(props) {
     const normalizedRadius = this.radius - this.stroke * 2;
@@ -95,16 +99,13 @@ export default {
         .replace("d", `${d.getDate()}`.padStart(2, "0"));
     },
     getRateColor() {
-      const percentages = [
-        [0, 30, "success"],
-        [30, 60, "warning"],
-        [60, 100, "danger"],
-      ];
-      let p = this.progress;
+      if (!this.classification || this.classification === "Label.UNKNOWN")
+        return "warning";
+      if (this.rate.value === 0) {
+        return "success";
+      }
 
-      return (percentages.find((item) => {
-        return p >= item[0] && p < item[1];
-      }) || percentages[2])[2];
+      return "danger";
     },
   },
 };
@@ -112,10 +113,10 @@ export default {
 
 <style lang="scss" scoped>
 .progress {
-  @apply content-center items-center;
+  @apply flex flex-wrap content-center items-center;
 
   .message {
-    @apply flex text-danger font-bold;
+    @apply flex  text-black font-bold;
   }
   .circle {
     @apply p-0 m-0 rounded-full  bg-light flex flex-col items-center justify-center content-center;
@@ -148,9 +149,8 @@ export default {
   }
 
   .submission {
-    @apply px-10;
+    @apply px-5;
     border-left: $border-color 1.5px solid;
-    border-right: $border-color 1.5px solid;
   }
 
   .typedanger {

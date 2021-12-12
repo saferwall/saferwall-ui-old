@@ -1,5 +1,5 @@
 <template>
-  <div class="app-content h-full">
+  <div>
     <div class="header">
       <div class="metatime">
         <a class="btn-back" @click="goBack()">
@@ -157,56 +157,52 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.app-content {
-  @apply mx-40 pt-32 pb-10;
+.header {
+  @apply flex flex-wrap;
 
-  .header {
-    @apply flex flex-wrap;
+  svg {
+    @apply mr-2;
+  }
 
-    svg {
-      @apply mr-2;
+  .btn-back {
+    @apply flex items-center text-primary font-bold capitalize cursor-pointer;
+  }
+
+  .metatime {
+    @apply w-full;
+  }
+
+  .metainfo {
+    @apply grid grid-cols-3 gap-4 py-2 mt-2 w-full;
+
+    .title {
+      @apply capitalize text-3xl col-span-1;
     }
 
-    .btn-back {
-      @apply flex items-center text-primary font-bold capitalize cursor-pointer;
-    }
-
-    .metatime {
-      @apply w-full;
-    }
-
-    .metainfo {
-      @apply grid grid-cols-3 gap-4 py-2 mt-8 w-full;
-
-      .title {
-        @apply capitalize text-3xl col-span-1;
-      }
-
-      .buttons {
-        @apply flex justify-end col-span-2;
-
-        .btn,
-        .btn-like {
-          @apply ml-2 bg-light border-none font-semibold rounded-md shadow-sm;
-          height: 50px;
-        }
-      }
-    }
     .buttons {
+      @apply flex justify-end col-span-2;
+
       .btn,
       .btn-like {
-        margin: 0;
-        &:hover {
-        }
-        &.disabled {
-          @apply bg-gray-2xlight cursor-not-allowed;
-        }
+        @apply ml-2 bg-light border-none font-semibold rounded-md shadow-sm;
+        height: 50px;
       }
     }
   }
-
-  .content {
-    @apply mt-8;
+  .buttons {
+    .btn,
+    .btn-like {
+      margin: 0;
+      &:hover {
+      }
+      &.disabled {
+        @apply bg-gray-2xlight cursor-not-allowed;
+      }
+    }
   }
+}
+
+.content {
+  @apply mt-2;
 }
 </style>

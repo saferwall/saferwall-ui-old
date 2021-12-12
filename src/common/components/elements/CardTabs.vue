@@ -72,6 +72,7 @@ export default {
   .tab-contents {
     @apply px-8;
   }
+
   .tab-headers {
     @apply flex flex-wrap justify-center md:justify-start items-center border-gray border-opacity-5;
 
@@ -84,6 +85,7 @@ export default {
       }
     }
   }
+
   &.tab-mode-vertical {
     @apply lg:grid lg:grid-cols-12;
 
@@ -110,7 +112,7 @@ export default {
 
   &.tab-mode-horizontal {
     .tab-headers {
-      @apply border-b-2 md:space-x-2;
+      @apply items-center justify-center border-b-2 gap-3 xl:gap-4;
     }
 
     .tab-th {

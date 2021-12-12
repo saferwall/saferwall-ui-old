@@ -14,8 +14,9 @@ html {
   word-wrap: all;
 }
 
-.app-content {
-  @apply mt-10 md:w-10/12 lg:w-9/12 xl:w-8/12 justify-start mx-auto flex flex-grow flex-col;
+.app-content,
+.footer-sidebar {
+  @apply mt-10 w-full sm:w-11/12  lg:w-10/12 xl:w-8/12 justify-start mx-auto flex flex-grow flex-col;
 }
 
 .custom-input{

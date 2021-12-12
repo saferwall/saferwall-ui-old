@@ -55,7 +55,7 @@ export function timeAgoCounts(dateParam) {
 
     let seconds = Math.floor((Date.now() - time * 1000) / 1000);
 
-    let intervals = { 'year': 31536000, 'month': 2592000, 'day': 86400, 'hours': 3600, 'minutes': 60, 'second': 1 };
+    let intervals = { 'year': 31536000, 'month': 2592000, 'day': 86400, 'hour': 3600, 'minute': 60, 'second': 1 };
     let interval = 0;
 
     let intkey = Object.keys(intervals).find(_key => {
