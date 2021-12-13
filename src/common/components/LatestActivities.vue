@@ -40,6 +40,8 @@ export default {
     },
   },
   created() {
+    this.paginator.setPage(0);
+
     this.showMore();
   },
 };

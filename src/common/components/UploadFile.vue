@@ -101,7 +101,7 @@ export default {
 
 
 
-<style lang="scss" >
+<style lang="scss" scoped>
 .uploadfile {
   @apply md:mt-14 flex flex-wrap mx-auto rounded-lg bg-white  w-full min-h-7/10 lg:min-h-5/10;
 

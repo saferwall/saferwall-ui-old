@@ -91,9 +91,6 @@ export default {
     TabTypeComment,
     ShowMore,
   },
-  pageTitle() {
-    return this.username;
-  },
   data() {
     return {
       username: null,
@@ -228,8 +225,6 @@ export default {
           break;
       }
 
-      console.log(" action", type);
-
       this.refreshTabTitles();
     },
     refreshTabTitles() {
@@ -238,13 +233,11 @@ export default {
       });
     },
   },
-  async beforeMount() {
+  created() {
     // Profile data
     this.username = this.$route.params.id || this.getUser.username;
 
-    this.profile = await this.fetchProfile(this.username).catch(() => {
-      this.$router.push({ path: "/" });
-    });
+    this.profile = this.getProfile(this.username);
 
     if (this.username && this.profile.username) {
       this.userExist = true;
@@ -264,8 +257,6 @@ export default {
       }
 
       this.switchTabEvent("likes");
-
-      return;
     }
   },
 };

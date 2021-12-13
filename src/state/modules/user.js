@@ -2,7 +2,11 @@ import axios from '@/services/axios'
 import { createToast } from 'mosha-vue-toastify';
 
 const onCatchError = (err) => {
-    createToast(err.response.data && err.response.data.message || err.message || "Update faild ! try again", { type: "danger", position: "bottom-right" });
+    createToast(
+        err.response.data && err.response.data.message || err.message ||
+        "Update faild ! try again",
+        { type: "danger", position: "bottom-right" }
+    );
 }
 
 export const state = {
@@ -37,8 +41,8 @@ export const mutations = {
 }
 
 export const actions = {
-    fetchProfile({ commit, state }, id) {
-        return state.profiles[id] && state.profiles[id].__expire_at > Date.now() && state.profiles[id] || axios
+    fetchProfile({ commit }, id) {
+        return axios
             .get(`users/${id}`)
             .then(response => {
                 let data = response.data;
@@ -106,15 +110,22 @@ export const actions = {
         form.append('file', avatar);
 
         return axios.post(`users/${user.username}/avatar`, form)
-            .then(() => createToast('Profile avatar updated successfully !', { type: "success", position: "bottom-right" }))
+            .then(() => {
+                createToast('Profile avatar updated successfully !', { type: "success", position: "bottom-right" })
+            })
             .catch(onCatchError);
     },
     updatePassword({ state }, { password, newpassword }) {
         let user = state.user;
 
         return axios.patch(`users/${user.username}/password`, { old: password, new: newpassword })
-            .then(() => { createToast('Password updated successfully !', { type: "success", position: "bottom-right" }); return true })
-            .catch(() => { createToast("Invalid password !", { type: "danger", position: "bottom-right" }); return false });
+            .then(() => {
+                createToast('Password updated successfully !', { type: "success", position: "bottom-right" });
+                return true;
+            })
+            .catch(() => {
+                createToast("Invalid password !", { type: "danger", position: "bottom-right" });
+            });
     }
 }
 
