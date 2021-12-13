@@ -11,20 +11,24 @@ const router = createRouter({
   base: process.env.BASE_URL,
   routes: routes,
   scrollBehavior(to, from, savedPosition) {
-    if (savedPosition) {
-      return savedPosition
+    if (to.hash) {
+      const el = window.location.href.split("#")[1];
+      if (el.length) {
+        document.getElementById(el).scrollIntoView({ behavior: "smooth" });
+      }
+    } else if (savedPosition) {
+      return savedPosition;
     } else {
-      return { x: 0, y: 0 }
+      document.getElementById("app").scrollIntoView({ behavior: "smooth" });
     }
   },
-
-})
+});
 
 router.beforeEach((to, from, next) => {
   if (!to.meta.middleware) {
-    return next()
+    return next();
   }
-  const middleware = to.meta.middleware
+  const middleware = to.meta.middleware;
 
   const context = {
     to,
@@ -37,18 +41,18 @@ router.beforeEach((to, from, next) => {
   return middleware[0]({
     ...context,
     next: middlewarePipeline(context, middleware, 1)
-  })
+  });
 
-})
+});
 
 // Before each route evaluates...
 router.beforeEach((to, from) => {
   // If this isn't an initial page load...
   if (from.name !== null) {
     // Start the route progress bar.
-    NProgress.start()
+    NProgress.start();
   }
-})
+});
 
 router.beforeResolve(async (to, from, next) => {
   // Create a `beforeResolve` hook, which fires whenever
@@ -73,32 +77,32 @@ router.beforeResolve(async (to, from, next) => {
                 NProgress.done()
               }
               // Complete the redirect.
-              next(...args)
-              reject(new Error('Redirected'))
+              next(...args);
+              reject(new Error('Redirected'));
             } else {
-              resolve()
+              resolve();
             }
           })
         } else {
           // Otherwise, continue resolving the route.
-          resolve()
+          resolve();
         }
       })
     }
     // If a `beforeResolve` hook chose to redirect, just return.
   } catch (error) {
-    return
+    return;
   }
 
   // If we reach this point, continue resolving the route.
-  next()
-})
+  next();
+});
 
 // When each route is finished evaluating...
 router.afterEach(() => {
   // Complete the animation of the route progress bar.
-  NProgress.done()
-})
+  NProgress.done();
+});
 
 
 export default router

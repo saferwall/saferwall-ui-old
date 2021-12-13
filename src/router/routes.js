@@ -31,7 +31,12 @@ const scanModuleRoutes = [
         meta: {
             title: 'File Summary',
             middleware: [
-                async ({ store, to, next }) => { await store.dispatch('scan/fetchFileSummary', to.params.id), next() }
+                async ({ store, to, next }) => {
+                    let file = await store.dispatch('scan/fetchFileSummary', to.params.id);
+                    to.meta.page.title = file.properties.SHA256;
+
+                    next();
+                }
             ]
         }
     },
@@ -102,6 +107,9 @@ const scanModuleRoutes = [
             scanMiddleware,
             ...(route.meta && route.meta.middleware || []),
         ],
+        page: {
+            title: null,
+        }
     }
 
     return route;
@@ -139,7 +147,24 @@ const publicRoutes = [
         component: () => import('@/modules/profile/pages/User.vue'),
         meta: {
             title: 'User Profile',
-            layout: 'HeaderLayout'
+            layout: 'HeaderLayout',
+            page: {
+                title: null
+            },
+            middleware: [
+                async ({ store, to, next }) => {
+                    // Profile data
+                    const username = to.params.id || this.getUser.username;
+
+                    const profile = await store.dispatch('user/fetchProfile', username)
+                        .catch(() => {
+                            next({ name: "home" });
+                        });
+
+                    to.meta.page.title = profile.username;
+                    next();
+                }
+            ]
         },
     },
     ...scanModuleRoutes,
@@ -196,7 +221,7 @@ const authRoutes = [
         meta: {
             middleware: [
                 authMiddleware,
-                function beforeResolve({ store, next }) {
+                ({ store, next }) => {
                     store.dispatch('auth/logOut')
 
                     next({ name: 'home' });

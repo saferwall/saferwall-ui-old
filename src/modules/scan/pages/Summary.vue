@@ -2,7 +2,11 @@
   <div class="summary">
     <template v-if="isFileLoaded">
       <Card>
-        <Progress :submission="getFirstSubmission" :rate="getScanScore" />
+        <Progress
+          :submission="getFirstSubmission"
+          :rate="getScanScore"
+          :classification="getClassification"
+        />
       </Card>
 
       <Card v-if="getProperties.length" title="Basic Properties">
@@ -147,6 +151,9 @@ export default {
     getScanScore() {
       return this.file.multiav;
     },
+    getClassification() {
+      return this.file.class;
+    },
   },
   methods: {
     getFlagLink(iso) {
@@ -162,8 +169,6 @@ export default {
 
 <style lang="scss" scoped>
 .summary {
-  .card {
-    @apply my-5;
-  }
+  @apply space-y-4;
 }
 </style>

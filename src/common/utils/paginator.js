@@ -10,12 +10,12 @@ export default class Paginatior {
         }
 
         this.params = {
-            page: 0,
+            page: 1,
             limit: 10
         }
 
         this.pagination = {
-            page: 0,
+            page: 1,
             pages: 0,
             total: 0,
             limit: 0,

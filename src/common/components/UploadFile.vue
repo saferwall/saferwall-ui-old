@@ -101,9 +101,9 @@ export default {
 
 
 
-<style lang="scss" >
+<style lang="scss" scoped>
 .uploadfile {
-  @apply md:mt-14 flex flex-wrap mx-auto rounded-lg bg-white  w-full min-h-7/10;
+  @apply md:mt-14 flex flex-wrap mx-auto rounded-lg bg-white  w-full min-h-7/10 lg:min-h-5/10;
 
   .hide {
     @apply hidden;
@@ -112,7 +112,7 @@ export default {
     color: $text-color;
   }
   .welcome {
-    @apply text-xl font-bold;
+    @apply pt-4 text-xl font-bold;
   }
   .btn-upload {
     @apply focus:outline-none flex bg-primary text-white py-5 px-6 rounded-md  m-auto;

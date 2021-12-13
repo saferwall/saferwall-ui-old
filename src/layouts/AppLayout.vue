@@ -5,10 +5,10 @@
 </template>
 
 <script>
-import AppLayoutDefault from '@/layouts/Default'
+import AppLayoutDefault from "@/layouts/Default";
 
-import { shallowRef, watch } from 'vue'
-import { useRoute } from 'vue-router'
+import { shallowRef, watch } from "vue";
+import { useRoute } from "vue-router";
 
 export default {
   setup() {
@@ -18,22 +18,24 @@ export default {
     watch(
       () => route.meta,
       async (meta) => {
+        const pageTitle =
+          (meta.page && meta.page.title) || meta.title || meta.name;
         // tab title
-        document.title = meta.title || meta.name || 'Saferwall';
+        document.title = (pageTitle ? pageTitle + " - " : "") + "Saferwall";
 
         // layout
         try {
-          const component = await import(`@/layouts/${meta.layout}.vue`)
-          layout.value = component?.default || AppLayoutDefault
+          const component = await import(`@/layouts/${meta.layout}.vue`);
+          layout.value = component?.default || AppLayoutDefault;
         } catch (e) {
-          layout.value = AppLayoutDefault
+          layout.value = AppLayoutDefault;
         }
 
-        return { layout }
+        return { layout };
       },
       { immediate: true }
-    )
-    return { layout }
-  }
-}
+    );
+    return { layout };
+  },
+};
 </script>

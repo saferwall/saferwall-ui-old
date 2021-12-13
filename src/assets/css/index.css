@@ -14,8 +14,17 @@ html {
   word-wrap: all;
 }
 
-.app-content {
-  @apply mt-10 md:w-10/12 lg:w-9/12 xl:w-8/12 justify-start mx-auto flex flex-grow flex-col;
+body * {
+  max-width: 100%;
+}
+
+#app {
+  @apply min-h-screen flex flex-col justify-start;
+}
+
+.app-content,
+.footer-sidebar {
+  @apply mt-10 w-full sm:w-11/12  lg:w-10/12 xl:w-8/12 justify-start mx-auto flex flex-grow flex-col;
 }
 
 .custom-input{
@@ -58,4 +67,20 @@ html {
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   @apply bg-primary;
+}
+
+.auth-card .form-input {
+  @apply w-full px-4 py-3 border rounded-md border-gray-light placeholder-gray-medium text-lg;
+}
+
+.auth-card .form-group {
+  @apply w-full my-3 flex flex-wrap items-center;
+}
+
+.auth-card .btn-submit {
+  @apply w-full px-4 py-4 bg-primary rounded-md text-light font-bold text-lg;
+}
+
+.auth-card {
+  @apply mt-4 flex min-w-full md:min-w-6/7 lg:min-w-5/7 xl:min-w-6/12 bg-light md:rounded-2xl py-10 px-20 shadow-sm;
 }

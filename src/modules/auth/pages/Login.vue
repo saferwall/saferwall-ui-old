@@ -37,7 +37,6 @@
             />
           </g>
         </svg>
-
         <h2 class="title text-3xl font-semibold">Login</h2>
       </div>
       <div class="content mt-8">
@@ -55,7 +54,7 @@
         </div>
         <password v-model="password" placeholder="Password" :required="true" />
 
-        <div class="form-group justify-between py-2">
+        <div class="text-sm form-group justify-between py-2">
           <router-link to="/auth/confirmation"
             >Didn’t confirm registration?</router-link
           >

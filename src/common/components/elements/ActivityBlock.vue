@@ -35,10 +35,7 @@
       class="activity-content col-span-4 grid lg:grid-cols-4"
       v-if="!isFollow"
     >
-      <div
-        class="info mr-10"
-        :class="(!hasTags && 'col-span-4') || 'col-span-3'"
-      >
+      <div class="info" :class="(!hasTags && 'col-span-4') || 'col-span-3'">
         <router-link :to="getFileSummaryRoute">
           <p class="title">
             <b>{{ author.username }}</b> {{ getActivityTitle }} a file
@@ -199,7 +196,7 @@ export default {
 
 <style lang="scss" scoped>
 .activity {
-  @apply items-center justify-center bg-white my-3 lg:rounded-xl;
+  @apply items-center justify-center bg-white py-2 lg:py-0 my-3 sm:rounded-xl;
 
   &.filetype {
     @apply lg:grid-cols-5 lg:gap-4 lg:grid;
@@ -208,7 +205,7 @@ export default {
       @apply lg:justify-center;
 
       .profile-link {
-        @apply flex space-x-4 lg:block lg:space-x-0;
+        @apply flex gap-x-4 lg:block lg:gap-x-0;
       }
     }
   }
@@ -217,7 +214,7 @@ export default {
     @apply flex md:flex-row w-full;
 
     .profile-link {
-      @apply text-xs sm:text-base flex flex-col lg:flex-row items-center space-x-4 justify-between;
+      @apply text-xs sm:text-base flex flex-col lg:flex-row items-center justify-start gap-x-4;
 
       &.target {
         @apply flex-col-reverse lg:flex-row;
@@ -230,7 +227,7 @@ export default {
   }
 
   > * {
-    @apply py-4 px-6 lg:p-8;
+    @apply py-3 px-6 lg:p-8;
   }
 
   .activity-content {

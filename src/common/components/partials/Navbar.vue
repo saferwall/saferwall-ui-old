@@ -75,12 +75,13 @@ export default {
 
 <style lang="scss" scoped>
 .logo {
-  @apply w-full md:w-sidebar md:px-6 px-5 flex justify-center md:justify-start text-black font-extrabold;
+  @apply w-full md:w-sidebar  md:px-6 px-5 flex justify-center md:justify-start text-black font-extrabold;
   border-right: 1px solid $border-color;
   height: 100%;
 }
+
 .search {
-  @apply flex hidden md:flex md:w-3/12 sm:w-min;
+  @apply flex hidden lg:flex md:w-3/12 sm:w-min;
 
   .input {
     @apply md:w-8/12 sm:w-min h-full px-6 focus:outline-none;
