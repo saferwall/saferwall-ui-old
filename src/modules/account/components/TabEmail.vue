@@ -1,5 +1,5 @@
 <template>
-  <card-tab class="settings-information space-y-10" :active="active">
+  <card-tab :active="active">
     <form @submit.prevent="onFormSubmited()">
       <div class="si-form flex flex-col space-y-4">
         <input-group id="email" title="Email">
@@ -12,6 +12,7 @@
         </input-group>
         <input-group id="password" title="Password">
           <input
+            autocomplete
             class="custom-input"
             name="password"
             type="password"

@@ -121,6 +121,18 @@
             </svg>
 
             Dynamic Analysis
+            <span
+              class="
+                rounded-full
+                bg-red-500
+                px-2
+                py-1
+                text-xs
+                font-bold
+                text-white
+              "
+              >SOON</span
+            >
           </a>
         </li>
 
@@ -141,10 +153,12 @@
               />
             </svg>
 
-            Comments
-            {{
-              (file && file.comments_count && `(${file.comments_count}) `) || ""
-            }}
+            <div>
+              Comments
+              <span class="text-gray-medium font-thin"
+                >({{ (file && file.comments_count) || 0 }})</span
+              >
+            </div>
           </router-link>
         </li>
       </ul>
@@ -208,7 +222,7 @@ export default {
 
       li {
         a {
-          @apply text-lg text-gray flex items-center gap-4 py-4 my-1 p-4 w-9/10 rounded-r-md;
+          @apply text-base text-gray flex items-center gap-4 py-4 my-1 p-4 w-9/10 rounded-r-md;
         }
         &.active > a,
         > a:hover {
@@ -218,7 +232,8 @@ export default {
     }
 
     .sub-items {
-      @apply pl-8 mr-1;
+      @apply pl-8 ml-6 mr-1;
+
       max-height: 300px;
       opacity: 1;
       transition: all 0.4s ease-in;
@@ -231,16 +246,15 @@ export default {
       }
 
       li {
-        &.active,
-        &:hover {
-          @apply border-l-4 border-primary;
-
-          a {
-            @apply pl-4;
-          }
+        &.active a,
+        &:hover a {
+          @apply border-primary;
         }
+
         a {
-          @apply py-2 pl-0;
+          @apply text-gray-medium;
+          @apply border-transparent;
+          @apply py-2 pl-6 border-l-4;
         }
       }
     }

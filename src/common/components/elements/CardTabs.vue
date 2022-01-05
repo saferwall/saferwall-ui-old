@@ -66,18 +66,15 @@ export default {
 
 <style lang="scss" scoped>
 .card-tabs {
-  @apply px-0;
-
-  .tab-headers,
   .tab-contents {
-    @apply px-8;
+    @apply w-full;
   }
 
   .tab-headers {
-    @apply flex flex-wrap justify-center md:justify-start items-center border-gray border-opacity-5;
+    @apply flex flex-wrap justify-center md:justify-start items-center;
 
     .tab-th {
-      @apply text-gray py-2;
+      @apply text-gray py-2 mr-4;
       @apply md:px-4 cursor-pointer;
 
       &.active {
@@ -86,17 +83,26 @@ export default {
     }
   }
 
+  .tab-headers,
+  .tab-contents {
+    @apply px-8 border-gray border-opacity-5;
+  }
+
+  /**
+   * Mode Vertical
+   */
   &.tab-mode-vertical {
-    @apply lg:grid lg:grid-cols-12;
+    @apply flex flex-col md:flex-row;
 
     .tab-headers {
-      @apply lg:border-r-2 flex items-start self-start  lg:col-span-3 xl:col-span-2;
-      @apply flex flex-col;
+      @apply flex items-start self-start  lg:col-span-3 xl:col-span-2;
+      @apply flex-col md:min-w-max;
     }
     .tab-contents {
       @apply items-start self-start;
       @apply lg:col-span-9  xl:col-span-10 h-full;
       @apply flex flex-col;
+      @apply lg:border-l-2;
     }
     .tab-th {
       &.active {
@@ -110,6 +116,7 @@ export default {
     }
   }
 
+  /** Mode Horizontal */
   &.tab-mode-horizontal {
     .tab-headers {
       @apply items-center justify-center border-b-2 gap-3 xl:gap-4;

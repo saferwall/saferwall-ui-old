@@ -2,8 +2,8 @@ import axios from "@/services/axios";
 
 export default class Paginatior {
 
-    constructor(apiURL) {
-        this.apiURL = apiURL;
+    constructor(apiURL, customParams = null) {
+        this.apiURL = apiURL + (customParams ? customParams : '');
 
         this.translationKeys = {
             limit: 'per_page'

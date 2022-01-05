@@ -65,6 +65,7 @@ import Progress from "@/common/components/Progress.vue";
 import TableCols from "@/common/components/tables/TableCols.vue";
 import Gallery from "@/common/components/tables/Gallery.vue";
 import { scanGetters } from "@/state/helpers";
+import { isAnAVG } from "@/common/functions";
 
 import {
   translateKey,
@@ -91,7 +92,7 @@ export default {
     getProperties() {
       let items = this.file.properties || {};
 
-      return Object.keys(items)
+      let data = Object.keys(items)
         .filter((key) => ["string", "number"].includes(typeof items[key]))
         .map((key, index) => {
           let tkey = translateKey(key);
@@ -106,6 +107,34 @@ export default {
             value: tval,
           };
         });
+
+      data.push({
+        title: "Packer",
+        value: (() => {
+          this.allowHtmlFields.properties.push(`${data.length}-value`);
+          return (items.Packer || []).join("<br>");
+        })(),
+      });
+
+      data.push({
+        title: "Tags",
+        value: (() => {
+          this.allowHtmlFields.properties.push(`${data.length}-value`);
+          return (
+            `<div class="flex gap-2">` +
+            (this.filterTags(items.Tags) || [])
+              .map(({ name, avg }) => {
+                return `<span class="rounded-md px-3 py-1 text-white ${
+                  avg ? "bg-red-500" : "bg-blue-500"
+                }">${name}</span>`;
+              })
+              .join("") +
+            `</div>`
+          );
+        })(),
+      });
+
+      return data;
     },
     getExifProps() {
       let items = this.file.exif || {};
@@ -159,6 +188,19 @@ export default {
     getFlagLink(iso) {
       return `https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/flags/4x3/${iso.toLowerCase()}.svg`;
     },
+    filterTags(tags) {
+      let tagkeys = Object.keys(tags || {});
+
+      return tagkeys.reduce((all, tagKey) => {
+        return [
+          ...all,
+          ...(tags[tagKey] || []).map((tag) => ({
+            name: tag,
+            avg: isAnAVG(tag),
+          })),
+        ];
+      }, []);
+    },
   },
   created() {},
   async beforeMount() {
@@ -166,9 +208,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped>
-.summary {
-  @apply space-y-4;
-}
-</style>

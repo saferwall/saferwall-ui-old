@@ -69,7 +69,7 @@ export default {
     }
 
     .page-info {
-      @apply grid grid-cols-8 gap-4 py-2 mt-8 w-full;
+      @apply flex gap-4 py-2 mt-8 w-full;
 
       .title {
         @apply text-3xl col-span-5;

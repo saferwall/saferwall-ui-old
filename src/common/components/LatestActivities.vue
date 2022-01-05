@@ -10,18 +10,20 @@
 
 <script>
 import Paginator from "@/common/utils/paginator";
-
 import ListActivities from "./ListActivities.vue";
+
+import { userGetters } from "@/state/helpers";
 
 export default {
   data: () => ({
     activities: [],
-    paginator: new Paginator("users/activities").setLimit(5),
+    paginator: {},
   }),
   components: {
     ListActivities,
   },
   computed: {
+    ...userGetters,
     getLatestActivities() {
       return this.activities;
     },
@@ -40,8 +42,12 @@ export default {
     },
   },
   created() {
-    this.paginator.setPage(0);
+    this.paginator = new Paginator(
+      "users/activities",
+      this.getUsername ? "?user=" + this.getUsername : ""
+    ).setLimit(5);
 
+    this.paginator.setPage(0);
     this.showMore();
   },
 };

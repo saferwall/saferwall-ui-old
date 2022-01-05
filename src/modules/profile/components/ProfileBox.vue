@@ -31,9 +31,17 @@
         <span>{{ github }}</span>
       </a>
     </div>
-    <div v-if="false" class="profile-actions">
-      <btn link="/account/settings" size="xl" class="active">
+    <div class="profile-actions">
+      <btn v-if="isSelfUser" link="/account/settings" size="md" class="active">
         Edit My Profile
+      </btn>
+      <btn
+        v-else
+        @click="toggleFollow"
+        :class="follow ? '' : 'active'"
+        class="follow"
+      >
+        {{ follow ? "UnFollow" : "Follow" }}
       </btn>
     </div>
   </card>
@@ -46,11 +54,18 @@ import Card from "@/common/components/elements/Card.vue";
 import Avatar from "@/common/components/elements/Avatar.vue";
 import Btn from "@/common/components/elements/button/Btn.vue";
 
+import { userGetters, followActions } from "@/state/helpers";
+
 export default {
   components: {
     Card,
     Avatar,
     Btn,
+  },
+  data: () => {
+    return {
+      follow: false,
+    };
   },
   props: {
     name: {
@@ -72,11 +87,32 @@ export default {
     member_since: {
       type: [Number, String],
     },
+    followed: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
+    ...userGetters,
     getMemberSince() {
       return timeAgoCounts(this.member_since);
     },
+    isSelfUser() {
+      return this.username === this.getUser.username;
+    },
+  },
+  methods: {
+    ...followActions,
+    toggleFollow() {
+      if (this.follow)
+        return this.doUnFollow({ id: this.username }).then(
+          () => (this.follow = false)
+        );
+      this.doFollow({ id: this.username }).then(() => (this.follow = true));
+    },
+  },
+  mounted() {
+    this.follow = this.followed;
   },
 };
 </script>
@@ -89,7 +125,7 @@ export default {
     @apply flex px-8 md:px-0;
   }
   .profile-actions {
-    @apply w-full pt-8 flex justify-center md:w-auto;
+    @apply w-full  flex justify-center md:w-auto;
   }
 
   .profile-info {

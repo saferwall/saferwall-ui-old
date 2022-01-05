@@ -1,6 +1,7 @@
 import axios from '@/services/axios'
 import router from '@/router'
 import jwtDecode from 'jwt-decode'
+import APP_CONFIGS from '../../common/config';
 import { getSavedState, saveState, clearState } from '@/common/utils/local-storage';
 
 
@@ -12,7 +13,7 @@ export const mutations = {
   SET_CURRENT_SESSION(state, session) {
     if (session === null) {
       state.session = null;
-      setDefaultAuthHeaders(state)
+      setDefaultAuthHeaders(state);
       return clearState('auth.session');
     }
 
@@ -23,15 +24,19 @@ export const mutations = {
       console.warn('Token decode failed', session)
     }
 
-    setDefaultAuthHeaders(state)
-    saveState('auth.session', state.session)
+    let sessionState = Object.assign({}, state.session);
+
+    if (APP_CONFIGS.isProd) {
+      delete sessionState.token;
+    }
+
+    setDefaultAuthHeaders(state);
+    saveState('auth.session', sessionState)
   },
   LOGOUT(state) {
     mutations.SET_CURRENT_SESSION(state, null);
 
-    router.push({
-      path: '/auth/login'
-    });
+    router.go('/auth/login');
   }
 }
 
@@ -41,20 +46,27 @@ export const getters = {
     return state.session != null && !getters.tokenExpired(state);
   },
   tokenExpired(state) {
-    if (state.session == null || state.session.token == null) {
+    if (state.session == null) {
       return true;
     }
-    let dt, expired, token = state.session.token;
 
-    try {
-      dt = jwtDecode(token);
-      expired = !dt || dt.exp - (Date.now() / 1000) <= 0;
-    } catch (e) {
-      // jwtDecode failed
-      console.warn(e, token);
+    if (state.session.exp > (Date.now() / 1000)) {
+      return false;
     }
 
-    return expired;
+    let dt, token = state.session.token;
+
+    if (!token) {
+      try {
+        dt = jwtDecode(token);
+        return !dt || dt.exp - (Date.now() / 1000) <= 0;
+      } catch (e) {
+        // jwtDecode failed
+        console.warn(e, token);
+      }
+    }
+
+    return true;
   },
   getUsername(state) {
     return state.session.id;
@@ -64,8 +76,9 @@ export const getters = {
 export const actions = {
   // This is automatically run in `src/state/store.js` when the app
   // starts, along with any other actions named `init` in other modules.
-  init({ state, dispatch }) {
-    setDefaultAuthHeaders(state)
+  init({ dispatch, state }) {
+    setDefaultAuthHeaders(state);
+
     dispatch('validate')
   },
 
@@ -79,7 +92,6 @@ export const actions = {
         const session = response.data;
         commit('SET_CURRENT_SESSION', session)
 
-        // dispatch('profile/updateProfile', null, { root: true });
         return await dispatch('user/fetchCurrentUser', username, { root: true });
       })
   },
@@ -96,7 +108,6 @@ export const actions = {
   },
 
   logOut({ commit }) {
-
     commit('LOGOUT');
   },
 
@@ -111,6 +122,8 @@ export const actions = {
 }
 
 function setDefaultAuthHeaders(state) {
+  if (APP_CONFIGS.isProd) return;
+
   if (state.session && state.session.token) {
     return axios.defaults.headers.common.Authorization = `Bearer ${state.session.token}`
   }
