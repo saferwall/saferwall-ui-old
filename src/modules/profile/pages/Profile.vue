@@ -6,6 +6,7 @@
         bio: profile.bio,
         member_since: profile.member_since,
         name: profile.name,
+        followed: isFollowed,
       }"
     />
     <card-tabs
@@ -152,6 +153,11 @@ export default {
     },
     hasMore() {
       return this.activeTab && this.paginators[this.activeTab].isNextPossible();
+    },
+    isFollowed() {
+      let followers = Object.values(this.profile.followers || {});
+
+      return followers.includes(this.getUsername);
     },
   },
   methods: {

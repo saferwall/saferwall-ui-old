@@ -1,5 +1,5 @@
 <template>
-  <card-tab class="settings-information" :active="active">
+  <card-tab :active="active">
     <form @submit.prevent="onFormSubmited()" class="space-y-10">
       <div class="si-form flex flex-col space-y-4">
         <input-group id="password" title="Your current password">
@@ -7,6 +7,7 @@
             class="custom-input"
             name="password"
             type="password"
+            autocomplete
             v-model="user.password"
             placeholder="Current Password"
           />

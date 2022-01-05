@@ -1,5 +1,7 @@
 import { timestampToDate } from './date-format';
 
+const INGORED_KEYS = ['SSDeep'];
+
 export const KEYS_MAPS = [
     { regex: /Size/g, maps: [(bytes) => (!isNaN(bytes) && formatSizeUnits(bytes) || bytes)] },
     { regex: /Magic/g, maps: [magicToString] },
@@ -20,6 +22,8 @@ export function isCapital(ch) {
 }
 
 export function translateKey(key) {
+    if (INGORED_KEYS.includes(key)) return key;
+
     let title = [],
         str = `${key}`.split('');
 

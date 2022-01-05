@@ -1,15 +1,13 @@
 <template>
-  <div class="account-settings">
-    <card-tabs
-      :tabs="settingsTabs"
-      v-on:switchTab="switchTab($event)"
-      mode="vertical"
-    >
-      <tab-information :active="activeTab == 'information'" />
-      <tab-email :active="activeTab == 'email'" />
-      <tab-password :active="activeTab == 'password'" />
-    </card-tabs>
-  </div>
+  <card-tabs
+    :tabs="settingsTabs"
+    v-on:switchTab="switchTab($event)"
+    mode="vertical"
+  >
+    <tab-information :active="activeTab == 'information'" />
+    <tab-email :active="activeTab == 'email'" />
+    <tab-password :active="activeTab == 'password'" />
+  </card-tabs>
 </template>
 
 <script>
@@ -31,7 +29,7 @@ export default {
         { name: "information", title: "Account information" },
         { name: "email", title: "Change Email address" },
         { name: "password", title: "Change password" },
-        { name: "delete", title: "Delete account" },
+        // { name: "delete", title: "Delete account" },
       ],
       activeTab: null,
     };
@@ -47,14 +45,10 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-.account-settings {
-  .tab-mode-vertical {
-    @apply py-14;
 
-    .tab-content {
-      @apply px-10;
-    }
-  }
+<style scoped>
+.tab-content,
+.tab-headers {
+  @apply p-8 !important;
 }
 </style>

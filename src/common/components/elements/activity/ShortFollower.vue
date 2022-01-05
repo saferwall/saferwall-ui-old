@@ -1,18 +1,33 @@
 <template>
-  <div class="short-follower space-x-8">
-    <div class="fuser-avatar">
+  <div
+    class="
+      flex
+      md:flex-row
+      justify-center
+      items-center
+      lg:justify-between
+      md:p-6 md:mx-4
+      my-4
+      gap-2
+    "
+  >
+    <div>
       <a :href="`/user/${username}`">
         <avatar :username="username" />
       </a>
     </div>
-    <div class="fuser-info flex-grow">
+
+    <div class="flex flex-col justify-center">
       <a :href="`/user/${username}`">
-        <h1 class="fuser-username">
+        <h1 class="font-bold text-base break-all">
           {{ username }}
         </h1>
       </a>
-      <p class="fuser-resgistred">Member since {{ getRegistredTimeAgo }}</p>
+      <p class="text-gray-medium mt-1">
+        Member since {{ getRegistredTimeAgo }}
+      </p>
     </div>
+
     <div class="actions">
       <btn-follow
         v-if="!isSelfUser"
@@ -83,18 +98,3 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-.short-follower {
-  @apply flex flex-wrap items-center justify-between md:p-6 md:mx-4 my-4;
-
-  .fuser-username {
-    @apply font-bold text-base break-all;
-  }
-  .fuser-resgistred {
-    @apply text-gray-medium mt-1;
-  }
-  .btn-fuser {
-    @apply p-2;
-  }
-}
-</style>

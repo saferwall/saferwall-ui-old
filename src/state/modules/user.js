@@ -21,6 +21,9 @@ export const getters = {
     },
     getProfile: (state) => (id) => {
         return id && state.profiles[id] || state.user;
+    },
+    getUsername(state) {
+        return state.user.username || null;
     }
 }
 
@@ -53,15 +56,14 @@ export const actions = {
                 return data;
             });
     },
-    fetchCurrentUser({ commit, state }, username) {
-        return state.user && state.user.__expire_at > Date.now() && state.user || axios
+    fetchCurrentUser({ commit }, username) {
+        return axios
             .get(`users/${username}`)
             .then(response => {
                 let data = response.data;
                 commit('SET_CURRENT_PROFILE', {
                     username: username,
                     ...data,
-                    __expire_at: Date.now() + 1000 * 60 * 3 // 3min
                 });
                 return data;
             });
@@ -74,8 +76,7 @@ export const actions = {
                 let data = response.data;
 
                 commit('UPDATE_PROFILE', {
-                    ...data,
-                    __expire_at: Date.now() + 1000 * 60 * 3 // 3min
+                    ...data
                 });
 
                 createToast('Profile updated successfully !', { type: "success", position: "bottom-right" });
@@ -97,7 +98,6 @@ export const actions = {
 
                 commit('UPDATE_PROFILE', {
                     ...data,
-                    __expire_at: Date.now() + 1000 * 60 * 3 // 3min
                 });
 
                 createToast('Email updated successfully !', { type: "success", position: "bottom-right" });
@@ -143,7 +143,6 @@ export const mappers = {
 
         return {
             ...data,
-            __expire_at: Date.now() + 1000 * 60 * 3 // 3min
         }
     },
 }

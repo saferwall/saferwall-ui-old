@@ -1,18 +1,18 @@
 <template>
-  <div class="activity" :class="isFollow ? 'followtype' : 'filetype'">
-    <div class="header border text-center">
+  <div class="activity relative" :class="isFollow ? 'followtype' : 'filetype'">
+    <div class="header border text-center z-10">
       <router-link class="profile-link" :to="`/user/${author.username}`">
         <avatar :username="author.username" />
-        <div class="info mt-3">
+        <router-link :to="getFileSummaryRoute" class="info mt-3">
           <h3 class="text-xl font-bold">{{ author.username }}</h3>
           <p class="text-gray">Member since {{ getJoinedAgo }}</p>
-        </div>
+        </router-link>
       </router-link>
       <div v-if="isFollow" class="flex flex-col justify-center">
         <p>Followed</p>
         <p>{{ getActivityTimeAgo }} ago</p>
       </div>
-      <div class="buttons mt-3" v-if="!isSelfUser && !isFollow">
+      <div class="buttons mt-3" v-if="isLogged && !isSelfUser && !isFollow">
         <button
           @click="toggleFollow"
           :class="follow ? 'active' : ''"
@@ -23,32 +23,35 @@
       </div>
       <template v-else-if="isFollow">
         <router-link class="profile-link target" :to="`/user/${target}`">
-          <div class="info mt-3">
+          <router-link :to="getFileSummaryRoute" class="info mt-3">
             <h3 class="text-xl font-bold">{{ target }}</h3>
             <p class="text-gray">Member since {{ getJoinedAgo }}</p>
-          </div>
+          </router-link>
           <avatar :username="target" />
         </router-link>
       </template>
     </div>
+
     <div
-      class="activity-content col-span-4 grid lg:grid-cols-4"
+      class="activity-content col-span-4 grid lg:grid-cols-4 z-10"
       v-if="!isFollow"
     >
-      <div class="info" :class="(!hasTags && 'col-span-4') || 'col-span-3'">
-        <router-link :to="getFileSummaryRoute">
-          <p class="title">
-            <b>{{ author.username }}</b> {{ getActivityTitle }} a file
-            <span class="text-sm">{{ getActivityTimeAgo }} ago</span>
-          </p>
-        </router-link>
+      <router-link
+        :to="getFileSummaryRoute"
+        class="info"
+        :class="(!hasTags && 'col-span-4') || 'col-span-3'"
+      >
+        <p class="title">
+          <b>{{ author.username }}</b> {{ getActivityTitle }} a file
+          <span class="text-sm">{{ getActivityTimeAgo }} ago</span>
+        </p>
         <hash-input :hash="file.hash" class="mt-4"></hash-input>
         <file-meta
           :scan="file.multiav"
           :filename="file.filename"
           :classification="file.class"
         />
-      </div>
+      </router-link>
       <div v-if="hasTags" class="tags">
         <h3>Tags</h3>
         <ul class="list flex flex-wrap">
@@ -154,8 +157,11 @@ export default {
     hasTags() {
       return this.getTags.length > 0;
     },
+    isLogged() {
+      return this.getUser;
+    },
     isSelfUser() {
-      return this.author.username !== this.getUser && this.getUser.username;
+      return this.author.username === this.getUser.username;
     },
     getClassification() {
       return getClass(this.file.class);

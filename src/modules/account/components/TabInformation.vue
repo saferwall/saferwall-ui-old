@@ -1,9 +1,6 @@
 <template>
-  <card-tab class="settings-information" :active="active">
-    <form
-      @submit.prevent="onFormSubmited()"
-      class="settings-information space-y-10"
-    >
+  <card-tab :active="active">
+    <form @submit.prevent="onFormSubmited()" class="space-y-10">
       <div class="si-avatar relative">
         <avatar width="120px" height="120px" :username="user.username" />
         <span

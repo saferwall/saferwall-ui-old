@@ -4,15 +4,16 @@ import nProgress from 'nprogress';
 export const actions = {
     doAction(_, { id, type, action }) {
         nProgress.start();
+        return new Promise(done => {
+            axios
+                .post(
+                    `${type}/${id}/${action}`
+                ).then(data => {
+                    nProgress.done(true);
+                    done(data);
+                });
+        })
 
-        return axios
-            .post(
-                `${type}/${id}/${action}`
-            )
-            .then(response => {
-                nProgress.done();
-                return response.data;
-            })
     },
     doLike(_, { id }) {
         return actions.doAction(_, { type: "files", id: id, action: "like" })
