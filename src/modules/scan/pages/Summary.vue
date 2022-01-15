@@ -1,5 +1,5 @@
 <template>
-  <div class="summary">
+  <div class="summary space-y-2">
     <template v-if="isFileLoaded">
       <Card>
         <Progress
@@ -108,13 +108,28 @@ export default {
           };
         });
 
-      data.push({
-        title: "Packer",
-        value: (() => {
-          this.allowHtmlFields.properties.push(`${data.length}-value`);
-          return (items.Packer || []).join("<br>");
-        })(),
-      });
+      data = [
+        ...data,
+        ...Object.keys(items)
+          .filter(
+            (key) =>
+              items[key] instanceof Array &&
+              items[key].reduce(
+                (isSimpleArray, item) =>
+                  isSimpleArray && ["string", "number"].includes(typeof item),
+                true
+              )
+          )
+          .map((key, index) => {
+            this.allowHtmlFields.properties.push(
+              `${data.length + index}-value`
+            );
+            return {
+              title: translateKey(key),
+              value: items[key].join("<br />"),
+            };
+          }),
+      ];
 
       data.push({
         title: "Tags",

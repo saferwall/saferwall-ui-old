@@ -49,7 +49,10 @@
         </li>
 
         <li :class="isPageActive('static-analysis') ? 'active' : ''">
-          <router-link :to="getPageLink('static-analysis')">
+          <router-link
+            :to="getPageLink('static-analysis')"
+            v-on:click="toggleMenu('static-analysis')"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               class="h-6 w-6 ml-2"
@@ -70,7 +73,7 @@
 
           <ul
             class="sub-items"
-            :class="isPageActive('static-analysis') ? '' : 'hide'"
+            :class="isMenuOpen('static-analysis') ? '' : 'hide'"
           >
             <li :class="isPageActive('static-analysis/pe') ? 'active' : ''">
               <router-link :to="getPageLink('static-analysis/pe')">
@@ -181,6 +184,9 @@ export default {
   data: () => ({
     file: null,
     hash: null,
+    menuOpen: {
+      "static-analysis": true,
+    },
   }),
   computed: {
     ...scanGetters,
@@ -190,8 +196,17 @@ export default {
       return `/file/${this.hash}/${to}`;
     },
     isPageActive(to) {
-      let pageActive = this.$route.fullPath.indexOf(this.getPageLink(to));
-      return pageActive >= 0;
+      let pageActive = this.$route.fullPath.indexOf(this.getPageLink(to)) != -1;
+
+      return pageActive;
+    },
+    toggleMenu(to) {
+      if (this.menuOpen[to] !== undefined) {
+        this.menuOpen[to] = !this.isPageActive(to) ? true : !this.menuOpen[to];
+      }
+    },
+    isMenuOpen(to) {
+      return this.menuOpen[to] === true;
     },
   },
   async beforeMount() {
