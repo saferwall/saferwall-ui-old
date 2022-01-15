@@ -229,7 +229,7 @@ export default {
   }
 
   .header {
-    @apply flex flex-wrap w-full justify-between flex-grow border-none;
+    @apply flex flex-col items-center w-full justify-between flex-grow border-none;
   }
 
   > * {
@@ -251,7 +251,7 @@ export default {
     }
 
     .tags {
-      @apply mt-8 mx-0 px-0 lg:px-4 w-full;
+      @apply mt-8 ml-4 mx-0 px-0 lg:px-4 w-full;
       .list li {
         @apply flex py-1 px-2 bg-blue-500 m-1 rounded text-light;
 

@@ -67,7 +67,7 @@ table {
 
   td,
   th {
-    @apply px-3 py-3;
+    @apply px-3 py-2 text-sm xl:text-base;
   }
   td:nth-child(2n) {
     @apply text-gray font-normal;
