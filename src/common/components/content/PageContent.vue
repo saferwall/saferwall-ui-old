@@ -46,7 +46,7 @@
               </g>
             </svg>
 
-            Rescan File
+            Refile File
           </btn>
           <btn v-if="false" class="disabled">
             <svg
@@ -103,7 +103,7 @@ import APP_CONFIGS from "@/common/config";
 
 import Btn from "@/common/components/elements/button/Btn.vue";
 import BtnLike from "@/common/components/elements/button/BtnLike.vue";
-import { scanGetters, fileActions } from "@/state/helpers";
+import { fileGetters, fileActions } from "@/state/helpers";
 
 export default {
   components: { Btn, BtnLike },
@@ -120,7 +120,7 @@ export default {
     downloadLink: null,
   }),
   computed: {
-    ...scanGetters,
+    ...fileGetters,
   },
   methods: {
     ...fileActions,

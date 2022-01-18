@@ -1,5 +1,7 @@
+import config from "../common/config";
+
 export default function log({ next, to }) {
-    if (process.env.VUE_APP_ENV == 'dev') {
+    if (!config.isProd) {
         console.log(to);
     }
 

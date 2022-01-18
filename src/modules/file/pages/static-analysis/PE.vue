@@ -213,7 +213,7 @@ import CardTabs from "@/common/components/elements/CardTabs.vue";
 import TableCols from "@/common/components/tables/TableCols.vue";
 
 import { capitalize } from "@vue/shared";
-import { scanGetters } from "@/state/helpers";
+import { fileGetters } from "@/state/helpers";
 import {
   translateKey,
   translateValue,
@@ -284,7 +284,7 @@ export default {
     },
   },
   computed: {
-    ...scanGetters,
+    ...fileGetters,
     getFirstTree() {
       return Object.keys(this.getFilePE).map((item) => ({
         name: item,

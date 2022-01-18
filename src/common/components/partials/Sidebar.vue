@@ -174,7 +174,7 @@
 </template>
 
 <script>
-import { scanGetters } from "@/state/helpers";
+import { fileGetters } from "@/state/helpers";
 
 import Logo from "@/common/components/elements/Logo.vue";
 import Btn from "@/common/components/elements/button/Btn.vue";
@@ -189,7 +189,7 @@ export default {
     },
   }),
   computed: {
-    ...scanGetters,
+    ...fileGetters,
   },
   methods: {
     getPageLink(to) {

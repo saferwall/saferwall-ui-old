@@ -36,15 +36,15 @@ const fileActions = mapActions('actions', ['doLike', 'doUnLike']);
 const followActions = mapActions('actions', ['doFollow', 'doUnFollow']);
 
 /**
- * Scan
+ * file
  */
-const scanMethods = mapActions('scan', [
+const fileMethods = mapActions('file', [
     'fetchFileSummary',
     'fetchFileComments',
     'fetchFileAvs',
     'fetchFilePE',
 ]);
-const scanGetters = mapGetters('scan', [
+const fileGetters = mapGetters('file', [
     'getFile',
     'getFileSummary',
     'getFileComments',
@@ -71,6 +71,6 @@ export {
     userGetters, userMethods,
     authGetters, authMethods,
     fileActions, followActions,
-    scanMethods, scanGetters,
+    fileMethods, fileGetters,
     uploadMethods, uploadGetters
 }
