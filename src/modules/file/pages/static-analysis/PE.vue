@@ -31,7 +31,7 @@
 
           <!-- Start Header -->
           <card-tab :active="'Header' == currentTab">
-            <code>{{ get_Header }}</code>
+            <pre class="px-4">{{ get_Header }}</pre>
           </card-tab>
           <!-- End Header -->
 
@@ -90,7 +90,10 @@
                   :bordered="true"
                   :lines="[
                     { key: 'Name', value: importItem.name },
-                    { key: 'Offset', value: importItem.offset },
+                    {
+                      key: 'Offset',
+                      value: importItem.offset,
+                    },
                   ]"
                 ></table-cols>
                 <div class="divider"></div>
@@ -206,6 +209,8 @@ import CardTabs from "@/common/components/elements/CardTabs.vue";
 import TableCols from "@/common/components/tables/TableCols.vue";
 import DosHeader from "./PE/DosHeader.vue";
 
+import hexdump from "buffer-hexdump";
+
 import { capitalize } from "@vue/shared";
 import { fileGetters } from "@/state/helpers";
 import {
@@ -280,6 +285,7 @@ export default {
   computed: {
     ...fileGetters,
     getItems() {
+      console.log(this.getFilePE[this.currentTab]);
       return this.getFilePE[this.currentTab];
     },
     getFirstTree() {
@@ -377,7 +383,7 @@ export default {
     get_Imports_tabs() {
       return this.get_Imports.map((item) => ({
         name: item.name,
-        title: item.offset,
+        title: item.name,
       }));
     },
     get_Resources_Tabs() {
@@ -387,7 +393,8 @@ export default {
       }));
     },
     get_Header() {
-      return this.getFilePE[this.currentTab];
+      const buffer = Buffer.from(this.getFilePE[this.currentTab], "base64");
+      return hexdump(buffer);
     },
     get_RichHeader() {
       let richeader = this.getSelectedItems();
@@ -426,7 +433,7 @@ export default {
           };
         });
         return {
-          name: `Entropy : ${_section.Entropy || ""}`,
+          name: `Entropy (${_section.Entropy || ""})`,
           header: header,
         };
       });

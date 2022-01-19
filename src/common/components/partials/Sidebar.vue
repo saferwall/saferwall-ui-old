@@ -104,7 +104,7 @@
           :class="isPageActive('dynamic-analysis') ? 'active' : ''"
           class="disabled cursor-not-allowed"
         >
-          <a class="bg-gray-2xlight">
+          <a class="bg-gray-2xlight w-full">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               class="h-6 w-6 ml-2"
@@ -126,14 +126,14 @@
               />
             </svg>
 
-            Dynamic Analysis
+            <span class="text-base">Dynamic Analysis</span>
             <span
               class="
                 rounded-full
                 bg-red-500
                 px-2
-                py-1
-                text-xs
+                py-0
+                text-[0.5em]
                 font-bold
                 text-white
               "
@@ -243,7 +243,7 @@ export default {
 
       li {
         a {
-          @apply text-base text-gray flex items-center gap-4 py-4 my-1 p-4 w-9/10 rounded-r-md;
+          @apply text-base text-gray flex items-center gap-4 py-4 my-1 p-2 w-11/12 rounded-r-md;
         }
         &.active > a,
         > a:hover {
@@ -253,7 +253,7 @@ export default {
     }
 
     .sub-items {
-      @apply pl-8 ml-6 mr-1;
+      @apply pl-8 ml-4 mr-1;
 
       max-height: 300px;
       opacity: 1;

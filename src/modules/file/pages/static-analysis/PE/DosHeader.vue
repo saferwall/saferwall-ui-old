@@ -5,7 +5,7 @@
       { key: 'member', title: 'Member' },
       { key: 'value', title: 'Value' },
     ]"
-    :lines="get_DosHeader"
+    :lines="getLines"
   />
 </template>
 <script>
@@ -17,12 +17,12 @@ import {
 } from "@/common/utils/translate";
 
 export default {
-  components: [TableCols],
+  components: { TableCols },
   props: {
     items: {},
   },
   computed: {
-    get_DosHeader() {
+    getLines() {
       return Object.keys(this.items).map((key) => {
         let val = translateValue(key, this.items[key]);
 
