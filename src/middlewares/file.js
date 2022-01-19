@@ -20,5 +20,9 @@ export default async ({ store, to, next }) => {
         return next();
     }
 
+    if (await store.getters['file/getRefrehStatus']) {
+        await store.dispatch('file/fetchFile', fileHash);
+    }
+
     return next();
 }

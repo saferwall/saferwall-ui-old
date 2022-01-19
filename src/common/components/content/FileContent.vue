@@ -71,15 +71,15 @@
           <btn :link="downloadLink" :target="'_blank'">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="19.004"
-              height="17.708"
-              viewBox="0 0 19.004 17.708"
+              width="20"
+              height="20"
+              viewBox="0 0 20 20"
             >
               <path
                 d="M14.81,9.36,9.252,14.529,3.694,9.36l1.022-.951,3.813,3.546V0H9.975V11.955l3.813-3.546Zm3.694,6.5H0v1.344H18.5Zm0,0"
                 transform="translate(0.25 0.25)"
-                fill="#0d9677"
-                stroke="#0d9677"
+                fill="currentColor"
+                stroke="currentColor"
                 stroke-width="0.5"
               />
             </svg>
@@ -89,6 +89,26 @@
           <btn-like @click="toggleLike" :liked="dliked">
             {{ dliked ? "Unlike" : "Like" }}
           </btn-like>
+          <a
+            :href="'https://twitter.com/intent/tweet?text=' + getShareTweet"
+            target="_blank"
+          >
+            <btn>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                fill="currentColor"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"
+                />
+              </svg>
+              Share
+            </btn>
+          </a>
         </div>
       </div>
     </div>
@@ -103,7 +123,7 @@ import APP_CONFIGS from "@/common/config";
 
 import Btn from "@/common/components/elements/button/Btn.vue";
 import BtnLike from "@/common/components/elements/button/BtnLike.vue";
-import { fileGetters, fileActions } from "@/state/helpers";
+import { fileGetters, fileMethods, fileActions } from "@/state/helpers";
 
 export default {
   components: { Btn, BtnLike },
@@ -121,9 +141,13 @@ export default {
   }),
   computed: {
     ...fileGetters,
+    getShareTweet() {
+      return encodeURI(window.location.href);
+    },
   },
   methods: {
     ...fileActions,
+    ...fileMethods,
     goBack() {
       this.$router.go(-1);
     },
@@ -132,17 +156,25 @@ export default {
 
       if (this.dliked) {
         return this.doUnLike({ id: this.hash }).then(() => {
-          this.dliked = false;
+          this.updateLike(false);
         });
       }
       this.doLike({ id: this.hash }).then(() => {
-        this.dliked = true;
+        this.updateLike(true);
       });
     },
     async refreshContent() {
       this.file = await this.getFile;
+
       this.hash = this.file.sha256;
       this.downloadLink = `${APP_CONFIGS.apiURL}files/${this.hash}/download/`;
+
+      this.dliked = this.file.liked;
+    },
+    updateLike(liked) {
+      this.dliked = liked == true;
+      console.log("update like : ", liked);
+      this.updateRefreshStatus(true);
     },
   },
   async beforeMount() {

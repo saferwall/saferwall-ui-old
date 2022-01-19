@@ -13,7 +13,7 @@
             :stroke-dasharray="circumference + ' ' + circumference"
             :style="{ strokeDashoffset: strokeDashoffset }"
             :stroke-width="stroke"
-            fill="rgba(25,25,25,0.05)"
+            fill="rgba(25,25,25,0.0)"
             :r="normalizedRadius"
             :cx="radius"
             :cy="radius"

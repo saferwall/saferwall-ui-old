@@ -39,14 +39,15 @@ const followActions = mapActions('actions', ['doFollow', 'doUnFollow']);
  * file
  */
 const fileMethods = mapActions('file', [
-    'fetchFileSummary',
+    'fetchFile',
     'fetchFileComments',
     'fetchFileAvs',
     'fetchFilePE',
+    'updateRefreshStatus'
 ]);
 const fileGetters = mapGetters('file', [
     'getFile',
-    'getFileSummary',
+    'getFile',
     'getFileComments',
     'getFileAvs',
     'getFilePE',

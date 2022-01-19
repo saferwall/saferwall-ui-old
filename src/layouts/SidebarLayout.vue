@@ -31,7 +31,7 @@ import BaseLayout from "@/layouts/BaseLayout.vue";
 
 import Navbar from "@/common/components/partials/Navbar.vue";
 import Sidebar from "@/common/components/partials/Sidebar.vue";
-import Content from "@/common/components/content/PageContent.vue";
+import Content from "@/common/components/content/FileContent.vue";
 import Footer from "@/common/components/partials/Footer.vue";
 
 export default {

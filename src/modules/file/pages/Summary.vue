@@ -219,7 +219,7 @@ export default {
   },
   created() {},
   async beforeMount() {
-    this.file = await this.getFileSummary;
+    this.file = await this.getFile;
   },
 };
 </script>

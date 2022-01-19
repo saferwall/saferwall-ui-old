@@ -75,7 +75,10 @@
             class="sub-items"
             :class="isMenuOpen('static-analysis') ? '' : 'hide'"
           >
-            <li :class="isPageActive('static-analysis/pe') ? 'active' : ''">
+            <li
+              v-if="isPE"
+              :class="isPageActive('static-analysis/pe') ? 'active' : ''"
+            >
               <router-link :to="getPageLink('static-analysis/pe')">
                 PE
               </router-link>
@@ -190,6 +193,9 @@ export default {
   }),
   computed: {
     ...fileGetters,
+    isPE() {
+      return this.file && `${this.file.file_format}`.toLowerCase() === "pe";
+    },
   },
   methods: {
     getPageLink(to) {

@@ -30,14 +30,6 @@ const fileModuleRoutes = [
         component: () => import('@/modules/file/pages/Summary.vue'),
         meta: {
             title: 'File Summary',
-            middleware: [
-                async ({ store, to, next }) => {
-                    let file = await store.dispatch('file/fetchFileSummary', to.params.id);
-                    to.meta.page.title = file.properties.SHA256;
-
-                    next();
-                }
-            ]
         }
     },
     {

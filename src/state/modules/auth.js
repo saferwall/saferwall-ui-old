@@ -108,7 +108,11 @@ export const actions = {
   },
 
   logOut({ commit }) {
-    commit('LOGOUT');
+    return axios
+      .delete('/auth/logout/')
+      .then(() => {
+        commit('LOGOUT');
+      });
   },
 
   // Validates the current session's token and refreshes it

@@ -3,7 +3,7 @@
     <div class="header border text-center z-10">
       <router-link class="profile-link" :to="`/user/${author.username}`">
         <avatar :username="author.username" />
-        <router-link :to="getFileSummaryRoute" class="info mt-3">
+        <router-link :to="getFileRoute" class="info mt-3">
           <h3 class="text-xl font-bold">{{ author.username }}</h3>
           <p class="text-gray">Member since {{ getJoinedAgo }}</p>
         </router-link>
@@ -23,7 +23,7 @@
       </div>
       <template v-else-if="isFollow">
         <router-link class="profile-link target" :to="`/user/${target}`">
-          <router-link :to="getFileSummaryRoute" class="info mt-3">
+          <router-link :to="getFileRoute" class="info mt-3">
             <h3 class="text-xl font-bold">{{ target }}</h3>
             <p class="text-gray">Member since {{ getJoinedAgo }}</p>
           </router-link>
@@ -37,7 +37,7 @@
       v-if="!isFollow"
     >
       <router-link
-        :to="getFileSummaryRoute"
+        :to="getFileRoute"
         class="info"
         :class="(!hasTags && 'col-span-4') || 'col-span-3'"
       >
@@ -166,7 +166,7 @@ export default {
     getClassification() {
       return getClass(this.file.class);
     },
-    getFileSummaryRoute() {
+    getFileRoute() {
       return `/file/${this.file.hash}/summary`;
     },
     isFollow() {
