@@ -97,20 +97,13 @@ export default {
     },
   },
   data(props) {
-    const normalizedRadius = this.radius - this.stroke * 2;
-    const circumference = normalizedRadius * 2 * Math.PI;
     const progress = (props.rate.value / props.rate.count) * 100;
 
     return {
-      normalizedRadius,
-      circumference,
       progress,
     };
   },
   computed: {
-    strokeDashoffset() {
-      return this.circumference - (this.progress / 100) * this.circumference;
-    },
     getDateSubmission() {
       let d = new Date(1970, 0, 1);
       d.setSeconds(this.submission);
@@ -152,18 +145,6 @@ export default {
     }
     svg {
       @apply absolute stroke-primary;
-    }
-  }
-
-  .btn-circle {
-    @apply p-0 m-0 h-20 w-20 rounded-full;
-  }
-
-  .buttons {
-    @apply flex items-end content-end justify-end;
-
-    .btn {
-      @apply mr-6;
     }
   }
 
