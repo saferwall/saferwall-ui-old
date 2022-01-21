@@ -220,7 +220,11 @@ export default {
   thead,
   th,
   tr td {
-    @apply border border-gray-light border-opacity-50;
+    @apply border border-gray-light border-opacity-50 break-all;
+  }
+
+  * {
+    @apply font-mono text-sm;
   }
 
   th div {
@@ -230,6 +234,10 @@ export default {
   th,
   tr td {
     @apply px-4 py-2;
+  }
+
+  th:first-child {
+    @apply md:max-w-[12rem];
   }
 
   tr:nth-child(2n + 1) {
@@ -243,7 +251,7 @@ export default {
     }
 
     input {
-      @apply focus:outline-none  bg-transparent px-8 py-4 text-gray;
+      @apply focus:outline-none  bg-transparent pl-3 py-4 text-gray;
     }
   }
 }
@@ -251,6 +259,7 @@ export default {
 .pagination {
   .btn,
   select {
+    @apply select-none;
     @apply cursor-pointer  p-4 py-2 rounded  bg-opacity-70;
   }
 
