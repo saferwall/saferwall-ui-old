@@ -4,12 +4,14 @@
   </div>
   <div class="search">
     <input
-      class="input"
+      :class="error ? 'border border-red-500' : ''"
       name="search"
       placeholder="Quik file hash lookup"
-      disabled
+      @keyup="searchFileBySha256($event)"
+      @change="searchFileBySha256($event)"
+      @keyup.enter="moveToSearchedFile()"
     />
-    <button class="button">
+    <button class="button" @click="moveToSearchedFile()">
       <svg
         class="inline"
         xmlns="http://www.w3.org/2000/svg"
@@ -49,6 +51,8 @@ export default {
     ...authGetters,
   },
   setup() {
+    const search = shallowRef(null);
+    const error = shallowRef(false);
     const menu = shallowRef(MenuDefault);
     const route = useRoute();
 
@@ -68,7 +72,34 @@ export default {
       },
       { immediate: true }
     );
-    return { menu };
+    return { menu, error, search };
+  },
+  methods: {
+    searchFileBySha256({ target }) {
+      const sha256 = target.value;
+      this.search = null;
+
+      if (sha256 && !sha256.match(/\b[A-Fa-f0-9]{64}\b/)) {
+        this.error = true;
+        return;
+      }
+
+      this.error = false;
+
+      if (sha256) {
+        this.search = sha256;
+
+        console.log("file : ", sha256);
+      }
+    },
+    moveToSearchedFile() {
+      if (this.search) {
+        this.$router.push({
+          name: "file-summary",
+          params: { id: this.search },
+        });
+      }
+    },
   },
 };
 </script>
@@ -81,15 +112,15 @@ export default {
 }
 
 .search {
-  @apply flex hidden lg:flex md:w-3/12 sm:w-min;
+  @apply flex hidden lg:flex md:w-5/12 sm:w-min;
 
-  .input {
-    @apply md:w-8/12 sm:w-min h-full px-6 focus:outline-none;
+  input {
+    @apply md:w-full sm:w-min h-full px-6;
+    @apply focus:outline-none;
   }
 
   .button {
-    @apply h-full md:w-4/12 sm:w-min px-6 focus:outline-none flex items-center content-center;
-    display: block;
+    @apply px-8 flex items-center content-center;
   }
 }
 
