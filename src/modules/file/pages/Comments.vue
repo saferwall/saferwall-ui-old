@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import { scanGetters } from "@/state/helpers";
+import { fileGetters } from "@/state/helpers";
 import Comment from "../components/Comment.vue";
 
 export default {
@@ -22,7 +22,7 @@ export default {
     };
   },
   computed: {
-    ...scanGetters,
+    ...fileGetters,
   },
   async beforeMount() {
     this.comments = await this.getFileComments;

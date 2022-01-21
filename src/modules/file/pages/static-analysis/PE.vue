@@ -10,14 +10,7 @@
         >
           <!-- Start DosHeader -->
           <card-tab :active="'DosHeader' == currentTab">
-            <table-cols
-              :bordered="true"
-              :columns="[
-                { key: 'member', title: 'Member' },
-                { key: 'value', title: 'Value' },
-              ]"
-              :lines="get_DosHeader"
-            />
+            <dos-header :items="getItems"></dos-header>
           </card-tab>
           <!-- End DosHeader -->
 
@@ -38,7 +31,7 @@
 
           <!-- Start Header -->
           <card-tab :active="'Header' == currentTab">
-            <code>{{ get_Header }}</code>
+            <pre class="px-4">{{ get_Header }}</pre>
           </card-tab>
           <!-- End Header -->
 
@@ -97,7 +90,10 @@
                   :bordered="true"
                   :lines="[
                     { key: 'Name', value: importItem.name },
-                    { key: 'Offset', value: importItem.offset },
+                    {
+                      key: 'Offset',
+                      value: importItem.offset,
+                    },
                   ]"
                 ></table-cols>
                 <div class="divider"></div>
@@ -211,9 +207,12 @@ import Card from "@/common/components/elements/Card.vue";
 import CardTab from "@/common/components/elements/CardTab.vue";
 import CardTabs from "@/common/components/elements/CardTabs.vue";
 import TableCols from "@/common/components/tables/TableCols.vue";
+import DosHeader from "./PE/DosHeader.vue";
+
+import hexdump from "buffer-hexdump";
 
 import { capitalize } from "@vue/shared";
-import { scanGetters } from "@/state/helpers";
+import { fileGetters } from "@/state/helpers";
 import {
   translateKey,
   translateValue,
@@ -222,7 +221,7 @@ import {
 } from "@/common/utils/translate";
 
 export default {
-  components: { Card, CardTab, CardTabs, TableCols },
+  components: { Card, CardTab, CardTabs, TableCols, DosHeader },
   data() {
     return {
       hexa: true,
@@ -284,23 +283,16 @@ export default {
     },
   },
   computed: {
-    ...scanGetters,
+    ...fileGetters,
+    getItems() {
+      console.log(this.getFilePE[this.currentTab]);
+      return this.getFilePE[this.currentTab];
+    },
     getFirstTree() {
       return Object.keys(this.getFilePE).map((item) => ({
         name: item,
         title: capitalize(item),
       }));
-    },
-    get_DosHeader() {
-      let items = this.getFilePE[this.currentTab];
-      return Object.keys(items).map((key) => {
-        let val = translateValue(key, items[key]);
-
-        return {
-          member: translateKey(key),
-          value: this.hexa && !isNaN(val) ? decToHexString(val) : val,
-        };
-      });
     },
     get_NtHeader() {
       let items = this.getFilePE[this.currentTab];
@@ -391,7 +383,7 @@ export default {
     get_Imports_tabs() {
       return this.get_Imports.map((item) => ({
         name: item.name,
-        title: item.offset,
+        title: item.name,
       }));
     },
     get_Resources_Tabs() {
@@ -401,7 +393,8 @@ export default {
       }));
     },
     get_Header() {
-      return this.getFilePE[this.currentTab];
+      const buffer = Buffer.from(this.getFilePE[this.currentTab], "base64");
+      return hexdump(buffer);
     },
     get_RichHeader() {
       let richeader = this.getSelectedItems();
@@ -440,7 +433,7 @@ export default {
           };
         });
         return {
-          name: `Entropy : ${_section.Entropy || ""}`,
+          name: `Entropy (${_section.Entropy || ""})`,
           header: header,
         };
       });
@@ -468,7 +461,7 @@ export default {
     },
   },
   async beforeMount() {
-    this.file = await this.getFileSummary;
+    this.file = await this.getFile;
 
     this.treeList = this.getFirstTree.filter(
       (key) => !["Is32", "Is64"].includes(key.name)

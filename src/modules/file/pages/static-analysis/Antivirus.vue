@@ -34,7 +34,7 @@
 <script>
 import Card from "@/common/components/elements/Card.vue";
 import TableCols from "@/common/components/tables/TableCols.vue";
-import { scanGetters } from "@/state/helpers";
+import { fileGetters } from "@/state/helpers";
 import { timeAgoCounts, timestampToDate } from "@/common/utils/date-format";
 
 export default {
@@ -72,7 +72,7 @@ export default {
     },
   },
   computed: {
-    ...scanGetters,
+    ...fileGetters,
     getFirstScanDate() {
       return Object.values(this.getFileAvs.first_scan).reduce(
         (first, av) => (!first || av.update <= first ? av.update : first),
@@ -96,7 +96,7 @@ export default {
   },
   created() {},
   async beforeMount() {
-    this.file = await this.getFileSummary;
+    this.file = await this.getFile;
   },
 };
 </script>

@@ -1,5 +1,5 @@
 import authMiddleware, { noAuthMiddleware } from '@/middlewares/auth';
-import scanMiddleware from '@/middlewares/scan';
+import fileMiddleware from '@/middlewares/file';
 import logMiddleware from '@/middlewares/log';
 
 /**
@@ -16,9 +16,9 @@ const classificationModuleRoutes = [
 ];
 
 /**
- * Scan Module routes
+ * File Module routes
  */
-const scanModuleRoutes = [
+const fileModuleRoutes = [
     {
         path: '',
         name: 'file-index',
@@ -27,23 +27,15 @@ const scanModuleRoutes = [
     {
         path: '/summary',
         name: 'file-summary',
-        component: () => import('@/modules/scan/pages/Summary.vue'),
+        component: () => import('@/modules/file/pages/Summary.vue'),
         meta: {
             title: 'File Summary',
-            middleware: [
-                async ({ store, to, next }) => {
-                    let file = await store.dispatch('scan/fetchFileSummary', to.params.id);
-                    to.meta.page.title = file.properties.SHA256;
-
-                    next();
-                }
-            ]
         }
     },
     {
         path: '/static-analysis',
         name: 'static-analysis',
-        component: () => import('@/modules/scan/pages/Summary.vue'),
+        component: () => import('@/modules/file/pages/Summary.vue'),
         meta: {
             title: 'Static Analysis',
         }
@@ -51,18 +43,18 @@ const scanModuleRoutes = [
     {
         path: '/static-analysis/pe',
         name: 'static-analysis-pe',
-        component: () => import('@/modules/scan/pages/static-analysis/PE.vue'),
+        component: () => import('@/modules/file/pages/static-analysis/PE.vue'),
         meta: {
             title: 'PE',
             middleware: [
-                async ({ store, to, next }) => { await store.dispatch('scan/fetchFilePE', to.params.id), next() }
+                async ({ store, to, next }) => { await store.dispatch('file/fetchFilePE', to.params.id), next() }
             ]
         }
     },
     {
         path: '/static-analysis/strings',
         name: 'static-analysis-strings',
-        component: () => import('@/modules/scan/pages/static-analysis/Strings.vue'),
+        component: () => import('@/modules/file/pages/static-analysis/Strings.vue'),
         meta: {
             title: 'Strings',
         }
@@ -70,18 +62,18 @@ const scanModuleRoutes = [
     {
         path: '/static-analysis/antivirus',
         name: 'static-analysis-antivirus',
-        component: () => import('@/modules/scan/pages/static-analysis/Antivirus.vue'),
+        component: () => import('@/modules/file/pages/static-analysis/Antivirus.vue'),
         meta: {
             title: 'antivirus',
             middleware: [
-                async ({ store, to, next }) => { await store.dispatch('scan/fetchFileAvs', to.params.id), next() }
+                async ({ store, to, next }) => { await store.dispatch('file/fetchFileAvs', to.params.id), next() }
             ]
         }
     },
     {
         path: '/dynamic-analysis',
         name: 'dynamic-analysis',
-        component: () => import('@/modules/scan/pages/Summary.vue'),
+        component: () => import('@/modules/file/pages/Summary.vue'),
         meta: {
             title: 'Dynamic Analysis',
         }
@@ -89,11 +81,11 @@ const scanModuleRoutes = [
     {
         path: '/comments',
         name: 'comments',
-        component: () => import('@/modules/scan/pages/Comments.vue'),
+        component: () => import('@/modules/file/pages/Comments.vue'),
         meta: {
             title: 'Comments',
             middleware: [
-                async ({ store, to, next }) => { await store.dispatch('scan/fetchFileComments', to.params.id), next() }
+                async ({ store, to, next }) => { await store.dispatch('file/fetchFileComments', to.params.id), next() }
             ]
         }
     },
@@ -104,7 +96,7 @@ const scanModuleRoutes = [
         ...route.meta,
         middleware: [
             logMiddleware,
-            scanMiddleware,
+            fileMiddleware,
             ...(route.meta && route.meta.middleware || []),
         ],
         page: {
@@ -167,7 +159,7 @@ const publicRoutes = [
             ]
         },
     },
-    ...scanModuleRoutes,
+    ...fileModuleRoutes,
     ...classificationModuleRoutes
 ]
 

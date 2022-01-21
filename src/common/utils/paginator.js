@@ -1,9 +1,12 @@
 import axios from "@/services/axios";
+import { EventEmitter } from 'events'
 
 export default class Paginatior {
 
     constructor(apiURL, customParams = null) {
         this.apiURL = apiURL + (customParams ? customParams : '');
+
+        this.event = new EventEmitter();
 
         this.translationKeys = {
             limit: 'per_page'
@@ -22,6 +25,11 @@ export default class Paginatior {
         }
 
         this.items = [];
+    }
+
+    onUpdate(callback) {
+        this.event.on('update', callback);
+        return this;
     }
 
     async nextPage(params = {}) {
@@ -55,6 +63,9 @@ export default class Paginatior {
                     total: data.total_count,
                 });
 
+                this.event.emit('update', items);
+
+
                 return {
                     items: items,
                     pagination: this.getPagination(),
@@ -77,6 +88,10 @@ export default class Paginatior {
 
     getPagination() {
         return this.pagination;
+    }
+
+    getCurrentPage() {
+        return this.pagination.page;
     }
 
     getItems() {

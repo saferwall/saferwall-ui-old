@@ -1,22 +1,43 @@
 <template>
-  <div class="progress grid grid-cols-11 gap-2">
+  <div
+    class="
+      progress
+      flex flex-col
+      md:flex-row
+      items-center
+      justify-between
+      gap-2
+    "
+  >
     <div
-      class="flex md:flex-row flex-col items-center col-span-6"
+      class="flex md:flex-row flex-col items-center gap-4"
       :class="`type${getRateColor}`"
     >
       <div class="circle">
-        <strong class="rate">{{ rate.value }}</strong>
-        <span>/{{ rate.count }}</span>
-        <svg :height="radius * 2" :width="radius * 2" class="circle-rate">
-          <circle
-            :class="`type${getRateColor}`"
-            :stroke-dasharray="circumference + ' ' + circumference"
-            :style="{ strokeDashoffset: strokeDashoffset }"
-            :stroke-width="stroke"
-            fill="rgba(25,25,25,0.05)"
-            :r="normalizedRadius"
-            :cx="radius"
-            :cy="radius"
+        <div
+          class="z-50 flex flex-col items-center justify-center content-center"
+        >
+          <strong class="rate">{{ rate.value }}</strong>
+          <span>/{{ rate.count }}</span>
+        </div>
+        <svg
+          viewBox="0 0 36 36"
+          :class="'absolute'"
+          :height="radius * 2"
+          :width="radius * 2"
+        >
+          <path
+            class="circle-bg"
+            d="M18 2.0845
+          a 15.9155 15.9155 0 0 1 0 31.831
+          a 15.9155 15.9155 0 0 1 0 -31.831"
+          />
+          <path
+            class="circle"
+            stroke-dasharray="30, 100"
+            d="M18 2.0845
+          a 15.9155 15.9155 0 0 1 0 31.831
+          a 15.9155 15.9155 0 0 1 0 -31.831"
           />
         </svg>
       </div>
@@ -41,7 +62,7 @@
       </div>
     </div>
 
-    <div class="submission grid col-span-5">
+    <div class="submission flex items-center md:items-start flex-col gap-4">
       <strong class="uppercase text-gray"> First Submission </strong>
       <time class="font-bold">{{ getDateSubmission }}</time>
     </div>
@@ -76,20 +97,13 @@ export default {
     },
   },
   data(props) {
-    const normalizedRadius = this.radius - this.stroke * 2;
-    const circumference = normalizedRadius * 2 * Math.PI;
     const progress = (props.rate.value / props.rate.count) * 100;
 
     return {
-      normalizedRadius,
-      circumference,
       progress,
     };
   },
   computed: {
-    strokeDashoffset() {
-      return this.circumference - (this.progress / 100) * this.circumference;
-    },
     getDateSubmission() {
       let d = new Date(1970, 0, 1);
       d.setSeconds(this.submission);
@@ -113,8 +127,6 @@ export default {
 
 <style lang="scss" scoped>
 .progress {
-  @apply flex flex-wrap content-center items-center;
-
   .message {
     @apply flex  text-black font-bold;
   }
@@ -136,33 +148,53 @@ export default {
     }
   }
 
-  .btn-circle {
-    @apply p-0 m-0 h-20 w-20 rounded-full;
-  }
-
-  .buttons {
-    @apply flex items-end content-end justify-end;
-
-    .btn {
-      @apply mr-6;
-    }
-  }
-
   .submission {
     @apply px-5;
-    border-left: $border-color 1.5px solid;
+    @apply md:border-l md:border-gray-light;
   }
 
   .typedanger {
-    @apply stroke-danger text-danger;
+    &,
+    .circle {
+      @apply stroke-danger;
+    }
+    @apply text-danger;
   }
 
   .typewarning {
-    @apply stroke-warning text-warning;
+    &,
+    .circle {
+      @apply stroke-warning;
+    }
+    @apply text-warning;
   }
 
   .typesuccess {
-    @apply stroke-success text-success;
+    &,
+    .circle {
+      @apply stroke-success;
+    }
+    @apply text-success;
+  }
+}
+
+svg .circle-bg {
+  @apply stroke-gray-2xlight;
+
+  fill: none;
+  stroke-width: 3.8;
+}
+
+svg .circle {
+  fill: none;
+  stroke-width: 2.8;
+  stroke-linecap: round;
+  animation: progress 1s ease-out forwards;
+}
+
+@keyframes progress {
+  0% {
+    stroke-dasharray: 0 100;
   }
 }
 </style>
