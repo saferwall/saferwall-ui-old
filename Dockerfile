@@ -15,7 +15,7 @@ RUN apk update \
 WORKDIR /app
 
 # copy both 'package.json' and 'package-lock.json' (if available)
-COPY package.json yarn.lock ./
+COPY package*.json yarn*.lock ./
 
 # install project dependencies
 RUN yarn install
