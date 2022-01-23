@@ -208,7 +208,7 @@ export default {
 
     this.paginator
       .setPage(0)
-      .onUpdate((items) => this.mapItems(items[0]))
+      .onUpdate((items) => this.mapItems(items))
       .fetchItems();
   },
 };
