@@ -68,7 +68,7 @@
 
             Share
           </btn>
-          <btn :link="downloadLink" :target="'_blank'">
+          <btn :link="downloadLink" :download="getFileName">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="20"
@@ -143,6 +143,12 @@ export default {
     ...fileGetters,
     getShareTweet() {
       return encodeURI(window.location.href);
+    },
+    getFileName() {
+      return (
+        this.file?.submissions.find((s) => s.filename)?.filename ||
+        this.file?.sha256
+      );
     },
   },
   methods: {

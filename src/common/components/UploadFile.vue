@@ -34,7 +34,7 @@
           </g>
         </svg>
       </button>
-      <div class="progress" v-if="isUploading">
+      <div class="progress" v-if="true || isUploading">
         <k-progress
           class="k"
           active
@@ -129,12 +129,6 @@ export default {
   .progress {
     @apply m-auto my-8 w-7/12 block;
 
-    .k-progress-outer {
-      padding: 0 !important;
-      margin: 0 !important;
-      width: 100%;
-    }
-
     .text {
       @apply mx-auto mt-3 w-max;
     }
@@ -143,5 +137,14 @@ export default {
   .terms {
     @apply text-sm text-center w-8/12 mb-10 mt-auto mx-auto;
   }
+}
+</style>
+
+
+<style >
+.k-progress-outer {
+  padding: 0 !important;
+  margin: 0 !important;
+  width: 100%;
 }
 </style>

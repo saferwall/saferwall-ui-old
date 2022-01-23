@@ -13,7 +13,7 @@
       class="flex md:flex-row flex-col items-center gap-4"
       :class="`type${getRateColor}`"
     >
-      <div class="circle">
+      <div class="circle" v-if="rate.value">
         <div
           class="z-50 flex flex-col items-center justify-center content-center"
         >
@@ -34,7 +34,7 @@
           />
           <path
             class="circle"
-            stroke-dasharray="30, 100"
+            :stroke-dasharray="progress + ', 100'"
             d="M18 2.0845
           a 15.9155 15.9155 0 0 1 0 31.831
           a 15.9155 15.9155 0 0 1 0 -31.831"
@@ -97,7 +97,7 @@ export default {
     },
   },
   data(props) {
-    const progress = (props.rate.value / props.rate.count) * 100;
+    const progress = Math.floor((props.rate.value / props.rate.count) * 100);
 
     return {
       progress,
