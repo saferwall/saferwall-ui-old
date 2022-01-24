@@ -34,7 +34,7 @@
           </g>
         </svg>
       </button>
-      <div class="progress" v-if="true || isUploading">
+      <div class="progress" v-if="isUploading">
         <k-progress
           class="k"
           active
