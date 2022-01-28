@@ -226,6 +226,10 @@ export default {
         @apply flex-col-reverse lg:flex-row;
       }
     }
+
+    .header {
+      @apply flex flex-row;
+    }
   }
 
   .header {
@@ -263,9 +267,10 @@ export default {
   }
   .buttons {
     .follow {
-      border-color: #dedede;
+      @apply border-gray-light;
+      &:hover,
       &.active {
-        @apply bg-primary bg-opacity-10 border-none;
+        @apply bg-primary bg-opacity-10;
       }
     }
   }
