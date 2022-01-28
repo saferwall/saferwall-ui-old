@@ -26,6 +26,7 @@
           {{ title }}
         </h1>
         <div class="buttons">
+          <!-- Scan Button -->
           <btn v-if="false" class="disabled">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -46,49 +47,11 @@
               </g>
             </svg>
 
-            Refile File
+            Rescan File
           </btn>
-          <btn v-if="false" class="disabled">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20.786"
-              height="16.889"
-              viewBox="0 0 20.786 16.889"
-            >
-              <g transform="translate(0 -48)">
-                <g transform="translate(0 48)">
-                  <path
-                    d="M20.786,50a8.885,8.885,0,0,1-2.455.673,4.237,4.237,0,0,0,1.875-2.355,8.516,8.516,0,0,1-2.7,1.032,4.261,4.261,0,0,0-7.371,2.914,4.388,4.388,0,0,0,.1.972,12.062,12.062,0,0,1-8.784-4.457,4.263,4.263,0,0,0,1.31,5.7,4.208,4.208,0,0,1-1.925-.525v.047a4.281,4.281,0,0,0,3.414,4.187,4.253,4.253,0,0,1-1.117.14,3.768,3.768,0,0,1-.807-.073A4.3,4.3,0,0,0,6.3,61.218,8.562,8.562,0,0,1,1.02,63.035,7.982,7.982,0,0,1,0,62.977a12,12,0,0,0,6.537,1.912A12.045,12.045,0,0,0,18.666,52.763c0-.188-.006-.37-.016-.551A8.5,8.5,0,0,0,20.786,50Z"
-                    transform="translate(0 -48)"
-                    fill="#0d9677"
-                  />
-                </g>
-              </g>
-            </svg>
+          <!-- END: Scan Button -->
 
-            Share
-          </btn>
-          <btn :link="downloadLink" :download="getFileName">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              viewBox="0 0 20 20"
-            >
-              <path
-                d="M14.81,9.36,9.252,14.529,3.694,9.36l1.022-.951,3.813,3.546V0H9.975V11.955l3.813-3.546Zm3.694,6.5H0v1.344H18.5Zm0,0"
-                transform="translate(0.25 0.25)"
-                fill="currentColor"
-                stroke="currentColor"
-                stroke-width="0.5"
-              />
-            </svg>
-
-            Download File
-          </btn>
-          <btn-like @click="toggleLike" :liked="dliked">
-            {{ dliked ? "Unlike" : "Like" }}
-          </btn-like>
+          <!-- Share Button -->
           <a
             :href="'https://twitter.com/intent/tweet?text=' + getShareTweet"
             target="_blank"
@@ -109,6 +72,41 @@
               Share
             </btn>
           </a>
+          <!-- END: Share Button -->
+
+          <!-- Download Button -->
+          <div @click="this.$router.push({ name: 'login' })">
+            <btn
+              :link="isloggedIn ? downloadLink : null"
+              :download="isloggedIn ? getFileName : null"
+              :target="isloggedIn ? '_blank' : ''"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  d="M14.81,9.36,9.252,14.529,3.694,9.36l1.022-.951,3.813,3.546V0H9.975V11.955l3.813-3.546Zm3.694,6.5H0v1.344H18.5Zm0,0"
+                  transform="translate(0.25 0.25)"
+                  fill="currentColor"
+                  stroke="currentColor"
+                  stroke-width="0.5"
+                />
+              </svg>
+
+              Download File
+            </btn>
+          </div>
+
+          <!-- END: Download Button -->
+
+          <!-- Like Button -->
+          <btn-like @click="toggleLike" :liked="dliked">
+            {{ dliked ? "Unlike" : "Like" }}
+          </btn-like>
+          <!-- END: Like Button -->
         </div>
       </div>
     </div>
@@ -123,7 +121,12 @@ import APP_CONFIGS from "@/common/config";
 
 import Btn from "@/common/components/elements/button/Btn.vue";
 import BtnLike from "@/common/components/elements/button/BtnLike.vue";
-import { fileGetters, fileMethods, fileActions } from "@/state/helpers";
+import {
+  authGetters,
+  fileGetters,
+  fileMethods,
+  fileActions,
+} from "@/state/helpers";
 
 export default {
   components: { Btn, BtnLike },
@@ -138,6 +141,7 @@ export default {
     dliked: false,
     hash: null,
     downloadLink: null,
+    isloggedIn: false,
   }),
   computed: {
     ...fileGetters,
@@ -154,6 +158,7 @@ export default {
   methods: {
     ...fileActions,
     ...fileMethods,
+    ...authGetters,
     goBack() {
       this.$router.go(-1);
     },
@@ -170,16 +175,15 @@ export default {
       });
     },
     async refreshContent() {
+      this.isloggedIn = await this.loggedIn();
+
       this.file = await this.getFile;
-
       this.hash = this.file.sha256;
-      this.downloadLink = `${APP_CONFIGS.apiURL}files/${this.hash}/download/`;
-
       this.dliked = this.file.liked;
+      this.downloadLink = `${APP_CONFIGS.apiURL}files/${this.hash}/download/`;
     },
     updateLike(liked) {
       this.dliked = liked == true;
-      console.log("update like : ", liked);
       this.updateRefreshStatus(true);
     },
   },

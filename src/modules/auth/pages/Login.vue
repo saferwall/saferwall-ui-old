@@ -97,19 +97,18 @@ export default {
   methods: {
     ...authMethods,
     formSubmited: function (e) {
+      const { username, password } = this;
+
       e.preventDefault();
 
       this.errors = [];
-      if (!this.username) this.errors.push("Username required.");
-      if (!this.password) this.errors.push("Password required.");
+      if (!username) this.errors.push("Username required.");
+      if (!password) this.errors.push("Password required.");
+
       if (this.errors.length > 0) return true;
 
-      this.logIn({
-        username: this.username,
-        password: this.password,
-      })
+      this.logIn({ username, password })
         .then(() => {
-          // Redirect to the originally requested page, or to the home page
           this.$router.push(
             this.$route.query.redirectFrom || {
               name: "profile",
@@ -118,7 +117,8 @@ export default {
         })
         .catch((error) => {
           this.errors.push(
-            error.response ? error.response.data.message : "Something wrong !"
+            (error.response && error.response.data.message) ||
+              "Something wrong !"
           );
         });
     },
