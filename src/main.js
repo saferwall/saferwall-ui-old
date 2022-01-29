@@ -9,7 +9,7 @@ import AppLayout from '@/layouts/AppLayout.vue'
 /**
  * Css ( +TailwindCss )
  */
-import '@/assets/css/index.css'
+import '@/assets/scss/index.scss'
 import 'mosha-vue-toastify/dist/style.css'
 import 'nprogress/nprogress.css';
 
@@ -30,7 +30,7 @@ import titleMixin from '@/common/mixins/titleMixin'
  */
 import setupInterceptors from '@/services/setupInterceptors';
 
-setupInterceptors(store);
+setupInterceptors(router);
 
 /**
  * Vue Application 

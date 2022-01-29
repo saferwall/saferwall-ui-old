@@ -6,6 +6,9 @@ on:
       - build
 env:
   IMAGE: saferwall/ui
+  VUE_APP_API_BASE_URL: "https://api.saferwall.com/v1/"
+  VUE_APP_AVATAR_BASE_URL: "https://avatar.saferwall.com/"
+
 jobs:
   yarn-build:
     runs-on: ubuntu-20.04
