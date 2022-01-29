@@ -5,9 +5,10 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <meta http-equiv="Content-Security-Policy" content="img-src cdnjs.cloudflare.com *.saferwall.com 'self' data:;">
-  <meta http-equiv="Content-Security-Policy" content="script-src 'unsafe-eval' 'self' ;">
-
+  <meta http-equiv="Content-Security-Policy" content="img-src cdnjs.cloudflare.com $VUE_APP_CSP_HOSTS 'self' data:;">
+  <meta http-equiv="Content-Security-Policy"
+    content="script-src 'unsafe-eval' 'self';style-src 'self' 'unsafe-inline' fonts.googleapis.com;">
+  <meta http-equiv="Content-Security-Policy" content="object-src 'none'; base-uri 'self'; form-action 'self'">
 
   <title>Saferwall</title>
 
@@ -16,6 +17,8 @@
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="manifest" href="/site.webmanifest">
+
+  <!-- env header vars will be auto injected before the end of head tag -->
 </head>
 
 <body>
