@@ -1,7 +1,7 @@
 import axios from 'axios'
-import APP_CONFIGS from "@/common/config";
+import Config from "@/common/config";
 
 export default axios.create({
-    baseURL: APP_CONFIGS.apiURL,
+    baseURL: Config.value('apiURL'),
     withCredentials: true
 })

@@ -3,7 +3,7 @@
 # Replace env in app.*.js
 for file in /usr/share/nginx/html/js/app.*.js;
 do
-  echo "Processing $file ...";
+  echo "[Info] Processing $file ...";
 
   # Use the existing JS file as template
   if [ ! -f $file.tmpl.js ]; then
@@ -16,26 +16,19 @@ do
 done
 
 # Replace env in index.html
-if [ -z "${VUE_APP_CSP_HOSTS}" ]]; then
-  echo "VUE_APP_CSP_HOSTS env value is required";
-  exit 1;
-fi
-  
 file="/usr/share/nginx/html/index.html";
-echo "Processing $file ...";
+
+echo "[Info] Processing $file ...";
 cp $file $file.tmp
 
-envsubst '$VUE_APP_CSP_HOSTS' < $file.tmp > $file
-
 head_tag="<\/head>"
-# Inject extra headers
 if [ -z "${VUE_APP_ANALYTICS_GOOGLE_TAG}" ]; then
-  echo "VUE_APP_ANALYTICS_GOOGLE_TAG env value is not defined";
+  echo "[Info] VUE_APP_ANALYTICS_GOOGLE_TAG env value is not defined";
 else 
   # Inject google analytics
   g_tag='<script>window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;ga("create", "'$VUE_APP_ANALYTICS_GOOGLE_TAG'", "auto");ga("send", "pageview");<\/script><script async src="https:\/\/www.google-analytics.com\/analytics.js"><\/script>\n'$head_tag
   sed -i "s/$head_tag/$g_tag/g" $file
 fi
 
-echo "Starting Nginx"
+echo "[Info] Starting Nginx ..."
 nginx -g 'daemon off;'

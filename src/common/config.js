@@ -1,7 +1,7 @@
 export default class Config {
     static get CONFIG() {
         return {
-            baseURI: '$VUE_APP_BASE_URL',
+            baseURI: '$VUE_APP_BASE_URI',
             apiURL: '$VUE_APP_API_BASE_URL',
             avatarURL: '$VUE_APP_AVATAR_BASE_URL',
             isProd: process.env.NODE_ENV === 'production'
@@ -15,7 +15,6 @@ export default class Config {
         }
 
         const value = this.CONFIG[name]
-
         if (!value) {
             console.log(`Configuration: Value for "${name}" is not defined`)
             return
