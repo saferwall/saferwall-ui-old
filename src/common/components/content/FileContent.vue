@@ -117,7 +117,7 @@
 </template>
 
 <script>
-import APP_CONFIGS from "@/common/config";
+import Config from "@/common/config";
 
 import Btn from "@/common/components/elements/button/Btn.vue";
 import BtnLike from "@/common/components/elements/button/BtnLike.vue";
@@ -180,7 +180,9 @@ export default {
       this.file = await this.getFile;
       this.hash = this.file.sha256;
       this.dliked = this.file.liked;
-      this.downloadLink = `${APP_CONFIGS.apiURL}files/${this.hash}/download/`;
+      this.downloadLink = `${Config.value("apiURL")}files/${
+        this.hash
+      }/download/`;
     },
     updateLike(liked) {
       this.dliked = liked == true;

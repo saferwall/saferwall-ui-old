@@ -30,7 +30,7 @@ import titleMixin from '@/common/mixins/titleMixin'
  */
 import setupInterceptors from '@/services/setupInterceptors';
 
-setupInterceptors(router);
+setupInterceptors({ router, store });
 
 /**
  * Vue Application 
