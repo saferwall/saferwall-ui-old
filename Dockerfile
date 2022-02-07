@@ -24,7 +24,7 @@ RUN yarn install
 COPY . .
 
 # build the app
-RUN yarn build --no-unsafe-inline
+RUN yarn build
 
 ############################
 # STEP 2 build a small image
