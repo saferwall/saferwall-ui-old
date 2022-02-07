@@ -6,8 +6,9 @@ on:
       - build
 env:
   IMAGE: saferwall/ui
-  VUE_APP_CSP_HOSTS: "*.saferwall.com saferwall.com"
   VUE_APP_ANALYTICS_GOOGLE_TAG: UA-111524273-1
+  VUE_APP_CSP_HOSTS: "*.saferwall.com saferwall.com"
+  VUE_APP_BASE_URI: "https://saferwall.com/"
   VUE_APP_API_BASE_URL: "https://api.saferwall.com/v1/"
   VUE_APP_AVATAR_BASE_URL: "https://avatar.saferwall.com/"
 
