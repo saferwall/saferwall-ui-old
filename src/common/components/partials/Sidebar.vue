@@ -242,7 +242,7 @@ export default {
     hash: null,
     menuOpen: {
       "static-analysis": true,
-      "dynamic-analysis": true,
+      "dynamic-analysis": false,
     },
   }),
   computed: {
@@ -334,5 +334,9 @@ export default {
       }
     }
   }
+}
+
+.disabled {
+  @apply cursor-not-allowed;
 }
 </style>
