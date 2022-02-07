@@ -15,19 +15,34 @@ do
   envsubst '$VUE_APP_AVATAR_BASE_URL' < $file > $file
 done
 
+# -------------
+# CSP Rule
+# -------------
+NGINX_CONF_FILE="/etc/nginx/conf.d/default.conf"
+INDEX_HTML_FILE="/usr/share/nginx/html/index.html";
+
+# Add avatars url to csp
+if [ -z "${VUE_APP_AVATAR_BASE_URL}" ]; then
+  echo "[Warn] VUE_APP_AVATAR_BASE_URL env value is not defined, it can cause problem on profile avatar image loading !"
+else
+  sed -i "s/img-src/img-src '$VUE_APP_AVATAR_BASE_URL'/g" $NGINX_CONF_FILE
+fi
+
 # Replace env in index.html
-file="/usr/share/nginx/html/index.html";
+echo "[Info] Processing $INDEX_HTML_FILE ...";
+cp $INDEX_HTML_FILE $INDEX_HTML_FILE.tmp
 
-echo "[Info] Processing $file ...";
-cp $file $file.tmp
+HEAD_TAG="<\/head>"
 
-head_tag="<\/head>"
+# Add google analytics tag to head & csp
 if [ -z "${VUE_APP_ANALYTICS_GOOGLE_TAG}" ]; then
   echo "[Info] VUE_APP_ANALYTICS_GOOGLE_TAG env value is not defined";
 else 
-  # Inject google analytics
-  g_tag='<script>window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;ga("create", "'$VUE_APP_ANALYTICS_GOOGLE_TAG'", "auto");ga("send", "pageview");<\/script><script async src="https:\/\/www.google-analytics.com\/analytics.js"><\/script>\n'$head_tag
-  sed -i "s/$head_tag/$g_tag/g" $file
+  GA_TAG='<script>window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;ga("create", "'$VUE_APP_ANALYTICS_GOOGLE_TAG'", "auto");ga("send", "pageview");<\/script><script async src="https:\/\/www.google-analytics.com\/analytics.js"><\/script>'
+
+  sed -i "s/$HEAD_TAG/$GA_TAG\n$HEAD_TAG/g" $INDEX_HTML_FILE
+
+  sed -i "s/script-src/script-src 'https://www.google-analytics.com'/g" $NGINX_CONF_FILE
 fi
 
 echo "[Info] Starting Nginx ..."

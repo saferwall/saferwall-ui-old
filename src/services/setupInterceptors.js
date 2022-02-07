@@ -6,7 +6,7 @@ const setup = ({ router }) => {
             return res;
         },
         async (err) => {
-            if (err.response.status === 401) {
+            if (err.response && err.response.status === 401) {
                 return router.push({ path: '/auth/login' });
             }
 
