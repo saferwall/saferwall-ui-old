@@ -15,11 +15,27 @@ const svgCopyIcon = `
 export default {
   methods: {
     copyContent(event) {
-      // clone node and remove copy button
-      const nodeContent = event.target.parentNode.cloneNode(true);
-      nodeContent.querySelector("div[data-copy-element]").remove();
+      let parent = event.target.parentNode;
 
-      this.selectContent(event.target.parentNode);
+      console.log(parent);
+      // clone node and remove copy button
+      if (
+        parent.tagName != "svg" &&
+        !parent.hasAttribute("data-copy-btn") &&
+        !parent.hasAttribute("data-copy-element")
+      ) {
+        return;
+      }
+      while (!parent.hasAttribute("data-copy-element")) {
+        parent = parent.parentNode;
+      }
+      parent = parent.parentNode;
+
+      const nodeContent = parent.cloneNode(true);
+      let btnCopy = nodeContent.querySelector("div[data-copy-element]");
+      if (btnCopy) btnCopy.remove();
+
+      this.selectContent(parent);
       this.updateClipboard(nodeContent.textContent, () => {
         const copySvg = this.getCopyButton(event);
         if (!copySvg) return;
