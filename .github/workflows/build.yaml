@@ -22,7 +22,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: yarn install
-      - run: yarn build --no-unsafe-inline
+      - run: yarn build
 
   docker-build:
     runs-on: ubuntu-20.04

@@ -23,11 +23,17 @@ done
 NGINX_CONF_FILE="/etc/nginx/conf.d/default.conf"
 INDEX_HTML_FILE="/usr/share/nginx/html/index.html";
 
+
+# api url csp
+sed -i "s~connect-src~connect-src $VUE_APP_BASE_URI~g" $NGINX_CONF_FILE
+sed -i "s~connect-src~connect-src $VUE_APP_API_BASE_URL~g" $NGINX_CONF_FILE
+
 # Add avatars url to csp
 if [ -z "${VUE_APP_AVATAR_BASE_URL}" ]; then
   echo "[Warn] VUE_APP_AVATAR_BASE_URL env value is not defined, it can cause problem on profile avatar image loading !"
 else
   sed -i "s~img-src~img-src $VUE_APP_AVATAR_BASE_URL~g" $NGINX_CONF_FILE
+  sed -i "s~connect-src~connect-src $VUE_APP_AVATAR_BASE_URL~g" $NGINX_CONF_FILE
 fi
 
 # Replace env in index.html
@@ -45,7 +51,7 @@ else
   sed -i "s/$HEAD_TAG/$GA_TAG\n$HEAD_TAG/g" $INDEX_HTML_FILE
 
   sed -i "s~script-src~script-src https://www.google-analytics.com~g" $NGINX_CONF_FILE
+  sed -i "s~connect-src~connect-src https://www.google-analytics.com~g" $NGINX_CONF_FILE
 fi
-
 echo "[Info] Starting Nginx ..."
 nginx -g 'daemon off;'
