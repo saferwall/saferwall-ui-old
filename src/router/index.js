@@ -4,11 +4,12 @@ import middlewarePipeline from './middlewarePipeline'
 
 import { routes } from './routes'
 import { createRouter, createWebHistory } from 'vue-router'
+import Config from '../common/config'
 
 
 const router = createRouter({
   history: createWebHistory(),
-  base: process.env.BASE_URL,
+  base: Config.value('baseURI'),
   routes: routes,
   scrollBehavior(to, from, savedPosition) {
     if (to.hash) {

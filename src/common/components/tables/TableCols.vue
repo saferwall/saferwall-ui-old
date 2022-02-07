@@ -11,8 +11,20 @@
     <tbody :class="hasColumns ? 'table-kval' : 'table-cval'">
       <tr v-for="(line, lindex) in lines" v-bind:key="line">
         <template v-for="(val, jindex) in line" v-bind:key="val">
-          <td v-if="isHtmlAllowed(lindex, jindex)" v-html="val"></td>
-          <td v-else>{{ val }}</td>
+          <td v-if="isHtmlAllowed(lindex, jindex)">
+            <template v-if="isCopyActive(jindex)">
+              <btn-copy v-html="val"></btn-copy>
+            </template>
+            <template v-else>
+              <div v-html="val"></div>
+            </template>
+          </td>
+          <td v-else>
+            <template v-if="isCopyActive(jindex)">
+              <btn-copy>{{ val }}</btn-copy>
+            </template>
+            <template v-else>{{ val }}</template>
+          </td>
         </template>
       </tr>
     </tbody>
@@ -20,7 +32,12 @@
 </template>
 
 <script>
+import BtnCopy from "../elements/button/BtnCopy.vue";
+
 export default {
+  components: {
+    BtnCopy,
+  },
   props: {
     title: String,
     columns: Object,
@@ -35,6 +52,10 @@ export default {
       type: Array(),
       default: [],
     },
+    copyFields: {
+      type: Array(),
+      default: [],
+    },
   },
   computed: {
     hasColumns() {
@@ -45,6 +66,9 @@ export default {
     isHtmlAllowed(lindex, jindex) {
       let tkey = typeof jindex == "number" ? jindex : `${lindex}-${jindex}`;
       return this.htmlFields.includes(this.customFields ? tkey : jindex);
+    },
+    isCopyActive(index) {
+      return this.copyFields.length > 0 && this.copyFields.includes(index);
     },
   },
 };

@@ -140,6 +140,59 @@
               >SOON</span
             >
           </a>
+
+          <ul
+            class="sub-items"
+            :class="isMenuOpen('dynamic-analysis') ? '' : 'hide'"
+          >
+            <li
+              :class="isPageActive('dynamic-analysis/overview') ? 'active' : ''"
+            >
+              <router-link :to="getPageLink('dynamic-analysis/overview')">
+                Overview
+              </router-link>
+            </li>
+            <li
+              :class="
+                isPageActive('dynamic-analysis/api-calls') ? 'active' : ''
+              "
+            >
+              <router-link :to="getPageLink('dynamic-analysis/api-calls')">
+                API Calls
+              </router-link>
+            </li>
+            <li
+              :class="
+                isPageActive('dynamic-analysis/dropped-files') ? 'active' : ''
+              "
+            >
+              <router-link :to="getPageLink('dynamic-analysis/dropped-files')">
+                Dropped Files
+              </router-link>
+            </li>
+            <li
+              :class="
+                isPageActive('dynamic-analysis/memory-buffers') ? 'active' : ''
+              "
+            >
+              <router-link :to="getPageLink('dynamic-analysis/memory-buffers')">
+                Memory Buffers
+              </router-link>
+            </li>
+            <li
+              :class="
+                isPageActive('dynamic-analysis/network-analysis')
+                  ? 'active'
+                  : ''
+              "
+            >
+              <router-link
+                :to="getPageLink('dynamic-analysis/network-analysis')"
+              >
+                Network Analysis
+              </router-link>
+            </li>
+          </ul>
         </li>
 
         <li :class="isPageActive('comments') ? 'active' : ''">
@@ -189,6 +242,7 @@ export default {
     hash: null,
     menuOpen: {
       "static-analysis": true,
+      "dynamic-analysis": true,
     },
   }),
   computed: {
@@ -275,7 +329,7 @@ export default {
         a {
           @apply text-gray-medium;
           @apply border-transparent;
-          @apply py-2 pl-6 border-l-4;
+          @apply py-1 pl-6 border-l-4;
         }
       }
     }

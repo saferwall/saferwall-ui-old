@@ -2,6 +2,7 @@ name: UI Release
 on: workflow_dispatch
 env:
   IMAGE: saferwall/ui
+
 jobs:
   docker-release:
     runs-on: ubuntu-20.04

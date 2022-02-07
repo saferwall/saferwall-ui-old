@@ -10,7 +10,7 @@ export const state = {
 }
 
 export const mutations = {
-  SET_CURRENT_SESSION(state, session) {
+  SET_SESSION(state, session) {
     if (session === null) {
       state.session = null;
       setDefaultAuthHeaders(state);
@@ -34,7 +34,7 @@ export const mutations = {
     saveState('auth.session', sessionState)
   },
   LOGOUT(state) {
-    mutations.SET_CURRENT_SESSION(state, null);
+    mutations.SET_SESSION(state, null);
 
     router.go('/auth/login');
   }
@@ -90,7 +90,7 @@ export const actions = {
       .post('/auth/login/', { username, password })
       .then(async (response) => {
         const session = response.data;
-        commit('SET_CURRENT_SESSION', session)
+        commit('SET_SESSION', session)
 
         return await dispatch('user/fetchCurrentUser', username, { root: true });
       })

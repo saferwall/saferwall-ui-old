@@ -14,6 +14,7 @@
           :striped="true"
           :lines="getProperties"
           :htmlFields="allowHtmlFields.properties"
+          :copyFields="['value']"
         />
       </Card>
 

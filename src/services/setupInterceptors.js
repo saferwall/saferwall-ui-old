@@ -1,6 +1,6 @@
 import axios from '@/services/axios'
 
-const setup = (router) => {
+const setup = ({ router }) => {
     axios.interceptors.response.use(
         (res) => {
             return res;

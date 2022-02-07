@@ -236,8 +236,12 @@ export default {
     @apply px-4 py-2;
   }
 
+  th > div {
+    @apply flex flex-col xl:flex xl:flex-row;
+  }
+
   th:first-child {
-    @apply md:max-w-[12rem];
+    @apply w-1/3;
   }
 
   tr:nth-child(2n + 1) {
