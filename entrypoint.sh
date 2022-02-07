@@ -27,7 +27,7 @@ INDEX_HTML_FILE="/usr/share/nginx/html/index.html";
 if [ -z "${VUE_APP_AVATAR_BASE_URL}" ]; then
   echo "[Warn] VUE_APP_AVATAR_BASE_URL env value is not defined, it can cause problem on profile avatar image loading !"
 else
-  sed -i "s/img-src/img-src '$VUE_APP_AVATAR_BASE_URL'/g" $NGINX_CONF_FILE
+  sed -i "s~img-src~img-src '$VUE_APP_AVATAR_BASE_URL'~g" $NGINX_CONF_FILE
 fi
 
 # Replace env in index.html
@@ -44,7 +44,7 @@ else
 
   sed -i "s/$HEAD_TAG/$GA_TAG\n$HEAD_TAG/g" $INDEX_HTML_FILE
 
-  sed -i "s/script-src/script-src 'https://www.google-analytics.com'/g" $NGINX_CONF_FILE
+  sed -i "s~script-src~script-src 'https://www.google-analytics.com'~g" $NGINX_CONF_FILE
 fi
 
 echo "[Info] Starting Nginx ..."
