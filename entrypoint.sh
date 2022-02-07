@@ -11,8 +11,10 @@ do
   fi
 
   envsubst '$VUE_APP_BASE_URI' < $file.tmpl.js > $file
-  envsubst '$VUE_APP_API_BASE_URL' < $file > $file
-  envsubst '$VUE_APP_AVATAR_BASE_URL' < $file > $file
+  cp $file $file.tmpl.js
+  envsubst '$VUE_APP_API_BASE_URL' < $file.tmpl.js > $file
+  cp $file $file.tmpl.js
+  envsubst '$VUE_APP_AVATAR_BASE_URL' < $file.tmpl.js > $file
 done
 
 # -------------
