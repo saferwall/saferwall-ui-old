@@ -23,6 +23,11 @@ done
 NGINX_CONF_FILE="/etc/nginx/conf.d/default.conf"
 INDEX_HTML_FILE="/usr/share/nginx/html/index.html";
 
+# Change default NGINX listen port if NGINX_HTTP_PORT env is set
+if [[ -v "${NGINX_HTTP_PORT}" ]]; then
+  sed -i "s~listen 80~listen $NGINX_HTTP_PORT~g" $NGINX_CONF_FILE
+  sed -i "s~listen \[\:\:\]\:80~listen [::]:$NGINX_HTTP_PORT~g" $NGINX_CONF_FILE
+fi
 
 # api url csp
 sed -i "s~connect-src~connect-src $VUE_APP_BASE_URI~g" $NGINX_CONF_FILE
