@@ -25,8 +25,8 @@ INDEX_HTML_FILE="/usr/share/nginx/html/index.html";
 
 # Change default NGINX listen port if NGINX_HTTP_PORT env is set
 if [ ! -z "${NGINX_HTTP_PORT}" ]; then
-  sed -i "s~listen 80~listen $NGINX_HTTP_PORT~g" $NGINX_CONF_FILE
-  sed -i "s~listen \[\:\:\]\:80~listen [::]:$NGINX_HTTP_PORT~g" $NGINX_CONF_FILE
+  sed -i "s~listen 80 ~listen $NGINX_HTTP_PORT ~g" $NGINX_CONF_FILE
+  sed -i "s~listen \[\:\:\]\:80 ~listen [::]:$NGINX_HTTP_PORT ~g" $NGINX_CONF_FILE
 fi
 
 # api url csp
