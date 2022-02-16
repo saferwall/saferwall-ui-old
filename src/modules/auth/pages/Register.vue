@@ -65,7 +65,8 @@
 
         <div class="form-group justify-between py-2">
           <label for="agree">
-            <input type="checkbox" name="agree" id="agree" /> I agree to the
+            <input type="checkbox" name="agree" v-model="agree" id="agree" /> I
+            agree to the
             <a
               class="text-primary font-bold"
               target="_blank"
@@ -106,6 +107,7 @@ export default {
       username: null,
       password: null,
       errors: [],
+      agree: null,
       sent: false,
     };
   },
@@ -118,7 +120,11 @@ export default {
         .map((field) =>
           !this[field.toLowerCase()] ? `${field} required.` : null
         )
-        .filter((x) => !!x);
+        .filter((val) => val);
+
+      if (!this.agree) {
+        this.errors.push("You must agree to the terms our service");
+      }
 
       if (this.errors.length > 0) return true;
 

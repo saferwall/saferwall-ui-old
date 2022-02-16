@@ -89,7 +89,7 @@ export const actions = {
     if (getters.loggedIn) return dispatch('validate')
 
     return axios
-      .post('/auth/login/', { username, password })
+      .post('/auth/login', { username, password })
       .then(async (response) => {
         const session = response.data;
         commit('SET_SESSION', session)
@@ -103,7 +103,7 @@ export const actions = {
     if (getters.loggedIn) return dispatch('validate')
 
     return axios
-      .post('/auth/register/', { username, email, password })
+      .post('/users', { username, email, password })
       .then((response) => {
         return response.data;
       })
@@ -111,7 +111,7 @@ export const actions = {
 
   logOut({ commit }, redirect = true) {
     return axios
-      .delete('/auth/logout/')
+      .delete('/auth/logout')
       .then(() => {
         commit('LOGOUT', redirect);
       });

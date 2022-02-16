@@ -33,6 +33,6 @@ export default {
 
 <style lang="scss" scoped>
 .logo {
-  @apply flex w-full md:w-sidebar px-5  justify-center text-black font-extrabold;
+  @apply flex w-full md:w-sidebar px-2  justify-center text-black font-extrabold;
 }
 </style>

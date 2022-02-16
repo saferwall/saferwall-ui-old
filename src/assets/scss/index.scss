@@ -77,7 +77,7 @@ body * {
 {
 
   .form-input {
-    @apply w-full px-4 py-3 border rounded-md border-gray-light placeholder-gray-medium text-lg;
+    @apply w-full px-2 py-3 border rounded-md border-gray-light placeholder-gray-medium text-lg;
   }
 
   .form-group {
@@ -85,7 +85,7 @@ body * {
   }
 
   .btn-submit {
-    @apply w-full px-4 py-4 bg-primary rounded-md text-light font-bold text-lg;
+    @apply w-full px-2 py-3 bg-primary rounded-md text-light font-bold text-lg;
   }
 
   
