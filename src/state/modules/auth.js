@@ -33,10 +33,12 @@ export const mutations = {
     setDefaultAuthHeaders(state);
     saveState('auth.session', sessionState)
   },
-  LOGOUT(state) {
+  LOGOUT(state, logout) {
     mutations.SET_SESSION(state, null);
 
-    router.go('/auth/login');
+    if (logout === true) {
+      router.go('/auth/login');
+    }
   }
 }
 
@@ -107,11 +109,11 @@ export const actions = {
       })
   },
 
-  logOut({ commit }) {
+  logOut({ commit }, redirect = true) {
     return axios
       .delete('/auth/logout/')
       .then(() => {
-        commit('LOGOUT');
+        commit('LOGOUT', redirect);
       });
   },
 
