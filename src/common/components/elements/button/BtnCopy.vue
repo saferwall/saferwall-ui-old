@@ -17,7 +17,6 @@ export default {
     copyContent(event) {
       let parent = event.target.parentNode;
 
-      console.log(parent);
       // clone node and remove copy button
       if (
         parent.tagName != "svg" &&

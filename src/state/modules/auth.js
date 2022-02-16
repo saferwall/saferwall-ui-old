@@ -33,10 +33,12 @@ export const mutations = {
     setDefaultAuthHeaders(state);
     saveState('auth.session', sessionState)
   },
-  LOGOUT(state) {
+  LOGOUT(state, logout) {
     mutations.SET_SESSION(state, null);
 
-    router.go('/auth/login');
+    if (logout === true) {
+      router.go('/auth/login');
+    }
   }
 }
 
@@ -87,7 +89,7 @@ export const actions = {
     if (getters.loggedIn) return dispatch('validate')
 
     return axios
-      .post('/auth/login/', { username, password })
+      .post('/auth/login', { username, password })
       .then(async (response) => {
         const session = response.data;
         commit('SET_SESSION', session)
@@ -101,17 +103,17 @@ export const actions = {
     if (getters.loggedIn) return dispatch('validate')
 
     return axios
-      .post('/auth/register/', { username, email, password })
+      .post('/users', { username, email, password })
       .then((response) => {
         return response.data;
       })
   },
 
-  logOut({ commit }) {
+  logOut({ commit }, redirect = true) {
     return axios
-      .delete('/auth/logout/')
+      .delete('/auth/logout')
       .then(() => {
-        commit('LOGOUT');
+        commit('LOGOUT', redirect);
       });
   },
 
