@@ -10,7 +10,7 @@
         :striped="true"
         :bordered="true"
         :columns="[{ title: 'Antivirus' }, { title: 'Output' }]"
-        :lines="getFirstScan"
+        :lines="getLastScan"
         :htmlFields="[1]"
       />
     </Card>
