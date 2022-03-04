@@ -4,10 +4,10 @@
       v-if="sent"
       title="Confirm your registration"
       message="We’ve sent a link to the email you specified."
-      button="Check my email"
-      link="/login"
+      button="Login"
+      link="/auth/login"
     />
-    <form method="POST" class="w-full" @submit="formSubmited">
+    <form v-else method="POST" class="w-full" @submit="formSubmited">
       <div class="header flex my-3">
         <svg
           class="mr-3"
