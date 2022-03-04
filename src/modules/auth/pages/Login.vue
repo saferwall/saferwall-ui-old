@@ -50,9 +50,10 @@
             type="text"
             class="form-input"
             placeholder="Username"
+            required
           />
         </div>
-        <password v-model="password" placeholder="Password" :required="true" />
+        <password v-model="password" placeholder="Password" required />
 
         <div class="text-sm form-group justify-between py-2">
           <router-link to="/auth/confirmation"
@@ -79,8 +80,8 @@
 <script>
 import { authMethods } from "@/state/helpers";
 
-import Password from "@/common/components/elements/inputs/Password.vue";
 import Alert from "@/common/components/elements/Alert.vue";
+import Password from "@/common/components/elements/inputs/Password.vue";
 
 export default {
   components: {
@@ -102,10 +103,6 @@ export default {
       e.preventDefault();
 
       this.errors = [];
-      if (!username) this.errors.push("Username required.");
-      if (!password) this.errors.push("Password required.");
-
-      if (this.errors.length > 0) return true;
 
       this.logIn({ username, password })
         .then(() => {

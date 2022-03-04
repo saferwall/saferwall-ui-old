@@ -98,6 +98,22 @@ export const actions = {
       })
   },
 
+  resetPassword(_, { email } = {}) {
+    return axios
+      .post('/auth/reset-password', { email })
+      .then((response) => {
+        return response.data;
+      })
+  },
+
+  savePassword(_, { guid, token, password } = {}) {
+    return axios
+      .post('/auth/password', { guid, token, password })
+      .then((response) => {
+        return response.data;
+      })
+  },
+
   // Logs in the current session.
   register({ dispatch, getters }, { username, email, password } = {}) {
     if (getters.loggedIn) return dispatch('validate')

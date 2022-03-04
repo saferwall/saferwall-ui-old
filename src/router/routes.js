@@ -198,7 +198,7 @@ const authRoutes = [
         }
     },
     {
-        path: '/auth/forgot-password',
+        path: '/auth/forgot-password/:token?',
         name: 'forgot-password',
         component: () => import('@/modules/auth/pages/ForgotPassword.vue'),
         meta: {
