@@ -17,7 +17,7 @@ export default {
 
 <style lang="scss" scoped>
 .alert {
-  @apply flex items-center p-4 px-6 rounded-md;
+  @apply flex items-center p-4 px-6 rounded-md w-full;
 
   &.alert-danger {
     color: #fff;
