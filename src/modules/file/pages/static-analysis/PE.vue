@@ -285,7 +285,6 @@ export default {
   computed: {
     ...fileGetters,
     getItems() {
-      console.log(this.getFilePE[this.currentTab]);
       return this.getFilePE[this.currentTab];
     },
     getFirstTree() {
@@ -433,7 +432,7 @@ export default {
           };
         });
         return {
-          name: `Entropy (${_section.Entropy || ""})`,
+          name: `Entropy`,
           header: header,
         };
       });

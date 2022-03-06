@@ -88,8 +88,6 @@ export default {
 
       if (sha256) {
         this.search = sha256;
-
-        console.log("file : ", sha256);
       }
     },
     moveToSearchedFile() {

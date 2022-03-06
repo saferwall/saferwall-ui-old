@@ -1,10 +1,10 @@
 <template>
   <div class="activity relative" :class="isFollow ? 'followtype' : 'filetype'">
-    <div class="header border text-center z-10">
+    <div class="header">
       <router-link class="profile-link" :to="`/user/${author.username}`">
         <avatar :username="author.username" />
         <router-link :to="getFileRoute" class="info mt-3">
-          <h3 class="text-xl font-bold">{{ author.username }}</h3>
+          <h3 class="text-lg font-bold">{{ author.username }}</h3>
           <p class="text-gray">Member since {{ getJoinedAgo }}</p>
         </router-link>
       </router-link>
@@ -24,7 +24,7 @@
       <template v-else-if="isFollow">
         <router-link class="profile-link target" :to="`/user/${target}`">
           <router-link :to="getFileRoute" class="info mt-3">
-            <h3 class="text-xl font-bold">{{ target }}</h3>
+            <h3 class="text-lg font-bold">{{ target }}</h3>
             <p class="text-gray">Member since {{ getJoinedAgo }}</p>
           </router-link>
           <avatar :username="target" />
@@ -33,13 +33,13 @@
     </div>
 
     <div
-      class="activity-content col-span-4 grid lg:grid-cols-4 z-10"
+      class="activity-content col-span-4 grid lg:grid-cols-5 z-10"
       v-if="!isFollow"
     >
       <router-link
         :to="getFileRoute"
         class="info"
-        :class="(!hasTags && 'col-span-4') || 'col-span-3'"
+        :class="(!hasTags && 'col-span-5') || 'col-span-4'"
       >
         <p class="title">
           <b>{{ author.username }}</b> {{ getActivityTitle }} a file
@@ -205,13 +205,13 @@ export default {
   @apply items-center justify-center bg-white py-2 lg:py-0 my-3 sm:rounded-xl;
 
   &.filetype {
-    @apply lg:grid-cols-5 lg:gap-4 lg:grid;
+    @apply lg:grid-cols-5  lg:grid;
 
     .header {
-      @apply lg:justify-center;
+      @apply flex border text-center z-10 md:justify-center;
 
       .profile-link {
-        @apply flex gap-x-4 lg:block lg:gap-x-0;
+        @apply flex justify-center space-x-4 lg:block lg:space-x-0;
       }
     }
   }
@@ -237,7 +237,7 @@ export default {
   }
 
   > * {
-    @apply py-3 px-6 lg:p-8;
+    @apply px-4 py-3 lg:py-4;
   }
 
   .activity-content {
@@ -256,8 +256,11 @@ export default {
 
     .tags {
       @apply mt-8 ml-4 mx-0 px-0 lg:px-4 w-full;
+      .list {
+        @apply flex flex-wrap;
+      }
       .list li {
-        @apply flex py-1 px-2 bg-blue-500 m-1 rounded text-light;
+        @apply py-1 px-2 bg-blue-500 m-1 rounded text-light text-sm;
 
         &.redbg {
           @apply bg-red-500;

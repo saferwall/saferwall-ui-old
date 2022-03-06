@@ -116,7 +116,6 @@ export default {
     saveFormSubmited: function (e) {
       const { token, guid, password, confirm_password } = this;
 
-      console.log("reset password");
       e.preventDefault();
 
       this.errors = [];

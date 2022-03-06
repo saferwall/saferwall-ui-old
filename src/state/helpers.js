@@ -43,6 +43,7 @@ const fileMethods = mapActions('file', [
     'fetchFileComments',
     'fetchFileAvs',
     'fetchFilePE',
+    'rescanFile',
     'updateRefreshStatus'
 ]);
 const fileGetters = mapGetters('file', [

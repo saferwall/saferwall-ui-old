@@ -1,14 +1,18 @@
 import axios from '@/services/axios'
 
 export const fields = {
-    avs: ['multiav'],
+    avs: ['multiav', 'first_seen', 'last_scanned'],
     pe: ['pe'],
 }
 
 export const state = {
     file: null,
     comments: [],
-    avs: {},
+    avs: {
+        multiav: {
+            first_scan: [], last_scan: []
+        }
+    },
     pe: {},
     refresh: false
 }
@@ -40,7 +44,11 @@ export const mutations = {
         state.comments = comments;
     },
     SET_FILE_AVS(state, avs) {
-        state.avs = { first_scan: [], last_scan: [], ...avs };
+        state.avs = {
+            multiav: {
+                first_scan: [], last_scan: []
+            }, ...avs
+        };
     },
     SET_FILE_PE(state, pe) {
         state.pe = pe;
@@ -52,10 +60,17 @@ export const mutations = {
 
 
 export const actions = {
+    async rescanFile({ commit }, id) {
+        return axios.post(`/files/${id}/rescan`)
+            .then(({ data }) => {
+
+                commit('SET_REFRESH_STATUS', true);
+                return data;
+            })
+    },
     async fetchFile({ commit }, id) {
         return axios.get(`/files/${id}/summary`)
-            .then(res => {
-                let data = res.data;
+            .then(({ data }) => {
                 data.lastupdate = (data.submissions || []).reduce((bg, sub) => {
                     if (sub.timestamp > bg) return sub.timestamp;
                     return bg;
@@ -68,17 +83,15 @@ export const actions = {
     },
     async fetchFileAvs({ commit }, id) {
         return axios.get(`/files/${id}?fields=` + fields.avs.join(','))
-            .then(res => {
-                let data = res.data;
+            .then(({ data }) => {
 
-                commit('SET_FILE_AVS', data.multiav);
+                commit('SET_FILE_AVS', data);
                 return data;
             });
     },
     async fetchFilePE({ commit }, id) {
         return axios.get(`/files/${id}?fields=` + fields.pe.join(','))
-            .then(res => {
-                let data = res.data;
+            .then(({ data }) => {
 
                 commit('SET_FILE_PE', data.pe);
                 return data.pe;
@@ -86,8 +99,8 @@ export const actions = {
     },
     async fetchFileComments({ commit }, id) {
         return axios.get(`/files/${id}/comments`)
-            .then(res => {
-                let data = res.data.items || [];
+            .then(({ data }) => {
+                data = data || [];
 
                 commit('SET_FILE_COMMENTS', data);
                 return data;
