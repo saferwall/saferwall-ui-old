@@ -3,7 +3,8 @@
     <template v-if="isFileLoaded">
       <Card>
         <Progress
-          :submission="getFirstSubmission"
+          :first_seen="file.first_seen"
+          :last_scanned="file.last_scanned"
           :rate="getScanScore"
           :classification="getClassification"
         />
