@@ -94,3 +94,21 @@ body * {
   @apply m-auto py-10 px-20;
   @apply w-full max-w-xl;
 }
+
+
+/**
+* Comments Page
+*/
+#comments{
+  .list{
+    @apply w-full h-full flex flex-col items-center justify-center;
+  }
+  .editor{
+    @apply w-full flex flex-col space-y-4 p-8 bg-light rounded-lg mt-10;
+  }
+
+  #md-editor-v3
+  {
+    @apply max-h-40;
+  }
+}

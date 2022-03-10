@@ -63,11 +63,11 @@
     </div>
 
     <div class="submission">
-      <div v-if="first_seen" class="flex flex-col">
+      <div v-if="first_seen">
         <strong class="uppercase text-gray">First Seen</strong>
         <time class="font-bold">{{ timeAgoCounts(first_seen) }} ago</time>
       </div>
-      <div v-if="last_scanned" class="flex flex-col">
+      <div v-if="last_scanned">
         <strong class="uppercase text-gray">Last Submission</strong>
         <time class="font-bold">{{ timeAgoCounts(last_scanned) }} ago</time>
       </div>
@@ -150,9 +150,14 @@ export default {
   }
 
   .submission {
-    @apply px-5;
-    @apply md:border-l md:border-gray-light;
-    @apply flex items-center md:items-start flex-col md:flex-row md:space-x-4;
+    @apply w-full px-5 mt-4;
+    @apply flex items-center justify-between;
+    @apply md:items-start md:space-x-4  md:justify-end md:mt-0;
+
+    > div {
+      @apply flex flex-col space-y-2;
+      @apply md:border-l-2 md:pl-4 border-gray-light;
+    }
   }
 
   .typedanger {

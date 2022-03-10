@@ -55,21 +55,24 @@ export const mutations = {
     },
     SET_REFRESH_STATUS(state, refresh) {
         state.refresh = refresh;
-    }
+    },
+    ADD_FILE_COMMENT(state, comment) {
+        state.comments.push(comment);
+    },
 }
 
 
 export const actions = {
-    async rescanFile({ commit }, id) {
-        return axios.post(`/files/${id}/rescan`)
+    async rescanFile({ commit }, sha256) {
+        return axios.post(`/files/${sha256}/rescan`)
             .then(({ data }) => {
 
                 commit('SET_REFRESH_STATUS', true);
                 return data;
             })
     },
-    async fetchFile({ commit }, id) {
-        return axios.get(`/files/${id}/summary`)
+    async fetchFile({ commit }, sha256) {
+        return axios.get(`/files/${sha256}/summary`)
             .then(({ data }) => {
                 data.lastupdate = (data.submissions || []).reduce((bg, sub) => {
                     if (sub.timestamp > bg) return sub.timestamp;
@@ -81,24 +84,24 @@ export const actions = {
                 return data;
             });
     },
-    async fetchFileAvs({ commit }, id) {
-        return axios.get(`/files/${id}?fields=` + fields.avs.join(','))
+    async fetchFileAvs({ commit }, sha256) {
+        return axios.get(`/files/${sha256}?fields=` + fields.avs.join(','))
             .then(({ data }) => {
 
                 commit('SET_FILE_AVS', data);
                 return data;
             });
     },
-    async fetchFilePE({ commit }, id) {
-        return axios.get(`/files/${id}?fields=` + fields.pe.join(','))
+    async fetchFilePE({ commit }, sha256) {
+        return axios.get(`/files/${sha256}?fields=` + fields.pe.join(','))
             .then(({ data }) => {
 
                 commit('SET_FILE_PE', data.pe);
                 return data.pe;
             });
     },
-    async fetchFileComments({ commit }, id) {
-        return axios.get(`/files/${id}/comments`)
+    async fetchFileComments({ commit }, sha256) {
+        return axios.get(`/files/${sha256}/comments`)
             .then(({ data }) => {
                 data = data || [];
 

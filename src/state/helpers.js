@@ -68,11 +68,20 @@ const uploadGetters = mapGetters('upload', [
 ]);
 
 
+/**
+ * Comments
+ */
+const commentMethods = mapActions('comment', [
+    'commentFile'
+]);
+
+
 export {
     activityGetters, activityMethods,
     userGetters, userMethods,
     authGetters, authMethods,
     fileActions, followActions,
     fileMethods, fileGetters,
-    uploadMethods, uploadGetters
+    uploadMethods, uploadGetters,
+    commentMethods
 }

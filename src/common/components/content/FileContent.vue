@@ -118,7 +118,6 @@
 
 <script>
 import Config from "@/common/config";
-import { createToast } from "mosha-vue-toastify";
 
 import Btn from "@/common/components/elements/button/Btn.vue";
 import BtnLike from "@/common/components/elements/button/BtnLike.vue";
@@ -128,6 +127,7 @@ import {
   fileMethods,
   fileActions,
 } from "@/state/helpers";
+import { catchAuthThrow } from "../../helpers";
 
 export default {
   components: { Btn, BtnLike },
@@ -198,18 +198,8 @@ export default {
           this.rescanning = false;
           // TODO: Interval : check updates
         })
-        .catch((e) => {
-          this.rescanning = false;
-          createToast(
-            e.response.status == 401
-              ? "You must authenticate to rescan a file !"
-              : e.response.message,
-            {
-              type: "warning",
-              position: "bottom-right",
-            }
-          );
-        });
+        .catch(catchAuthThrow("You must authenticate to rescan a file !"))
+        .catch(() => (this.rescanning = false));
     },
   },
   async beforeMount() {

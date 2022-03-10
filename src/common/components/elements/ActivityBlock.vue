@@ -56,7 +56,7 @@
         <h3>Tags</h3>
         <ul class="list flex flex-wrap">
           <li
-            v-for="tag in getTags"
+            v-for="tag in tags"
             v-bind:key="tag.link"
             :class="tag.avg && `redbg`"
           >
@@ -71,14 +71,21 @@
 </template>
 
 <script>
-import { isAnAVG } from "@/common/functions";
+import { mapTags } from "@/common/helpers";
 import { getClass } from "@/common/classification";
 import { followActions, userGetters } from "@/state/helpers";
 import { timeAgoCounts, timeAgo } from "@/common/utils/date-format";
 
-import HashInput from "./HashInput.vue";
-import FileMeta from "./FileMeta.vue";
 import Avatar from "./Avatar.vue";
+import FileMeta from "./FileMeta.vue";
+import HashInput from "./HashInput.vue";
+
+const typeActivity = [
+  { key: "like", title: "Liked" },
+  { key: "submit", title: "Submitted" },
+  { key: "follow", title: "Followed" },
+  { key: "comment", title: "Commented" },
+];
 
 export default {
   components: {
@@ -141,21 +148,12 @@ export default {
       return timeAgo(this.author.member_since);
     },
     getActivityTitle() {
-      let typeActivity = [
-        { key: "like", title: "Liked" },
-        { key: "submit", title: "Submitted" },
-        { key: "follow", title: "Followed" },
-        { key: "comment", title: "Commented" },
-      ].find((type) => {
+      return typeActivity.find((type) => {
         return type.key == this.type;
-      });
-      return (typeActivity && typeActivity.title) || "Unknown";
-    },
-    getTags() {
-      return this.tags;
+      })?.title;
     },
     hasTags() {
-      return this.getTags.length > 0;
+      return this.tags.length > 0;
     },
     isLogged() {
       return this.getUser;
@@ -179,23 +177,9 @@ export default {
       if (this.followed) return this.doUnFollow({ id: this.author.username });
       this.doFollow({ id: this.author.username });
     },
-    filterTags() {
-      let tags = this.file.tags;
-      let tagkeys = Object.keys(tags || {});
-
-      this.tags = tagkeys.reduce((all, tagKey) => {
-        return [
-          ...all,
-          ...(tags[tagKey] || []).map((tag) => ({
-            name: tag,
-            avg: isAnAVG(tag),
-          })),
-        ];
-      }, []);
-    },
   },
   created() {
-    this.filterTags();
+    this.tags = mapTags(this.file.tags);
   },
 };
 </script>

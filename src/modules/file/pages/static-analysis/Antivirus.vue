@@ -35,7 +35,7 @@
 import Card from "@/common/components/elements/Card.vue";
 import TableCols from "@/common/components/tables/TableCols.vue";
 import { fileGetters } from "@/state/helpers";
-import { timeAgoCounts, timestampToDate } from "@/common/utils/date-format";
+import { timeAgo, timestampToDate } from "@/common/utils/date-format";
 
 export default {
   components: {
@@ -65,7 +65,7 @@ export default {
       </p>`;
     },
     timeAgo(date) {
-      return timeAgoCounts(date);
+      return timeAgo(date);
     },
     formatDate(date) {
       return timestampToDate(date);
