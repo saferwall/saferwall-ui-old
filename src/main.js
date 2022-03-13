@@ -19,7 +19,6 @@ import 'nprogress/nprogress.css';
 import KProgress from 'k-progress-v3';
 import moshaToast from 'mosha-vue-toastify';
 
-
 /**
  * Mixins
  */

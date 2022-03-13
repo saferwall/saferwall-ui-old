@@ -1,7 +1,7 @@
 <template>
   <div class="antivirus">
     <Card title="First Scan" class="w-full">
-      <p class="meta">
+      <p class="meta" v-if="getFirstScanDate">
         {{ formatDate(getFirstScanDate) }}
         <small class="italic">{{ timeAgo(getFirstScanDate) }} ago</small>
       </p>
@@ -15,7 +15,7 @@
       />
     </Card>
     <Card title="Last Scan" class="w-full">
-      <p class="meta">
+      <p class="meta" v-if="getLastScanDate">
         {{ formatDate(getLastScanDate) }}
         <small class="italic">{{ timeAgo(getLastScanDate) }} ago</small>
       </p>
@@ -35,7 +35,7 @@
 import Card from "@/common/components/elements/Card.vue";
 import TableCols from "@/common/components/tables/TableCols.vue";
 import { fileGetters } from "@/state/helpers";
-import { timeAgo, timestampToDate } from "@/common/utils/date-format";
+import { timeAgoCounts, timestampToDate } from "@/common/utils/date-format";
 
 export default {
   components: {
@@ -64,9 +64,7 @@ export default {
         <a>Clean</a>
       </p>`;
     },
-    timeAgo(date) {
-      return timeAgo(date);
-    },
+    timeAgo: timeAgoCounts,
     formatDate(date) {
       return timestampToDate(date);
     },

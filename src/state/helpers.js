@@ -39,6 +39,7 @@ const followActions = mapActions('actions', ['doFollow', 'doUnFollow']);
  * file
  */
 const fileMethods = mapActions('file', [
+    'updateFile',
     'fetchFile',
     'fetchFileComments',
     'fetchFileAvs',
@@ -72,7 +73,8 @@ const uploadGetters = mapGetters('upload', [
  * Comments
  */
 const commentMethods = mapActions('comment', [
-    'commentFile'
+    'commentFile',
+    'deleteComment'
 ]);
 
 

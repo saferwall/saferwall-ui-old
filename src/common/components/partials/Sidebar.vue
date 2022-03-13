@@ -215,7 +215,7 @@
             <div>
               Comments
               <span class="text-gray-medium font-thin"
-                >({{ (file && file.comments_count) || 0 }})</span
+                >({{ (getFile && getFile.comments_count) || 0 }})</span
               >
             </div>
           </router-link>
@@ -238,7 +238,6 @@ import Btn from "@/common/components/elements/button/Btn.vue";
 export default {
   components: { Logo, Btn },
   data: () => ({
-    file: null,
     hash: null,
     menuOpen: {
       "static-analysis": true,
@@ -248,7 +247,9 @@ export default {
   computed: {
     ...fileGetters,
     isPE() {
-      return this.file && `${this.file.file_format}`.toLowerCase() === "pe";
+      return (
+        this.getFile && `${this.getFile.file_format}`.toLowerCase() === "pe"
+      );
     },
   },
   methods: {
@@ -270,8 +271,7 @@ export default {
     },
   },
   async beforeMount() {
-    this.file = await this.getFile;
-    this.hash = this.file.sha256;
+    this.hash = this.getFile.sha256;
   },
 };
 </script>

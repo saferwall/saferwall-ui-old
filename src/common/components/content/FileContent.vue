@@ -128,6 +128,7 @@ import {
   fileActions,
 } from "@/state/helpers";
 import { catchAuthThrow } from "../../helpers";
+import { createToast } from "mosha-vue-toastify";
 
 export default {
   components: { Btn, BtnLike },
@@ -144,6 +145,7 @@ export default {
     downloadLink: null,
     isloggedIn: false,
     rescanning: false,
+    rescanInterval: null,
   }),
   computed: {
     ...fileGetters,
@@ -195,8 +197,10 @@ export default {
 
       this.rescanFile(this.hash)
         .then(() => {
-          this.rescanning = false;
-          // TODO: Interval : check updates
+          createToast("The file rescan request has been submitted", {
+            type: "success",
+            position: "bottom-right",
+          });
         })
         .catch(catchAuthThrow("You must authenticate to rescan a file !"))
         .catch(() => (this.rescanning = false));

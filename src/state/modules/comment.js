@@ -6,5 +6,11 @@ export const actions = {
             .then(({ data }) => {
                 return data;
             })
+    },
+    deleteComment: function (_, id) {
+        return axios.delete(`/comments/${id}`)
+            .then(({ data }) => {
+                return data;
+            })
     }
 }

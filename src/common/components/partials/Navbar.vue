@@ -110,7 +110,7 @@ export default {
 }
 
 .search {
-  @apply flex hidden lg:flex md:w-5/12 sm:w-min;
+  @apply flex hidden lg:flex md:w-4/12 sm:w-min;
 
   input {
     @apply md:w-full sm:w-min h-full px-6;
@@ -127,44 +127,6 @@ export default {
 
   .menu-content {
     @apply lg:flex lg:items-stretch lg:justify-end h-full;
-  }
-}
-</style>
-
-
-<style lang="scss" >
-.menu {
-  .btn-menu {
-    @apply text-gray-medium relative py-2 px-4 leading-normal text-black no-underline flex items-center;
-
-    height: 100%;
-    justify-content: center;
-    text-align: center;
-    min-width: 100px;
-    font-weight: 400;
-
-    &.btn-signup {
-      font-weight: 700;
-      color: $light-color;
-      background: $secondary-color;
-    }
-
-    &.btn-border {
-      &::before {
-        content: " ";
-        height: 51%;
-        border-left: 1px solid $border-color;
-        margin-top: 2%;
-        margin-right: 15px;
-        margin-left: -15px;
-      }
-    }
-    &.btn-login {
-      @apply px-6;
-
-      font-weight: 700;
-      color: $secondary-color;
-    }
   }
 }
 </style>

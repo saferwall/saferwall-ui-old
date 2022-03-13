@@ -14,9 +14,6 @@ html {
   word-wrap: all;
 }
 
-body * {
-  max-width: 100%;
-}
 
 #app {
   @apply min-h-screen flex flex-col justify-start;
@@ -73,9 +70,12 @@ body * {
 /**
 * Auth Pages
 */
-.auth-card
-{
-
+.auth-card {
+  @apply bg-light md:rounded-2xl shadow-sm;
+  @apply flex flex-col items-center justify-center;
+  @apply m-auto py-10 px-20;
+  @apply w-full max-w-xl;
+  
   .form-input {
     @apply w-full px-4 py-3 border rounded-md border-gray-light placeholder-gray-medium text-lg;
   }
@@ -87,12 +87,6 @@ body * {
   .btn-submit {
     @apply w-full px-2 py-3 bg-primary rounded-md text-light font-bold text-lg;
   }
-
-  
-  @apply bg-light md:rounded-2xl  shadow-sm;
-  @apply flex flex-col items-center justify-center;
-  @apply m-auto py-10 px-20;
-  @apply w-full max-w-xl;
 }
 
 
@@ -110,5 +104,40 @@ body * {
   #md-editor-v3
   {
     @apply max-h-40;
+  }
+}
+
+
+/**
+ * Header/Navbar
+ */
+.navbar {
+  @apply bg-white fixed w-full top-0 h-navbar z-40;
+  @apply border-b border-gray-2xlight;
+
+  .nav-content {
+    @apply mx-auto flex h-full flex-wrap;
+  }
+}
+.menu {
+  .btn-menu {
+    @apply text-gray-medium relative py-2 px-2 leading-normal text-black no-underline flex items-center;
+    @apply h-full justify-center text-center min-w-28;
+
+    &.btn-signup {
+      @apply font-semibold text-light bg-primary;
+    }
+
+    &.btn-border {
+      &::before {
+        content: " ";
+        @apply -ml-4 mr-4 mt-1 h-1/2;
+        @apply border-l border-gray-light;
+      }
+    }
+
+    &.btn-login {
+      @apply px-6 font-semibold text-primary;
+    }
   }
 }

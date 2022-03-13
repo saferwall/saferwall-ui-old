@@ -3,7 +3,11 @@ import moment from "moment";
 export const DATE_FORMAT = "MMMM Do YYYY";
 
 export function timestampToDate(timestamp) {
-    return timestamp === 0 ? '-' : moment(timestamp * 1000).format(DATE_FORMAT);
+    if (timestamp === 0 || timestamp == null) {
+        return '';
+    }
+
+    return moment(timestamp * 1000).format(DATE_FORMAT);
 }
 
 /**

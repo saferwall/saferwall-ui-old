@@ -9,10 +9,7 @@
       gap-2
     "
   >
-    <div
-      class="flex md:flex-row flex-col items-center gap-4"
-      :class="`type${getRateColor}`"
-    >
+    <div class="certificate" :class="`type${getRateColor}`">
       <div class="circle" v-if="rate.value">
         <div
           class="z-50 flex flex-col items-center justify-center content-center"
@@ -129,14 +126,11 @@ export default {
 <style lang="scss" scoped>
 .progress {
   .message {
-    @apply flex  text-black font-bold;
+    @apply flex  text-black font-bold w-full;
   }
   .circle {
     @apply p-0 m-0 rounded-full  bg-light flex flex-col items-center justify-center content-center;
-
-    height: 150px;
-    width: 150px;
-    min-width: 140px;
+    @apply h-36 w-36 min-w-36;
 
     .rate {
       @apply text-5xl;
@@ -150,9 +144,9 @@ export default {
   }
 
   .submission {
-    @apply w-full px-5 mt-4;
+    @apply w-full px-5;
     @apply flex items-center justify-between;
-    @apply md:items-start md:space-x-4  md:justify-end md:mt-0;
+    @apply md:items-start md:space-x-6  md:justify-end md:mt-0;
 
     > div {
       @apply flex flex-col space-y-2;
@@ -183,6 +177,10 @@ export default {
     }
     @apply text-success;
   }
+}
+
+.certificate {
+  @apply flex md:flex-row flex-col w-full items-center gap-4;
 }
 
 svg .circle-bg {

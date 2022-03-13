@@ -1,16 +1,21 @@
 <template>
   <div id="comments">
-    <div class="list">
+    <div class="list space-y-8">
       <div class="flex flex-col space-y-4 w-full" v-if="comments.length > 0">
         <comment
           v-for="comment in comments"
           :key="comment.id"
           v-bind="comment"
+          v-on:commentDeleted="commentDeleted"
         />
       </div>
       <div v-else class="py-8">
         <h2>No comments available.</h2>
       </div>
+
+      <show-more v-if="paginator.isNextPossible()" v-on:click="loadMore()">
+        <p>Show more comments</p>
+      </show-more>
     </div>
     <div class="editor">
       <md-editor v-model="body" language="en-US" :toolbars="toolBars" />
@@ -27,13 +32,20 @@ import "md-editor-v3/lib/style.css";
 
 import Comment from "../components/Comment.vue";
 import Btn from "@/common/components/elements/button/Btn.vue";
+import ShowMore from "@/common/components/elements/button/ShowMore.vue";
 
 import Paginatior from "@/common/utils/paginator";
 import { catchAuthThrow } from "@/common/helpers";
-import { fileGetters, commentMethods } from "@/state/helpers";
+import {
+  fileGetters,
+  commentMethods,
+  fileMethods,
+  userGetters,
+} from "@/state/helpers";
+import { createToast } from "mosha-vue-toastify";
 
 export default {
-  components: { Comment, Btn, MdEditor },
+  components: { Comment, Btn, MdEditor, ShowMore },
   data() {
     return {
       title: "Comments",
@@ -45,13 +57,41 @@ export default {
   },
   methods: {
     ...commentMethods,
-    doComment: function () {
+    ...fileMethods,
+    doComment() {
       this.posting = true;
 
+      if (!this.body) {
+        this.posting = false;
+        return createToast("The comment body is empty !", {
+          type: "info",
+          position: "bottom-right",
+        });
+      }
+
       this.commentFile({ sha256: this.getFile.sha256, body: this.body })
-        .then(() => {
+        .then((data) => {
           this.posting = false;
-          this.paginator.fetchItems();
+
+          this.comments.push({
+            ...data,
+            comment: data.body,
+            author: {
+              username: data.username,
+              follow: false,
+              member_since: this.getUser.member_since,
+            },
+          });
+
+          this.updateFile({
+            ...this.getFile,
+            comments_count: this.getFile.comments_count + 1,
+          });
+
+          createToast("The comment is successfully submitted !", {
+            type: "success",
+            position: "bottom-right",
+          });
 
           this.body = "";
         })
@@ -63,8 +103,12 @@ export default {
     loadMore() {
       this.paginator.nextPage();
     },
+    commentDeleted(id) {
+      this.comments = this.comments.filter((comment) => comment.id !== id);
+    },
   },
   computed: {
+    ...userGetters,
     ...fileGetters,
     toolBars() {
       return [
@@ -98,10 +142,14 @@ export default {
   async beforeMount() {
     this.paginator = new Paginatior(
       `files/${this.getFile.sha256}/comments`
-    ).setLimit(10);
+    ).setLimit(3);
 
     this.paginator.onUpdate((items) => {
-      this.comments = items;
+      items.forEach((item) =>
+        this.comments.find((c) => c.id == item.id) == undefined
+          ? this.comments.push(item)
+          : null
+      );
     });
 
     this.paginator.setPage(0);

@@ -63,6 +63,9 @@ export const mutations = {
 
 
 export const actions = {
+    updateFile({ commit }, file) {
+        return commit('SET_FILE', file);
+    },
     async rescanFile({ commit }, sha256) {
         return axios.post(`/files/${sha256}/rescan`)
             .then(({ data }) => {
