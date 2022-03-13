@@ -1,5 +1,11 @@
 <template>
-  <a v-if="link" :href="link" class="btn" :class="size" v-bind="$attrs">
+  <a
+    v-if="link"
+    :href="link"
+    class="btn"
+    :class="`size-${size}`"
+    v-bind="$attrs"
+  >
     <slot />
   </a>
   <button v-else class="btn" v-bind="$attrs">
@@ -24,7 +30,7 @@ export default {
 
 <style lang="scss" scoped>
 .btn {
-  @apply flex text-primary w-max rounded-md items-center py-2 px-4 cursor-pointer focus:outline-none;
+  @apply flex flex-row text-primary w-max rounded-md items-center py-2 px-4 cursor-pointer focus:outline-none;
   border: 2px solid $border-color;
 
   &:hover {
@@ -37,13 +43,13 @@ export default {
   }
 
   /** Sizes */
-  &.md {
+  &.size-md {
     @apply py-2 px-4;
   }
-  &.lg {
+  &.size-lg {
     @apply py-3 px-5;
   }
-  &.xl {
+  &.size-xl {
     @apply py-3 px-6;
   }
 }

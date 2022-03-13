@@ -1,14 +1,18 @@
 import axios from '@/services/axios'
 
 export const fields = {
-    avs: ['multiav'],
+    avs: ['multiav', 'first_seen', 'last_scanned'],
     pe: ['pe'],
 }
 
 export const state = {
     file: null,
     comments: [],
-    avs: {},
+    avs: {
+        multiav: {
+            first_scan: [], last_scan: []
+        }
+    },
     pe: {},
     refresh: false
 }
@@ -40,22 +44,39 @@ export const mutations = {
         state.comments = comments;
     },
     SET_FILE_AVS(state, avs) {
-        state.avs = { first_scan: [], last_scan: [], ...avs };
+        state.avs = {
+            multiav: {
+                first_scan: [], last_scan: []
+            }, ...avs
+        };
     },
     SET_FILE_PE(state, pe) {
         state.pe = pe;
     },
     SET_REFRESH_STATUS(state, refresh) {
         state.refresh = refresh;
-    }
+    },
+    ADD_FILE_COMMENT(state, comment) {
+        state.comments.push(comment);
+    },
 }
 
 
 export const actions = {
-    async fetchFile({ commit }, id) {
-        return axios.get(`/files/${id}/summary`)
-            .then(res => {
-                let data = res.data;
+    updateFile({ commit }, file) {
+        return commit('SET_FILE', file);
+    },
+    async rescanFile({ commit }, sha256) {
+        return axios.post(`/files/${sha256}/rescan`)
+            .then(({ data }) => {
+
+                commit('SET_REFRESH_STATUS', true);
+                return data;
+            })
+    },
+    async fetchFile({ commit }, sha256) {
+        return axios.get(`/files/${sha256}/summary`)
+            .then(({ data }) => {
                 data.lastupdate = (data.submissions || []).reduce((bg, sub) => {
                     if (sub.timestamp > bg) return sub.timestamp;
                     return bg;
@@ -66,28 +87,26 @@ export const actions = {
                 return data;
             });
     },
-    async fetchFileAvs({ commit }, id) {
-        return axios.get(`/files/${id}?fields=` + fields.avs.join(','))
-            .then(res => {
-                let data = res.data;
+    async fetchFileAvs({ commit }, sha256) {
+        return axios.get(`/files/${sha256}?fields=` + fields.avs.join(','))
+            .then(({ data }) => {
 
-                commit('SET_FILE_AVS', data.multiav);
+                commit('SET_FILE_AVS', data);
                 return data;
             });
     },
-    async fetchFilePE({ commit }, id) {
-        return axios.get(`/files/${id}?fields=` + fields.pe.join(','))
-            .then(res => {
-                let data = res.data;
+    async fetchFilePE({ commit }, sha256) {
+        return axios.get(`/files/${sha256}?fields=` + fields.pe.join(','))
+            .then(({ data }) => {
 
                 commit('SET_FILE_PE', data.pe);
                 return data.pe;
             });
     },
-    async fetchFileComments({ commit }, id) {
-        return axios.get(`/files/${id}/comments`)
-            .then(res => {
-                let data = res.data.items || [];
+    async fetchFileComments({ commit }, sha256) {
+        return axios.get(`/files/${sha256}/comments`)
+            .then(({ data }) => {
+                data = data || [];
 
                 commit('SET_FILE_COMMENTS', data);
                 return data;

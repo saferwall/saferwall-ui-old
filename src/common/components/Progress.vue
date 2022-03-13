@@ -9,10 +9,7 @@
       gap-2
     "
   >
-    <div
-      class="flex md:flex-row flex-col items-center gap-4"
-      :class="`type${getRateColor}`"
-    >
+    <div class="certificate" :class="`type${getRateColor}`">
       <div class="circle" v-if="rate.value">
         <div
           class="z-50 flex flex-col items-center justify-center content-center"
@@ -62,24 +59,30 @@
       </div>
     </div>
 
-    <div class="submission flex items-center md:items-start flex-col gap-4">
-      <strong class="uppercase text-gray"> First Submission </strong>
-      <time class="font-bold">{{ getDateSubmission }}</time>
+    <div class="submission">
+      <div v-if="first_seen">
+        <strong class="uppercase text-gray">First Seen</strong>
+        <time class="font-bold">{{ timeAgoCounts(first_seen) }} ago</time>
+      </div>
+      <div v-if="last_scanned">
+        <strong class="uppercase text-gray">Last Submission</strong>
+        <time class="font-bold">{{ timeAgoCounts(last_scanned) }} ago</time>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import { timeAgoCounts } from "../utils/date-format";
+
 export default {
   props: {
     message: {
       default: "A certificate was explicitly revoked by its issuer",
       type: String,
     },
-    submission: {
-      default: Date.now() / 1000,
-      type: Number,
-    },
+    first_seen: { default: null, type: Number },
+    last_scanned: { default: null, type: Number },
     radius: {
       default: 70,
       type: Number,
@@ -104,14 +107,6 @@ export default {
     };
   },
   computed: {
-    getDateSubmission() {
-      let d = new Date(1970, 0, 1);
-      d.setSeconds(this.submission);
-      return "d/m/Y"
-        .replace("Y", d.getFullYear())
-        .replace("m", `${d.getMonth() + 1}`.padStart(2, "0"))
-        .replace("d", `${d.getDate()}`.padStart(2, "0"));
-    },
     getRateColor() {
       if (!this.classification || this.classification === "Label.UNKNOWN")
         return "warning";
@@ -122,20 +117,20 @@ export default {
       return "danger";
     },
   },
+  methods: {
+    timeAgoCounts: timeAgoCounts,
+  },
 };
 </script>
 
 <style lang="scss" scoped>
 .progress {
   .message {
-    @apply flex  text-black font-bold;
+    @apply flex  text-black font-bold w-full;
   }
   .circle {
     @apply p-0 m-0 rounded-full  bg-light flex flex-col items-center justify-center content-center;
-
-    height: 150px;
-    width: 150px;
-    min-width: 140px;
+    @apply h-36 w-36 min-w-36;
 
     .rate {
       @apply text-5xl;
@@ -149,8 +144,14 @@ export default {
   }
 
   .submission {
-    @apply px-5;
-    @apply md:border-l md:border-gray-light;
+    @apply w-full px-5;
+    @apply flex items-center justify-between;
+    @apply md:items-start md:space-x-6  md:justify-end md:mt-0;
+
+    > div {
+      @apply flex flex-col space-y-2;
+      @apply md:border-l-2 md:pl-4 border-gray-light;
+    }
   }
 
   .typedanger {
@@ -176,6 +177,10 @@ export default {
     }
     @apply text-success;
   }
+}
+
+.certificate {
+  @apply flex md:flex-row flex-col w-full items-center gap-4;
 }
 
 svg .circle-bg {

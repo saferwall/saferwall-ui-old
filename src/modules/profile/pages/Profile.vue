@@ -169,7 +169,7 @@ export default {
       let paginator = this.paginators[tab];
 
       paginator
-        .setLimit(10)
+        .setLimit(30)
         .fetchItems()
         .then((data) => this.appendToTab(tab, data));
 

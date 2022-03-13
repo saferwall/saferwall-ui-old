@@ -39,10 +39,12 @@ const followActions = mapActions('actions', ['doFollow', 'doUnFollow']);
  * file
  */
 const fileMethods = mapActions('file', [
+    'updateFile',
     'fetchFile',
     'fetchFileComments',
     'fetchFileAvs',
     'fetchFilePE',
+    'rescanFile',
     'updateRefreshStatus'
 ]);
 const fileGetters = mapGetters('file', [
@@ -67,11 +69,21 @@ const uploadGetters = mapGetters('upload', [
 ]);
 
 
+/**
+ * Comments
+ */
+const commentMethods = mapActions('comment', [
+    'commentFile',
+    'deleteComment'
+]);
+
+
 export {
     activityGetters, activityMethods,
     userGetters, userMethods,
     authGetters, authMethods,
     fileActions, followActions,
     fileMethods, fileGetters,
-    uploadMethods, uploadGetters
+    uploadMethods, uploadGetters,
+    commentMethods
 }

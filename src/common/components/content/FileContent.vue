@@ -27,27 +27,27 @@
         </h1>
         <div class="buttons">
           <!-- Scan Button -->
-          <btn v-if="false" class="disabled">
+          <btn :disabled="rescanning" @click="submitRescanRequest">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="14.684"
-              height="17.383"
-              viewBox="0 0 14.684 17.383"
+              enable-background="new 0 0 24 24"
+              viewBox="0 0 24 24"
+              height="24"
+              width="24"
+              fill="currentColor"
+              :class="rescanning ? 'animate-spin' : ''"
             >
-              <g transform="translate(0.15 0.212)">
+              <g><rect fill="none" height="24" width="24" /></g>
+              <g>
                 <g>
                   <path
-                    d="M51.94,4.744a7.145,7.145,0,0,0-5.085-2.106H45.8l1.692-1.7L46.55,0l-3.3,3.3,3.253,3.307.95-.934L45.776,3.969h1.079a5.86,5.86,0,1,1-5.86,5.86V9.163H39.663v.666A7.192,7.192,0,1,0,51.94,4.744Z"
-                    transform="translate(-39.663)"
-                    fill="#0d9677"
-                    stroke="#0d9677"
-                    stroke-width="0.3"
+                    d="M11,8v5l4.25,2.52l0.77-1.28l-3.52-2.09V8H11z M21,10V3l-2.64,2.64C16.74,4.01,14.49,3,12,3c-4.97,0-9,4.03-9,9 s4.03,9,9,9s9-4.03,9-9h-2c0,3.86-3.14,7-7,7s-7-3.14-7-7s3.14-7,7-7c1.93,0,3.68,0.79,4.95,2.05L14,10H21z"
                   />
                 </g>
               </g>
             </svg>
 
-            Rescan File
+            {{ rescanning ? "Rescanning" : "Rescan File" }}
           </btn>
           <!-- END: Scan Button -->
 
@@ -127,6 +127,8 @@ import {
   fileMethods,
   fileActions,
 } from "@/state/helpers";
+import { catchAuthThrow } from "../../helpers";
+import { createToast } from "mosha-vue-toastify";
 
 export default {
   components: { Btn, BtnLike },
@@ -142,6 +144,8 @@ export default {
     hash: null,
     downloadLink: null,
     isloggedIn: false,
+    rescanning: false,
+    rescanInterval: null,
   }),
   computed: {
     ...fileGetters,
@@ -187,6 +191,19 @@ export default {
     updateLike(liked) {
       this.dliked = liked == true;
       this.updateRefreshStatus(true);
+    },
+    async submitRescanRequest() {
+      this.rescanning = true;
+
+      this.rescanFile(this.hash)
+        .then(() => {
+          createToast("The file rescan request has been submitted", {
+            type: "success",
+            position: "bottom-right",
+          });
+        })
+        .catch(catchAuthThrow("You must authenticate to rescan a file !"))
+        .catch(() => (this.rescanning = false));
     },
   },
   async beforeMount() {
@@ -239,7 +256,7 @@ export default {
       margin: 0;
       &:hover {
       }
-      &.disabled {
+      &:disabled {
         @apply bg-gray-2xlight cursor-not-allowed;
       }
     }

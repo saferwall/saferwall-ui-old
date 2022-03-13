@@ -3,7 +3,8 @@
     <template v-if="isFileLoaded">
       <Card>
         <Progress
-          :submission="getFirstSubmission"
+          :first_seen="file.first_seen"
+          :last_scanned="file.last_scanned"
           :rate="getScanScore"
           :classification="getClassification"
         />
@@ -66,7 +67,6 @@ import Progress from "@/common/components/Progress.vue";
 import TableCols from "@/common/components/tables/TableCols.vue";
 import Gallery from "@/common/components/tables/Gallery.vue";
 import { fileGetters } from "@/state/helpers";
-import { isAnAVG } from "@/common/functions";
 
 import {
   translateKey,
@@ -74,6 +74,7 @@ import {
   isoToCountry,
 } from "@/common/utils/translate";
 import { timestampToDate } from "@/common/utils/date-format";
+import { mapTags } from "../../../common/helpers";
 
 export default {
   components: {
@@ -131,14 +132,13 @@ export default {
             };
           }),
       ];
-
       data.push({
         title: "Tags",
         value: (() => {
           this.allowHtmlFields.properties.push(`${data.length}-value`);
           return (
             `<div class="flex gap-2">` +
-            (this.filterTags(items.Tags) || [])
+            mapTags(items.Tags)
               .map(({ name, avg }) => {
                 return `<span class="rounded-md px-3 py-1 text-white ${
                   avg ? "bg-red-500" : "bg-blue-500"
@@ -203,19 +203,6 @@ export default {
   methods: {
     getFlagLink(iso) {
       return `https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/flags/4x3/${iso.toLowerCase()}.svg`;
-    },
-    filterTags(tags) {
-      let tagkeys = Object.keys(tags || {});
-
-      return tagkeys.reduce((all, tagKey) => {
-        return [
-          ...all,
-          ...(tags[tagKey] || []).map((tag) => ({
-            name: tag,
-            avg: isAnAVG(tag),
-          })),
-        ];
-      }, []);
     },
   },
   created() {},

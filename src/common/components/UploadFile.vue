@@ -91,9 +91,7 @@ export default {
     ...uploadMethods,
     async inputFileChanged(event) {
       await this.uploadFile(event.target.files[0]);
-
-      console.log(this.getFile);
-      this.$router.push("/file/" + this.getFile.sha256);
+      this.$router.push("/file/" + this.getFile.sha256 + "?n=1");
     },
   },
 };

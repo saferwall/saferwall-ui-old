@@ -45,7 +45,7 @@ export default {
     this.paginator = new Paginator(
       "users/activities",
       this.getUsername ? "?user=" + this.getUsername : ""
-    ).setLimit(5);
+    ).setLimit(30);
 
     this.paginator.setPage(0);
     this.showMore();
