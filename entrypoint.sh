@@ -55,8 +55,8 @@ else
 
   sed -i "s/$HEAD_TAG/$GA_TAG\n$HEAD_TAG/g" $INDEX_HTML_FILE
 
-  sed -i "s~script-src~script-src https://www.google-analytics.com https://ssl.google-analytics.com
-~g" $NGINX_CONF_FILE
+  sed -i "s~script-src~script-src https://www.google-analytics.com https://ssl.google-analytics.com~g" $NGINX_CONF_FILE
+  sed -i "s~script-src-elem~script-src-elem https://www.google-analytics.com~g" $NGINX_CONF_FILE
   sed -i "s~img-src~img-src https://www.google-analytics.com~g" $NGINX_CONF_FILE
   sed -i "s~connect-src~connect-src https://www.google-analytics.com~g" $NGINX_CONF_FILE
 fi
