@@ -1,143 +1,15 @@
 @tailwind base;
-/* @tailwind components; */
+@tailwind components; 
 @tailwind utilities;
 
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&display=swap");
 
 body,
 html {
-  font-family: "Open Sans", "Franklin Gothic Medium", "Arial Narrow", Arial,
-    sans-serif;
+    font-family: "Open Sans", "Franklin Gothic Medium", "Arial Narrow", Arial,
+        sans-serif;
 }
 
-*{
-  word-wrap: all;
-}
-
-
-#app {
-  @apply min-h-screen flex flex-col justify-start;
-}
-
-.app-content,
-.footer-sidebar {
-  @apply mt-10 w-full sm:w-11/12  lg:w-10/12 xl:w-8/12 justify-start mx-auto flex flex-grow flex-col;
-}
-
-.custom-input{
-  @apply px-4 py-3 border-2 border-gray-light rounded-md;
-}
-
-.md-flag{
-  @apply w-8 h-5;
-}
-
-.flag{
-  @apply flex space-x-2 items-center;
-}
-
-.table-kval td:nth-of-type(2){
-  word-break: break-all;
-}
-.table-cval {
-  word-break: break-all;
-}
-
-/**
- * Scrollbar
- **/
-/* width */
-::-webkit-scrollbar {
-  width: 5px;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-  @apply bg-primary bg-opacity-60;
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  @apply bg-primary;
-}
-
-
-/**
-* Auth Pages
-*/
-.auth-card {
-  @apply bg-light md:rounded-2xl shadow-sm;
-  @apply flex flex-col items-center justify-center;
-  @apply m-auto py-10 px-20;
-  @apply w-full max-w-xl;
-  
-  .form-input {
-    @apply w-full px-4 py-3 border rounded-md border-gray-light placeholder-gray-medium text-lg;
-  }
-
-  .form-group {
-    @apply w-full my-3 flex flex-wrap items-center;
-  }
-
-  .btn-submit {
-    @apply w-full px-2 py-3 bg-primary rounded-md text-light font-bold text-lg;
-  }
-}
-
-
-/**
-* Comments Page
-*/
-#comments{
-  .list{
-    @apply w-full h-full flex flex-col items-center justify-center;
-  }
-  .editor{
-    @apply w-full flex flex-col space-y-4 p-8 bg-light rounded-lg mt-10;
-  }
-
-  #md-editor-v3
-  {
-    @apply max-h-40;
-  }
-}
-
-
-/**
- * Header/Navbar
- */
-.navbar {
-  @apply bg-white fixed w-full top-0 h-navbar z-40;
-  @apply border-b border-gray-2xlight;
-
-  .nav-content {
-    @apply mx-auto flex h-full flex-wrap;
-  }
-}
-.menu {
-  .btn-menu {
-    @apply text-gray-medium relative py-2 px-2 leading-normal text-black no-underline flex items-center;
-    @apply h-full justify-center text-center min-w-28;
-
-    &.btn-signup {
-      @apply font-semibold text-light bg-primary;
-    }
-
-    &.btn-border {
-      &::before {
-        content: " ";
-        @apply -ml-4 mr-4 mt-1 h-1/2;
-        @apply border-l border-gray-light;
-      }
-    }
-
-    &.btn-login {
-      @apply px-6 font-semibold text-primary;
-    }
-  }
+* {
+    word-wrap: all;
 }
