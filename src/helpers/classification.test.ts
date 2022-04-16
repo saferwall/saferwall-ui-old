@@ -1,4 +1,4 @@
-import { getClass, defaultclass } from './classification'
+import { getClass, defaultclass, classes } from './classification'
 
 describe('classification', () => {
     test('getclass with null arg / invalid label', () => {
@@ -7,11 +7,9 @@ describe('classification', () => {
     })
 
 
-    test('getclass label.malicious', () => {
-        expect(getClass('label.malicious')).toEqual({
-            title: 'Malicious',
-            icon: 'danger',
-            color: 'red'
+    test('getclass test all possible cases', () => {
+        Object.keys(classes).forEach(name => {
+            expect(getClass(name)).toEqual(classes[name])
         })
     })
 })

@@ -2,6 +2,7 @@ import { defineConfig } from 'vitest/config'
 import vue from '@vitejs/plugin-vue'
 
 import AutoImport from 'unplugin-auto-import/vite'
+import { fileURLToPath, URL } from "url";
 
 export default defineConfig({
   plugins: [
@@ -11,4 +12,9 @@ export default defineConfig({
       dts: true, // generate TypeScript declaration
     }),
   ],
+  resolve: {
+    alias: {
+      "@": fileURLToPath(new URL("./src", import.meta.url)),
+    },
+  },
 })

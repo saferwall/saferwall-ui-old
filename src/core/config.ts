@@ -8,19 +8,19 @@ export default class Config {
         }
     }
 
-    static value(name: string) {
+    static value(name: string): any {
         if (!(name in this.CONFIG)) {
             console.log(`Configuration: There is no key named "${name}"`)
             return
         }
 
         const value = this.CONFIG[name]
-        if (!value) {
+        if (value == undefined) {
             console.log(`Configuration: Value for "${name}" is not defined`)
             return
         }
 
-        if (value.startsWith('$VUE_APP_')) {
+        if (typeof value == 'string' && value.startsWith('$VUE_APP_')) {
             // value was not replaced, it seems we are in development.
             // Remove $ and get current value from process.env
             const envName = value.substr(1)

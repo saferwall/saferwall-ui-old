@@ -9,6 +9,7 @@ export const defaultclass: MalwareType = {
     icon: 'unsafe',
     color: 'orange'
 }
+
 export const classes: any = {
     'label.benign': {
         title: 'Benign',
