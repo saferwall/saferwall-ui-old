@@ -1,12 +1,8 @@
 <template>
   <aside class="sidebar">
-    <div class="logo">
-      <logo />
-    </div>
-
     <div class="menu">
       <ul class="content">
-        <li class="">
+        <li class>
           <router-link to="/">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -22,209 +18,42 @@
                 d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
               />
             </svg>
-
             Browse files
           </router-link>
         </li>
 
         <li :class="isPageActive('summary') ? 'active' : ''">
-          <router-link :to="getPageLink('summary')">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-6 w-6 ml-2"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A13.916 13.916 0 008 11a4 4 0 118 0c0 1.017-.07 2.019-.203 3m-2.118 6.844A21.88 21.88 0 0015.171 17m3.839 1.132c.645-2.266.99-4.659.99-7.132A8 8 0 008 4.07M3 15.364c.64-1.319 1-2.8 1-4.364 0-1.457.39-2.823 1.07-4"
-              />
-            </svg>
-
-            Summary
-          </router-link>
+          <router-link :to="getPageLink('summary')">Summary</router-link>
         </li>
 
-        <li :class="isPageActive('static-analysis') ? 'active' : ''">
-          <router-link
-            :to="getPageLink('static-analysis')"
-            v-on:click="toggleMenu('static-analysis')"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-6 w-6 ml-2"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"
-              />
-            </svg>
-
-            Static Analysis
-          </router-link>
-
-          <ul
-            class="sub-items"
-            :class="isMenuOpen('static-analysis') ? '' : 'hide'"
-          >
-            <li
-              v-if="isPE"
-              :class="isPageActive('static-analysis/pe') ? 'active' : ''"
-            >
-              <router-link :to="getPageLink('static-analysis/pe')">
-                PE
-              </router-link>
-            </li>
-            <li
-              :class="isPageActive('static-analysis/strings') ? 'active' : ''"
-            >
-              <router-link :to="getPageLink('static-analysis/strings')">
-                Strings
-              </router-link>
-            </li>
-            <li
-              :class="isPageActive('static-analysis/antivirus') ? 'active' : ''"
-            >
-              <router-link :to="getPageLink('static-analysis/antivirus')">
-                Antivirus
-              </router-link>
-            </li>
-          </ul>
+        <li :class="isPageActive('pe') ? 'active' : ''">
+          <router-link :to="getPageLink('pe')">PE</router-link>
         </li>
 
-        <li
-          :class="isPageActive('dynamic-analysis') ? 'active' : ''"
-          class="disabled cursor-not-allowed"
-        >
-          <a class="bg-gray-2xlight w-full">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-6 w-6 ml-2"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
-              />
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-              />
-            </svg>
-
-            <span class="text-base">Dynamic Analysis</span>
-            <span
-              class="
-                rounded-full
-                bg-red-500
-                px-2
-                py-0
-                text-[0.5em]
-                font-bold
-                text-white
-              "
-              >SOON</span
-            >
-          </a>
-
-          <ul
-            class="sub-items"
-            :class="isMenuOpen('dynamic-analysis') ? '' : 'hide'"
-          >
-            <li
-              :class="isPageActive('dynamic-analysis/overview') ? 'active' : ''"
-            >
-              <router-link :to="getPageLink('dynamic-analysis/overview')">
-                Overview
-              </router-link>
-            </li>
-            <li
-              :class="
-                isPageActive('dynamic-analysis/api-calls') ? 'active' : ''
-              "
-            >
-              <router-link :to="getPageLink('dynamic-analysis/api-calls')">
-                API Calls
-              </router-link>
-            </li>
-            <li
-              :class="
-                isPageActive('dynamic-analysis/dropped-files') ? 'active' : ''
-              "
-            >
-              <router-link :to="getPageLink('dynamic-analysis/dropped-files')">
-                Dropped Files
-              </router-link>
-            </li>
-            <li
-              :class="
-                isPageActive('dynamic-analysis/memory-buffers') ? 'active' : ''
-              "
-            >
-              <router-link :to="getPageLink('dynamic-analysis/memory-buffers')">
-                Memory Buffers
-              </router-link>
-            </li>
-            <li
-              :class="
-                isPageActive('dynamic-analysis/network-analysis')
-                  ? 'active'
-                  : ''
-              "
-            >
-              <router-link
-                :to="getPageLink('dynamic-analysis/network-analysis')"
-              >
-                Network Analysis
-              </router-link>
-            </li>
-          </ul>
+        <li :class="isPageActive('static-analysis/strings') ? 'active' : ''">
+          <router-link :to="getPageLink('static-analysis/strings')">Strings</router-link>
         </li>
 
-        <li :class="isPageActive('comments') ? 'active' : ''">
-          <router-link :to="getPageLink('comments')">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-6 w-6 ml-2"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"
-              />
-            </svg>
+        <li :class="isPageActive('static-analysis/antivirus') ? 'active' : ''">
+          <router-link :to="getPageLink('static-analysis/antivirus')">Antivirus</router-link>
+        </li>
 
-            <div>
-              Comments
-              <span class="text-gray-medium font-thin"
-                >({{ (getFile && getFile.comments_count) || 0 }})</span
-              >
-            </div>
-          </router-link>
+        <li :class="isPageActive('pe') ? 'active' : ''">
+          <router-link :to="getPageLink('pe')">Dynamic overview</router-link>
+        </li>
+
+        <li :class="isPageActive('pe') ? 'active' : ''">
+          <router-link :to="getPageLink('pe')">API Calls</router-link>
+        </li>
+
+        <li :class="isPageActive('pe') ? 'active' : ''">
+          <router-link :to="getPageLink('pe')">Files & MemDumps</router-link>
+        </li>
+
+        <li :class="isPageActive('pe') ? 'active' : ''">
+          <router-link :to="getPageLink('pe')">Comments</router-link>
         </li>
       </ul>
-
-      <btn size="xl" class="mx-auto mt-12">
-        <strong>Back to website</strong>
-      </btn>
     </div>
   </aside>
 </template>
@@ -232,11 +61,7 @@
 <script>
 import { fileGetters } from "@/state/helpers";
 
-import Logo from "@/common/components/elements/Logo.vue";
-import Btn from "@/common/components/elements/button/Btn.vue";
-
 export default {
-  components: { Logo, Btn },
   data: () => ({
     hash: null,
     menuOpen: {
@@ -280,28 +105,47 @@ export default {
 .sidebar {
   @apply inset-0;
   @apply bg-white;
-  @apply min-h-screen;
   @apply hidden w-full lg:w-sidebar lg:block;
-
+  position: fixed;
+  top: 69px;
+  width: 100%;
+  bottom: auto;
   border-right: solid 1px $border-color;
+  padding: 13px 20px;
+  z-index: 99999999999;t 
 
   .logo {
     @apply w-full h-navbar max-h-20 xl:w-sidebar md:px-6 px-5 flex justify-center md:justify-start text-black font-extrabold;
   }
 
   .menu {
-    @apply w-full mt-8;
+    @apply w-full;
 
     .content {
       @apply mb-auto;
 
+      display: flex;
+      align-items: center;
+
+      li:first-child {
+        margin-right: 50px;
+      }
+
       li {
         a {
-          @apply text-base text-gray flex items-center gap-4 py-4 my-1 p-2 w-11/12 rounded-r-md;
+          @apply text-base flex items-center gap-4 py-4 my-1 p-2 rounded-r-md;
+          margin-right: 15px;
+          padding: 10px 18px;
+          font-size: 0.9rem;
+          color: #a7a7a7;
         }
         &.active > a,
         > a:hover {
-          @apply bg-primary bg-opacity-5 text-primary font-semibold;
+          background-color: rgba(13, 150, 119);
+          font-weight: 800;
+          --tw-text-opacity: 1;
+          color: #fff;
+          border-radius: 30px;
         }
       }
     }

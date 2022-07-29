@@ -29,7 +29,7 @@ const fileModuleRoutes = [
         name: 'file-summary',
         component: () => import('@/modules/file/pages/Summary.vue'),
         meta: {
-            title: 'File Summary',
+            title: 'Summary',
         }
     },
     {

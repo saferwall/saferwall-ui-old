@@ -1,10 +1,7 @@
 <template>
   <div class="latestactv my-9">
-    <list-activities
-      :activities="getLatestActivities"
-      :more="hasMore"
-      v-on:showMore="showMore"
-    />
+    <h3>Latest activities</h3>
+    <list-activities :activities="getLatestActivities" :more="hasMore" v-on:showMore="showMore" />
   </div>
 </template>
 
@@ -52,3 +49,12 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.latestactv {
+  h3 {
+    font-size: 1.3rem;
+    font-weight: 500;
+  }
+}
+</style>

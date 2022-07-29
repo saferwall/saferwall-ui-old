@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="header">
-      <div class="metatime">
+      <div class="metatime hidden">
         <a class="btn-back" @click="goBack()">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -17,15 +17,33 @@
               stroke-width="1.8"
             />
           </svg>
-
           back
         </a>
       </div>
       <div class="metainfo">
-        <h1 class="title">
-          {{ title }}
-        </h1>
+        <h1 class="title">{{ title }}</h1>
         <div class="buttons">
+          <!-- Download Button -->
+          <div @click="this.$router.push({ name: 'login' })">
+            <btn
+              :link="isloggedIn ? downloadLink : null"
+              :download="isloggedIn ? getFileName : null"
+              :target="isloggedIn ? '_blank' : ''"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+                <path
+                  d="M14.81,9.36,9.252,14.529,3.694,9.36l1.022-.951,3.813,3.546V0H9.975V11.955l3.813-3.546Zm3.694,6.5H0v1.344H18.5Zm0,0"
+                  transform="translate(0.25 0.25)"
+                  fill="currentColor"
+                  stroke="currentColor"
+                  stroke-width="0.5"
+                />
+              </svg>
+              Download File
+            </btn>
+          </div>
+          <!-- END: Download Button -->
+
           <!-- Scan Button -->
           <btn :disabled="rescanning" @click="submitRescanRequest">
             <svg
@@ -37,7 +55,9 @@
               fill="currentColor"
               :class="rescanning ? 'animate-spin' : ''"
             >
-              <g><rect fill="none" height="24" width="24" /></g>
+              <g>
+                <rect fill="none" height="24" width="24" />
+              </g>
               <g>
                 <g>
                   <path
@@ -46,16 +66,16 @@
                 </g>
               </g>
             </svg>
-
             {{ rescanning ? "Rescanning" : "Rescan File" }}
           </btn>
           <!-- END: Scan Button -->
 
+          <!-- Like Button -->
+          <btn-like @click="toggleLike" :liked="dliked">{{ dliked ? "Unlike" : "Like" }}</btn-like>
+          <!-- END: Like Button -->
+
           <!-- Share Button -->
-          <a
-            :href="'https://twitter.com/intent/tweet?text=' + getShareTweet"
-            target="_blank"
-          >
+          <a :href="'https://twitter.com/intent/tweet?text=' + getShareTweet" target="_blank">
             <btn>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -73,40 +93,6 @@
             </btn>
           </a>
           <!-- END: Share Button -->
-
-          <!-- Download Button -->
-          <div @click="this.$router.push({ name: 'login' })">
-            <btn
-              :link="isloggedIn ? downloadLink : null"
-              :download="isloggedIn ? getFileName : null"
-              :target="isloggedIn ? '_blank' : ''"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                viewBox="0 0 20 20"
-              >
-                <path
-                  d="M14.81,9.36,9.252,14.529,3.694,9.36l1.022-.951,3.813,3.546V0H9.975V11.955l3.813-3.546Zm3.694,6.5H0v1.344H18.5Zm0,0"
-                  transform="translate(0.25 0.25)"
-                  fill="currentColor"
-                  stroke="currentColor"
-                  stroke-width="0.5"
-                />
-              </svg>
-
-              Download File
-            </btn>
-          </div>
-
-          <!-- END: Download Button -->
-
-          <!-- Like Button -->
-          <btn-like @click="toggleLike" :liked="dliked">
-            {{ dliked ? "Unlike" : "Like" }}
-          </btn-like>
-          <!-- END: Like Button -->
         </div>
       </div>
     </div>
@@ -134,7 +120,7 @@ export default {
   components: { Btn, BtnLike },
   props: {
     title: {
-      default: "File Summary",
+      default: "Summary",
       type: String,
     },
   },

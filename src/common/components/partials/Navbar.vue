@@ -107,6 +107,7 @@ export default {
   @apply w-full md:w-sidebar  md:px-6 px-5 flex justify-center md:justify-start text-black font-extrabold;
   border-right: 1px solid $border-color;
   height: 100%;
+  width: auto;
 }
 
 .search {

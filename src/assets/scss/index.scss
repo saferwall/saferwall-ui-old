@@ -3,10 +3,11 @@
 @tailwind utilities;
 
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap");
 
 body,
 html {
-  font-family: "Open Sans", "Franklin Gothic Medium", "Arial Narrow", Arial,
+  font-family: "Manrope", "Franklin Gothic Medium", "Arial Narrow", Arial,
     sans-serif;
 }
 
@@ -21,7 +22,7 @@ html {
 
 .app-content,
 .footer-sidebar {
-  @apply mt-10 w-full sm:w-11/12  lg:w-10/12 xl:w-8/12 justify-start mx-auto flex flex-grow flex-col;
+  @apply mt-10 w-full sm:w-11/12  lg:w-10/12 xl:w-10/12 justify-start mx-auto flex flex-grow flex-col;
 }
 
 .custom-input{
@@ -74,10 +75,26 @@ html {
   @apply bg-light md:rounded-2xl shadow-sm;
   @apply flex flex-col items-center justify-center;
   @apply m-auto py-10 px-20;
-  @apply w-full max-w-xl;
+  @apply w-full max-w-lg;
   
   .form-input {
-    @apply w-full px-4 py-3 border rounded-md border-gray-light placeholder-gray-medium text-lg;
+    @apply w-full px-4 py-3 border rounded-md border-gray-light text-lg;
+    border-color: #E6E6E6;
+    border-radius: 7px;
+    font-size: 1rem;
+    font-weight: 500;
+  }
+  ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: #B2B2B2;
+    opacity: 1; /* Firefox */
+  }
+  
+  :-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: #B2B2B2;
+  }
+  
+  ::-ms-input-placeholder { /* Microsoft Edge */
+    color: #B2B2B2;
   }
 
   .form-group {
@@ -123,9 +140,16 @@ html {
   .btn-menu {
     @apply text-gray-medium relative py-2 px-2 leading-normal text-black no-underline flex items-center;
     @apply h-full justify-center text-center min-w-28;
+    color: #898989;
+    font-weight: 500;
 
     &.btn-signup {
       @apply font-semibold text-light bg-primary;
+      padding: 10px 20px;
+    min-width: auto;
+    border-radius: 4px;
+    margin-right: 10px;
+        height: auto;
     }
 
     &.btn-border {
@@ -138,6 +162,12 @@ html {
 
     &.btn-login {
       @apply px-6 font-semibold text-primary;
+      padding: 10px 20px;
+      min-width: auto;
+      border-radius: 4px;
+      margin-right: 10px;
+      height: auto;
+      border: 2px solid #E2E2E2;
     }
   }
 }

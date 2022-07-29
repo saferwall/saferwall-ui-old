@@ -4,6 +4,7 @@
       <slot name="navbar" />
     </Header>
   </slot>
+  <slot name="sidebar" />
 
   <slot name="main" />
 

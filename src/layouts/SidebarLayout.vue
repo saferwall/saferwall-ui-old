@@ -4,14 +4,12 @@
       <template v-slot:navbar>
         <Navbar />
       </template>
-      <template v-slot:main>
+      <template v-slot:sidebar>
         <Sidebar class="sidebar" v-show="sidebarActive" />
+      </template>
+      <template v-slot:main>
         <div class="flex flex-col w-full app-content">
-          <Content
-            class="content"
-            :title="getCurrentTitle"
-            :class="sidebarActive ? 'sactive' : ''"
-          >
+          <Content class="content" :title="getCurrentTitle" :class="sidebarActive ? 'sactive' : ''">
             <slot />
           </Content>
           <div class="footer-sidebar">
@@ -73,7 +71,8 @@ main {
   @apply flex;
 
   .content {
-    @apply mt-20 p-4 xl:p-8;
+    @apply mt-20 p-4 px-20 xl:px-20;
+    margin-top: 10rem;
   }
 
   .app-content {

@@ -17,9 +17,7 @@
           @click="toggleFollow"
           :class="follow ? 'active' : ''"
           class="follow"
-        >
-          {{ follow ? "UnFollow" : "Follow" }}
-        </button>
+        >{{ follow ? "UnFollow" : "Follow" }}</button>
       </div>
       <template v-else-if="isFollow">
         <router-link class="profile-link target" :to="`/user/${target}`">
@@ -32,37 +30,29 @@
       </template>
     </div>
 
-    <div
-      class="activity-content col-span-4 grid lg:grid-cols-5 z-10"
-      v-if="!isFollow"
-    >
+    <div class="activity-content col-span-4 grid lg:grid-cols-5 z-10" v-if="!isFollow">
       <router-link
         :to="getFileRoute"
         class="info"
         :class="(!hasTags && 'col-span-5') || 'col-span-4'"
       >
         <p class="title">
-          <b>{{ author.username }}</b> {{ getActivityTitle }} a file
+          <b>{{ author.username }}</b>
+          {{ getActivityTitle }} a file
           <span class="text-sm">{{ getActivityTimeAgo }} ago</span>
         </p>
         <hash-input :hash="file.hash" class="mt-4"></hash-input>
-        <file-meta
-          :scan="file.multiav"
-          :filename="file.filename"
-          :classification="file.class"
-        />
+        <file-meta :scan="file.multiav" :filename="file.filename" :classification="file.class" />
       </router-link>
       <div v-if="hasTags" class="tags">
         <h3>Tags</h3>
         <ul class="list flex flex-wrap">
-          <li
-            v-for="tag in tags"
-            v-bind:key="tag.link"
-            :class="tag.avg && `redbg`"
-          >
-            <router-link :to="`/tag/${tag.name}`" :title="tag.name">{{
+          <li v-for="tag in tags" v-bind:key="tag.link" :class="tag.avg && `redbg`">
+            <router-link :to="`/tag/${tag.name}`" :title="tag.name">
+              {{
               tag.name
-            }}</router-link>
+              }}
+            </router-link>
           </li>
         </ul>
       </div>
@@ -193,9 +183,17 @@ export default {
 
     .header {
       @apply flex border text-center z-10 md:justify-center;
+      border-right: 1px solid #e8e8e8;
+      padding: 30px 0;
 
       .profile-link {
         @apply flex justify-center space-x-4 lg:block lg:space-x-0;
+        a {
+          p {
+            color: #9b9b9b;
+            font-weight: 500;
+          }
+        }
       }
     }
   }
@@ -229,25 +227,42 @@ export default {
 
     &,
     .tags {
-      @apply border-l-0 lg:border-l lg:border-gray lg:border-opacity-10;
+      @apply border-l-0  lg:border-gray lg:border-opacity-10;
     }
 
     .info {
+      p {
+        font-weight: 500;
+      }
       .title span {
         @apply text-gray;
+        color: #b2b2b2;
+        font-weight: 500;
       }
     }
 
     .tags {
       @apply mt-8 ml-4 mx-0 px-0 lg:px-4 w-full;
+      h3 {
+        text-transform: uppercase;
+        color: #b2b2b2;
+        font-weight: 500;
+        margin-bottom: 10px;
+      }
       .list {
         @apply flex flex-wrap;
       }
       .list li {
         @apply py-1 px-2 bg-blue-500 m-1 rounded text-light text-sm;
+        background-color: #e3f1ff;
+        color: #3e83c9;
+        font-weight: 500;
+        font-size: 0.85rem;
 
         &.redbg {
           @apply bg-red-500;
+          background-color: #fceaee;
+          color: #ed4060;
         }
       }
     }

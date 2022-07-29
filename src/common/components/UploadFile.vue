@@ -2,15 +2,9 @@
   <div class="uploadfile shadow">
     <h1 class="welcome mt-8 ml-10 mb-auto w-full">Welcome to Saferwall !</h1>
     <div class="upload">
-      <input
-        v-bind="getInputProps()"
-        type="file"
-        class="hide"
-        @change="inputFileChanged"
-      />
+      <input v-bind="getInputProps()" type="file" class="hide" @change="inputFileChanged" />
       <button class="btn-upload" v-bind="getRootProps()">
         Browse Files
-
         <svg
           xmlns="http://www.w3.org/2000/svg"
           class="ml-4"
@@ -48,23 +42,23 @@
         <p class="text">
           {{ getStep }}
           <strong>
-            (<span class="value">{{ uploadProgress }}</span
-            >%)
+            (
+            <span class="value">{{ uploadProgress }}</span>%)
           </strong>
         </p>
       </div>
       <div class="messages">
-        <div v-if="isDragReject" id="isDragReject">
-          isDragReject: {{ isDragReject }}
-        </div>
+        <div v-if="isDragReject" id="isDragReject">isDragReject: {{ isDragReject }}</div>
       </div>
     </div>
     <p class="terms">
       By using Saferwall you consent to our
-      <a target="_blank" href="https://about.saferwall.com/tos"
-        >Terms of Service</a
-      >
-      and <a href="https://about.saferwall.com/privacy">Privacy Policy</a> and
+      <a
+        target="_blank"
+        href="https://about.saferwall.com/tos"
+      >Terms of Service</a>
+      and
+      <a href="https://about.saferwall.com/privacy">Privacy Policy</a> and
       allow us to share your submission with the security community.
     </p>
   </div>
@@ -101,7 +95,7 @@ export default {
 
 <style lang="scss" scoped>
 .uploadfile {
-  @apply md:mt-14 flex flex-wrap mx-auto rounded-lg bg-white  w-full min-h-7/10 lg:min-h-5/10;
+  @apply md:mt-14 flex flex-wrap mx-auto rounded-lg bg-white  w-full min-h-7/10 lg:min-h-7/10;
 
   .hide {
     @apply hidden;
@@ -111,6 +105,8 @@ export default {
   }
   .welcome {
     @apply pt-4 text-xl font-bold;
+    font-weight: 500;
+    font-size: 1.5rem;
   }
   .btn-upload {
     @apply focus:outline-none flex bg-primary text-white py-5 px-6 rounded-md  m-auto;
@@ -134,6 +130,9 @@ export default {
 
   .terms {
     @apply text-sm text-center w-8/12 mb-10 mt-auto mx-auto;
+    font-size: 1.1rem;
+    line-height: 1.5rem;
+    font-weight: 500;
   }
 }
 </style>

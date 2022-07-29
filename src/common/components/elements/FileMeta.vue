@@ -8,7 +8,7 @@
             :xlink:href="`/assets/icons/classification.svg#${getClassification.icon}`"
             width="15"
             height="15"
-          ></use>
+          />
         </svg>
         <span>{{ getClassification.title }}</span>
       </p>
@@ -19,9 +19,7 @@
     </div>
     <div>
       <h4>File Name</h4>
-      <p @click="nameHover = true" v-if="!nameHover" :alt="filename">
-        {{ getFileName }}
-      </p>
+      <p @click="nameHover = true" v-if="!nameHover" :alt="filename">{{ getFileName }}</p>
       <input
         v-if="nameHover"
         type="text"
@@ -87,6 +85,8 @@ export default {
 
   h4 {
     @apply font-bold text-sm uppercase text-gray;
+    color: #b2b2b2;
+    font-weight: 600;
   }
 
   p {

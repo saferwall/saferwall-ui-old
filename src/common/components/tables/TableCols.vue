@@ -1,12 +1,8 @@
 <template >
-  <h2 class="title" v-if="title">
-    {{ title }}
-  </h2>
+  <h2 class="title" v-if="title">{{ title }}</h2>
   <table :class="(striped ? ' striped' : '') + (bordered ? ' bordered' : '')">
     <thead>
-      <th v-for="col in columns" v-bind:key="col">
-        {{ col.title }}
-      </th>
+      <th v-for="col in columns" v-bind:key="col">{{ col.title }}</th>
     </thead>
     <tbody :class="hasColumns ? 'table-kval' : 'table-cval'">
       <tr v-for="(line, lindex) in lines" v-bind:key="line">
@@ -92,6 +88,7 @@ table {
   td,
   th {
     @apply px-3 py-2 text-sm xl:text-base;
+    font-size: 0.9rem;
   }
   td:nth-child(2n) {
     @apply text-gray font-normal;
@@ -100,6 +97,10 @@ table {
   &.striped {
     tr {
       @apply font-semibold;
+      display: block;
+      td {
+        padding: 13px 20px;
+      }
     }
 
     td:nth-child(2n) {
@@ -108,6 +109,7 @@ table {
 
     tr:nth-child(odd) {
       background: #f6f6f6;
+      border-radius: 5px;
     }
   }
 

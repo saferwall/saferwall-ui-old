@@ -53,8 +53,8 @@ module.exports = {
         '5/7': '71.4285714%',
         '6/7': '85.7142857%',
         '9/10': '90%',
-        'sidebar': '280px',
-        'scontent': 'calc(100% - 280px)',
+        'sidebar': '100%',
+        'scontent': 'calc(100%)',
       },
       height: {
         'navbar': '4.3rem',

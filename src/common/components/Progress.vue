@@ -1,28 +1,12 @@
 <template>
-  <div
-    class="
-      progress
-      flex flex-col
-      md:flex-row
-      items-center
-      justify-between
-      gap-2
-    "
-  >
+  <div class="progress flex flex-col md:flex-row items-center justify-between gap-2">
     <div class="certificate" :class="`type${getRateColor}`">
       <div class="circle" v-if="rate.value">
-        <div
-          class="z-50 flex flex-col items-center justify-center content-center"
-        >
+        <div class="z-50 flex flex-col items-center justify-center content-center">
           <strong class="rate">{{ rate.value }}</strong>
-          <span>/{{ rate.count }}</span>
+          <span>/ {{ rate.count }}</span>
         </div>
-        <svg
-          viewBox="0 0 36 36"
-          :class="'absolute'"
-          :height="radius * 2"
-          :width="radius * 2"
-        >
+        <svg viewBox="0 0 36 36" :class="'absolute'" :height="radius * 2" :width="radius * 2">
           <path
             class="circle-bg"
             d="M18 2.0845
@@ -40,33 +24,18 @@
       </div>
 
       <div class="message">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-6 w-6 mr-2"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-          />
-        </svg>
-
         <span>{{ message }}</span>
       </div>
     </div>
 
     <div class="submission">
-      <div v-if="first_seen">
-        <strong class="uppercase text-gray">First Seen</strong>
-        <time class="font-bold">{{ timeAgoCounts(first_seen) }} ago</time>
-      </div>
       <div v-if="last_scanned">
-        <strong class="uppercase text-gray">Last Submission</strong>
+        <strong class="uppercase text-gray">LAST SCANNED</strong>
         <time class="font-bold">{{ timeAgoCounts(last_scanned) }} ago</time>
+      </div>
+      <div v-if="first_seen">
+        <strong class="uppercase text-gray">FIRST SUBMISSION</strong>
+        <time class="font-bold">{{ new Date(first_seen * 1000) }}</time>
       </div>
     </div>
   </div>
@@ -88,7 +57,7 @@ export default {
       type: Number,
     },
     stroke: {
-      default: 8,
+      default: 4,
       type: Number,
     },
     rate: {
@@ -126,7 +95,9 @@ export default {
 <style lang="scss" scoped>
 .progress {
   .message {
-    @apply flex  text-black font-bold w-full;
+    @apply flex w-full;
+    color: #e63755;
+    font-weight: 600;
   }
   .circle {
     @apply p-0 m-0 rounded-full  bg-light flex flex-col items-center justify-center content-center;
@@ -134,6 +105,7 @@ export default {
 
     .rate {
       @apply text-5xl;
+      font-weight: 400;
     }
     span {
       @apply text-gray;
@@ -151,6 +123,10 @@ export default {
     > div {
       @apply flex flex-col space-y-2;
       @apply md:border-l-2 md:pl-4 border-gray-light;
+    }
+    strong {
+      color: #b2b2b2;
+      font-weight: 500;
     }
   }
 
@@ -187,12 +163,12 @@ svg .circle-bg {
   @apply stroke-gray-2xlight;
 
   fill: none;
-  stroke-width: 3.8;
+  stroke-width: 1.5;
 }
 
 svg .circle {
   fill: none;
-  stroke-width: 2.8;
+  stroke-width: 1.5;
   stroke-linecap: round;
   animation: progress 1s ease-out forwards;
 }

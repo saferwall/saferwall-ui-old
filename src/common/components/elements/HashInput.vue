@@ -17,13 +17,7 @@
         />
       </g>
     </svg>
-    <input
-      type="text"
-      @focus="$event.target.select()"
-      class="w-full h-full"
-      :value="hash"
-      readonly
-    />
+    <input type="text" @focus="$event.target.select()" class="w-full h-full" :value="hash" readonly />
   </div>
 </template>
 
@@ -40,6 +34,7 @@ export default {
 <style lang="scss" scoped>
 .hashinput {
   @apply flex px-4 h-11 bg-gray rounded-full;
+  border-radius: 7px;
 
   &,
   input {
