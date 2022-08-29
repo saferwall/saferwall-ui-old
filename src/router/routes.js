@@ -45,7 +45,7 @@ const fileModuleRoutes = [
         name: 'static-analysis-pe',
         component: () => import('@/modules/file/pages/static-analysis/PE.vue'),
         meta: {
-            title: 'PE',
+            title: 'PE (Portable Executable)',
             middleware: [
                 async ({ store, to, next }) => { await store.dispatch('file/fetchFilePE', to.params.id), next() }
             ]
@@ -243,7 +243,7 @@ const privateRoutes = [
         name: 'profile',
         component: () => import('@/modules/profile/pages/Profile.vue'),
         meta: {
-            title: 'Profile',
+            title: 'My Profil',
             layout: 'HeaderLayout',
         },
     },

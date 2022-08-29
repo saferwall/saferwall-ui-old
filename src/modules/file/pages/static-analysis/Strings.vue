@@ -1,10 +1,7 @@
 <template>
   <card>
     <div class="flex flex-col gap-y-4">
-      <table
-        cellspacing="0"
-        class="table-strings w-full rounded-lg border border-separate"
-      >
+      <table cellspacing="0" class="table-strings w-full rounded-lg border border-separate">
         <thead>
           <th>
             <div>
@@ -22,6 +19,7 @@
                     stroke-linejoin="round"
                     stroke-width="2"
                     d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                    stroke="#DBDBDB"
                   />
                 </svg>
                 <input type="text" placeholder="Search Encodings ..." />
@@ -44,6 +42,7 @@
                     stroke-linejoin="round"
                     stroke-width="2"
                     d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                    stroke="#DBDBDB"
                   />
                 </svg>
                 <input type="text" placeholder="Search Values ..." />
@@ -53,12 +52,8 @@
         </thead>
         <tbody>
           <tr v-for="_string in strings" v-bind:key="_string">
-            <td>
-              {{ _string.encoding }}
-            </td>
-            <td>
-              {{ _string.value }}
-            </td>
+            <td>{{ _string.encoding }}</td>
+            <td>{{ _string.value }}</td>
           </tr>
         </tbody>
       </table>
@@ -78,9 +73,7 @@
                 index == getCurrentPage ? 'bg-green-500' : 'bg-gray-medium'
               }`"
               v-on:click="selectPage(index)"
-            >
-              {{ index }}
-            </div>
+            >{{ index }}</div>
           </template>
         </div>
       </div>
@@ -249,13 +242,27 @@ export default {
   }
 
   .search-input {
-    &,
     input::placeholder {
-      @apply text-gray-light;
+      /* Chrome, Firefox, Opera, Safari 10.1+ */
+      color: #adabab;
+      opacity: 1; /* Firefox */
+    }
+
+    input:-ms-input-placeholder {
+      /* Internet Explorer 10-11 */
+      color: #adabab;
+    }
+
+    input::-ms-input-placeholder {
+      /* Microsoft Edge */
+      color: #adabab;
     }
 
     input {
       @apply focus:outline-none  bg-transparent pl-3 py-4 text-gray;
+      font-family: "Manrope", "Franklin Gothic Medium", "Arial Narrow", Arial,
+        sans-serif;
+      font-weight: 500;
     }
   }
 }

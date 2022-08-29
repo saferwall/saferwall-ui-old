@@ -26,8 +26,8 @@
           <router-link :to="getPageLink('summary')">Summary</router-link>
         </li>
 
-        <li :class="isPageActive('pe') ? 'active' : ''">
-          <router-link :to="getPageLink('pe')">PE</router-link>
+        <li :class="isPageActive('static-analysis/pe') ? 'active' : ''">
+          <router-link :to="getPageLink('static-analysis/pe')">PE</router-link>
         </li>
 
         <li :class="isPageActive('static-analysis/strings') ? 'active' : ''">
@@ -112,9 +112,8 @@ export default {
   bottom: auto;
   border-right: solid 1px $border-color;
   padding: 13px 20px;
-  z-index: 99999999999;t 
-
-  .logo {
+  z-index: 99999999999;
+  t .logo {
     @apply w-full h-navbar max-h-20 xl:w-sidebar md:px-6 px-5 flex justify-center md:justify-start text-black font-extrabold;
   }
 
@@ -142,7 +141,6 @@ export default {
         &.active > a,
         > a:hover {
           background-color: rgba(13, 150, 119);
-          font-weight: 800;
           --tw-text-opacity: 1;
           color: #fff;
           border-radius: 30px;

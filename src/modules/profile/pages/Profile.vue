@@ -20,9 +20,7 @@
         :rows="data.likes || []"
         @doAction="onTabAction"
       >
-        <template v-slot:emptymessage
-          >{{ username }} has not liked anything yet for the moment</template
-        >
+        <template v-slot:emptymessage>{{ username }} has not liked anything yet for the moment</template>
       </tab-type-submission>
 
       <tab-type-submission
@@ -30,9 +28,7 @@
         :rows="data.submissions || []"
         @doAction="onTabAction"
       >
-        <template v-slot:emptymessage
-          >{{ username }} has not made any submissions for the moment</template
-        >
+        <template v-slot:emptymessage>{{ username }} has not made any submissions for the moment</template>
       </tab-type-submission>
 
       <tab-type-follow
@@ -40,9 +36,7 @@
         :rows="data.followers || []"
         @doAction="onTabAction"
       >
-        <template v-slot:emptymessage
-          >{{ username }} has no followers for the moment</template
-        >
+        <template v-slot:emptymessage>{{ username }} has no followers for the moment</template>
       </tab-type-follow>
 
       <tab-type-follow
@@ -50,9 +44,7 @@
         :rows="data.following || []"
         @doAction="onTabAction"
       >
-        <template v-slot:emptymessage
-          >{{ username }} does not subscribed to anyonefor the moment</template
-        >
+        <template v-slot:emptymessage>{{ username }} does not subscribed to anyonefor the moment</template>
       </tab-type-follow>
 
       <tab-type-comment
@@ -60,9 +52,7 @@
         :rows="data.comments || []"
         @doAction="onTabAction"
       >
-        <template v-slot:emptymessage
-          >{{ username }} has not commented on any filesfor the moment</template
-        >
+        <template v-slot:emptymessage>{{ username }} has not commented on any filesfor the moment</template>
       </tab-type-comment>
     </card-tabs>
     <show-more v-if="hasMore" v-on:click="showMore">
@@ -281,6 +271,22 @@ export default {
   }
   .empty-tab {
     @apply flex justify-center items-center text-center py-8 mt-4 text-gray text-sm;
+  }
+  .card-tabs {
+    padding-right: 0 !important;
+  }
+  .tab-headers {
+    justify-content: start !important;
+    padding-top: 0;
+    padding: 0 !important;
+    .tab-th {
+      margin-right: 0 !important;
+      padding: 1rem 1.5rem !important;
+      color: #696969 !important;
+      svg {
+        display: none !important;
+      }
+    }
   }
 }
 </style>

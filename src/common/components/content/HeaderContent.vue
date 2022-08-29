@@ -17,14 +17,11 @@
               stroke-width="1.8"
             />
           </svg>
-
           back
         </a>
       </div>
       <div class="page-info">
-        <h1 class="title">
-          {{ title }}
-        </h1>
+        <h1 class="title">{{ title }}</h1>
       </div>
     </div>
     <div class="content">
@@ -66,6 +63,7 @@ export default {
 
     .page-mtime {
       @apply w-full;
+      display: none;
     }
 
     .page-info {

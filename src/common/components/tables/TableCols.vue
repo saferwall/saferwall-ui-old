@@ -97,7 +97,6 @@ table {
   &.striped {
     tr {
       @apply font-semibold;
-      display: block;
       td {
         padding: 13px 20px;
       }
@@ -109,7 +108,16 @@ table {
 
     tr:nth-child(odd) {
       background: #f6f6f6;
-      border-radius: 5px;
+    }
+
+    tr:nth-child(odd) td:first-child {
+      border-top-left-radius: 7px;
+      border-bottom-left-radius: 7px;
+    }
+
+    tr:nth-child(odd) td:last-child {
+      border-top-right-radius: 7px;
+      border-bottom-right-radius: 7px;
     }
   }
 

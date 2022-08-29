@@ -1,6 +1,6 @@
 <template >
   <div class="pe-tree">
-    <Card title="Portable Executable">
+    <Card title>
       <div>
         <card-tabs
           :tabs="treeList"
@@ -179,11 +179,7 @@
                     : !currentEntry && index == 0
                 "
               >
-                <table-cols
-                  :striped="true"
-                  :bordered="true"
-                  :lines="get_Entry_Basic(EntryItem)"
-                ></table-cols>
+                <table-cols :striped="true" :bordered="true" :lines="get_Entry_Basic(EntryItem)"></table-cols>
                 <div class="divider"></div>
                 <table-cols
                   title="Directory"
@@ -476,6 +472,11 @@ export default {
   &,
   table {
     @apply w-full;
+  }
+
+  .card {
+    padding-top: 1rem;
+    padding-left: 0;
   }
 
   // Tab

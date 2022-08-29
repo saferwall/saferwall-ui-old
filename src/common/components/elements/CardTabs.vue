@@ -66,16 +66,22 @@ export default {
 
 <style lang="scss" scoped>
 .card-tabs {
+  padding-top: 0 !important;
+  padding-left: 0 !important;
   .tab-contents {
     @apply w-full;
   }
 
   .tab-headers {
     @apply flex flex-wrap justify-center md:justify-start items-center;
+    border-right: 1px solid #e3e3e3;
 
     .tab-th {
       @apply text-gray py-2 mr-4;
       @apply md:px-4 cursor-pointer;
+      color: #919191;
+      font-weight: 500;
+      font-size: 0.9rem;
 
       &.active {
         @apply text-primary font-bold md:border-primary md:border-opacity-50;
@@ -97,6 +103,7 @@ export default {
     .tab-headers {
       @apply flex items-start self-start  lg:col-span-3 xl:col-span-2;
       @apply flex-col md:min-w-max;
+      padding-left: 1rem !important;
     }
     .tab-contents {
       @apply items-start self-start;
@@ -107,6 +114,10 @@ export default {
     .tab-th {
       &.active {
         @apply border-r-2 border-primary w-full;
+        background-color: #f0f8f6;
+        border-top-left-radius: 5px;
+        border-bottom-left-radius: 5px;
+        border-right-width: 3px;
       }
     }
 

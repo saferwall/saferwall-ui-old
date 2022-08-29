@@ -4,14 +4,8 @@
       <avatar width="125px" height="125px" :username="username" />
     </div>
     <div class="profile-info">
-      <h1 class="profile-title">
-        {{ name || username }}
-      </h1>
-      <a href="#" class="profile-username"> @{{ username }} </a>
-      <p class="profile-desc">
-        {{ bio }}
-      </p>
-      <p class="profile-msince">Member since {{ getMemberSince }}</p>
+      <h1 class="profile-title">{{ name || username }}</h1>
+      <a href="#" class="profile-username">@{{ username }}</a>
       <a v-if="github" class="profile-github" target="_blank" :href="github">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -30,19 +24,20 @@
 
         <span>{{ github }}</span>
       </a>
+      <div v-if="bio">
+        <span class="bio-title">Biography</span>
+        <p class="profile-desc">{{ bio }}</p>
+      </div>
+      <p class="profile-msince" v-if="false">Member since {{ getMemberSince }}</p>
     </div>
     <div class="profile-actions">
-      <btn v-if="isSelfUser" link="/account/settings" size="md" class="active">
-        Edit My Profile
-      </btn>
+      <btn v-if="isSelfUser" link="/account/settings" size="md" class="active">Edit My Profile</btn>
       <btn
         v-else
         @click="toggleFollow"
         :class="follow ? '' : 'active'"
         class="follow"
-      >
-        {{ follow ? "UnFollow" : "Follow" }}
-      </btn>
+      >{{ follow ? "UnFollow" : "Follow" }}</btn>
     </div>
   </card>
 </template>
@@ -120,7 +115,8 @@ export default {
 <style lang="scss" scoped>
 .profile-box {
   @apply flex flex-wrap justify-between px-4 py-12 md:px-14 md:py-8;
-
+  padding-top: 4rem;
+  padding-bottom: 4rem;
   .profile-avatar {
     @apply flex px-8 md:px-0;
   }
@@ -134,9 +130,24 @@ export default {
     .profile-title {
       @apply text-xl font-bold;
     }
+    .profile-username {
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
 
+    .bio-title {
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: #121212;
+      margin-top: 15px;
+      display: block;
+    }
     .profile-desc {
       @apply text-gray my-2;
+      margin-top: 0;
+      font-size: 0.9rem;
+      color: #868686;
+      font-weight: 500;
     }
 
     .profile-msince {

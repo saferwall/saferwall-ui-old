@@ -1,39 +1,20 @@
 <template>
-  <div
-    class="
-      flex
-      md:flex-row
-      justify-center
-      items-center
-      lg:justify-between
-      md:p-6 md:mx-4
-      my-4
-      gap-2
-    "
-  >
+  <div class="flex md:flex-row justify-center items-center md:p-6 md:mx-4 my-4 gap-2">
     <div>
       <a :href="`/user/${username}`">
         <avatar :username="username" />
       </a>
     </div>
 
-    <div class="flex flex-col justify-center">
+    <div class="flex flex-col justify-center follower-infos">
       <a :href="`/user/${username}`">
-        <h1 class="font-bold text-base break-all">
-          {{ username }}
-        </h1>
+        <h1 class="font-bold text-base break-all">{{ username }}</h1>
       </a>
-      <p class="text-gray-medium mt-1">
-        Member since {{ getRegistredTimeAgo }}
-      </p>
+      <p class="text-gray-medium mt-1">Member since {{ getRegistredTimeAgo }}</p>
     </div>
 
     <div class="actions">
-      <btn-follow
-        v-if="!isSelfUser"
-        :followed="dfollowed"
-        v-on:toggleFollow="toggleFollow"
-      />
+      <btn-follow v-if="!isSelfUser" :followed="dfollowed" v-on:toggleFollow="toggleFollow" />
     </div>
   </div>
 </template>
@@ -98,3 +79,26 @@ export default {
 };
 </script>
 
+<style lang="scss" scoped>
+.follower-infos {
+  padding: 0 1rem;
+  h1 {
+    font-size: 0.95rem;
+  }
+  p {
+    margin-top: 0;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #9b9b9b;
+  }
+}
+.actions {
+  button {
+    border: 1px solid #dedede;
+    background-color: #fff;
+    color: #0d9677;
+    font-weight: 700;
+    font-size: 0.9rem;
+  }
+}
+</style>
