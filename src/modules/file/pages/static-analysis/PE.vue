@@ -215,6 +215,8 @@ import {
   translateValue,
   decToHexString,
   formatSizeUnits,
+  prodIdToStr,
+  prodIdToVsVersion,
 } from "@/common/utils/translate";
 
 export default {
@@ -413,6 +415,8 @@ export default {
             let val = translateValue(_key, _item[_key]);
             item[_key] = this.hexa ? decToHexString(val) : val;
           });
+          item["MS internal Name"] = prodIdToStr(_item["ProdID"]);
+          item["Visual Studio Version"] = prodIdToVsVersion(_item["ProdID"]);
           return item;
         }),
       };
