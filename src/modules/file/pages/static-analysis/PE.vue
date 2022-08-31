@@ -117,19 +117,20 @@
           <!-- End Imports -->
 
           <!-- Start RichHeader -->
-          <card-tab :active="'RichHeader' == currentTab">
+          <card-tab :active="'rich_header' == currentTab">
             <table-cols
+              v-if="false"
               title="Rich Header"
               :htmlFields="['format']"
               :customFields="false"
               :bordered="true"
               :lines="get_RichHeader.basic"
             />
-            <div class="divider"></div>
+            <div v-if="false" class="divider"></div>
             <table-cols
-              title="CompIDs"
+              title="Rich header"
               :customFields="false"
-              :bordered="true"
+              :bordered="false"
               :columns="
                 get_RichHeader.compIds.length > 0
                   ? get_Columns(get_RichHeader.compIds[0])
@@ -522,6 +523,36 @@ export default {
 
   .tab-contents {
     @apply break-words;
+    .tab-content {
+      padding-left: 2rem;
+      padding-top: 1rem;
+    }
+    .title {
+      margin-bottom: 2rem;
+    }
+    table {
+      thead {
+        th {
+          font-family: "Manrope";
+          font-style: normal;
+          font-weight: 700;
+          font-size: 0.9rem;
+          color: #000000;
+          text-transform: none;
+        }
+      }
+      .table-cval {
+        tr {
+          td {
+            font-family: "Manrope";
+            font-style: normal;
+            font-weight: 500;
+            font-size: 0.9rem;
+            color: #404040;
+          }
+        }
+      }
+    }
   }
   code {
     @apply break-all;
