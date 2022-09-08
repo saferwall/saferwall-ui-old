@@ -23,6 +23,32 @@ export default {
   },
   computed: {
     getLines() {
+      return [
+        "Magic",
+        "BytesOnLastPageOfFile",
+        "PagesInFile",
+        "Relocations",
+        "SizeOfHeader",
+        "MinExtraParagraphsNeeded",
+        "MaxExtraParagraphsNeeded",
+        "InitialSS",
+        "InitialSP",
+        "Checksum",
+        "InitialIP",
+        "InitialCS",
+        "OverlayNumber",
+        "OEMIdentifier",
+        "OEMInformation",
+        "AddressOfNewEXEHeader",
+      ].map((key) => {
+        let val = translateValue(key, this.items[key]);
+        return {
+          member: translateKey(key),
+          value: this.hexa && !isNaN(val) ? decToHexString(val) : val,
+        };
+      });
+
+      /*
       return Object.keys(this.items).map((key) => {
         let val = translateValue(key, this.items[key]);
 
@@ -31,6 +57,7 @@ export default {
           value: this.hexa && !isNaN(val) ? decToHexString(val) : val,
         };
       });
+      */
     },
   },
 };
