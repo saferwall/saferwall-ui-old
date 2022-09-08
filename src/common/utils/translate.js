@@ -54,7 +54,7 @@ export function isoToCountry(iso) {
 export function humanize(str) {
     var i, frags = str.split('_');
     for (i=0; i<frags.length; i++) {
-      frags[i] = frags[i].charAt(0).toUpperCase() + frags[i].slice(1);
+      frags[i] = frags[i].length <= 3 ? frags[i].toUpperCase() : frags[i].charAt(0).toUpperCase() + frags[i].slice(1);
     }
     return frags.join(' ');
 }
