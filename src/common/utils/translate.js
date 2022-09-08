@@ -51,6 +51,14 @@ export function isoToCountry(iso) {
     return new Intl.DisplayNames(["en"], { type: "region" }).of(iso);
 }
 
+export function humanize(str) {
+    var i, frags = str.split('_');
+    for (i=0; i<frags.length; i++) {
+      frags[i] = frags[i].charAt(0).toUpperCase() + frags[i].slice(1);
+    }
+    return frags.join(' ');
+}
+
 export function translateValue(key, value) {
     let funcs = KEYS_MAPS.filter(m => {
         return (`${key}`.match(m.regex));

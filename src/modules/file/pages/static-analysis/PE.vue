@@ -9,13 +9,13 @@
           mode="vertical"
         >
           <!-- Start DosHeader -->
-          <card-tab :active="'DosHeader' == currentTab">
+          <card-tab :active="'dos_header' == currentTab">
             <dos-header :items="getItems"></dos-header>
           </card-tab>
           <!-- End DosHeader -->
 
           <!-- Start IAT -->
-          <card-tab :active="'IAT' == currentTab">
+          <card-tab :active="'iat' == currentTab">
             <table-cols
               :bordered="true"
               :columns="[
@@ -30,13 +30,13 @@
           <!-- End IAT -->
 
           <!-- Start Header -->
-          <card-tab :active="'Header' == currentTab">
+          <card-tab :active="'header' == currentTab">
             <pre class="px-4">{{ get_Header }}</pre>
           </card-tab>
           <!-- End Header -->
 
           <!-- Start NtHeader -->
-          <card-tab :active="'NtHeader' == currentTab">
+          <card-tab :active="'nt_header' == currentTab">
             <table-cols
               title="File Header"
               :htmlFields="['format']"
@@ -208,7 +208,9 @@ import DosHeader from "./PE/DosHeader.vue";
 
 import hexdump from "buffer-hexdump";
 
-import { capitalize } from "@vue/shared";
+import axios from "@/services/axios";
+
+//import { capitalize } from "@vue/shared";
 import { fileGetters } from "@/state/helpers";
 import {
   translateKey,
@@ -216,6 +218,7 @@ import {
   decToHexString,
   formatSizeUnits,
   prodIdToStr,
+  humanize,
   prodIdToVsVersion,
 } from "@/common/utils/translate";
 
@@ -228,15 +231,24 @@ export default {
       currentTab: null,
       currentImport: null,
       currentEntry: null,
+      getFilePEData: null,
       treeList: [],
     };
   },
   methods: {
     switchTab(tab) {
       this.currentTab = tab;
+      this.getTabData(tab);
     },
     switchImport(tab) {
       this.currentImport = tab;
+    },
+    getTabData(tab) {
+      return axios
+        .get(`/files/${this.getSha256}?fields=pe.` + tab)
+        .then(({ data }) => {
+          this.getFilePEData = data.pe;
+        });
     },
     switchEntry(tab) {
       this.currentEntry = tab;
@@ -260,7 +272,7 @@ export default {
       return [item];
     },
     getSelectedItems() {
-      return this.getFilePE[this.currentTab] || [];
+      return this.getFilePEData[this.currentTab] || [];
     },
     get_Entry_Basic(item) {
       return [
@@ -284,16 +296,17 @@ export default {
   computed: {
     ...fileGetters,
     getItems() {
-      return this.getFilePE[this.currentTab];
+      return (this.getFilePEData && this.getFilePEData[this.currentTab]) || [];
     },
     getFirstTree() {
-      return Object.keys(this.getFilePE).map((item) => ({
+      return Object.values(this.getFilePE.meta).map((item) => ({
         name: item,
-        title: capitalize(item),
+        title: humanize(item),
       }));
     },
     get_NtHeader() {
-      let items = this.getFilePE[this.currentTab];
+      let items =
+        (this.getFilePEData && this.getFilePEData[this.currentTab]) || [];
 
       return {
         fileHeader: [
@@ -345,7 +358,8 @@ export default {
       };
     },
     get_IAT() {
-      let items = this.getFilePE[this.currentTab];
+      let items =
+        (this.getFilePEData && this.getFilePEData[this.currentTab]) || [];
 
       let nitems = (items || []).map((item) => {
         return {
@@ -391,7 +405,10 @@ export default {
       }));
     },
     get_Header() {
-      const buffer = Buffer.from(this.getFilePE[this.currentTab], "base64");
+      const buffer = Buffer.from(
+        (this.getFilePEData && this.getFilePEData[this.currentTab]) || [],
+        "base64"
+      );
       return hexdump(buffer);
     },
     get_RichHeader() {
@@ -463,11 +480,15 @@ export default {
   async beforeMount() {
     this.file = await this.getFile;
 
+    console.log("hexa", this.hash);
+
     this.treeList = this.getFirstTree.filter(
       (key) => !["Is32", "Is64"].includes(key.name)
     );
 
     this.currentTab = this.treeList[0]?.name;
+
+    this.getTabData(this.currentTab);
   },
 };
 </script>

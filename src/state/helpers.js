@@ -53,6 +53,8 @@ const fileGetters = mapGetters('file', [
     'getFileComments',
     'getFileAvs',
     'getFilePE',
+    'getSha256',
+    'setFilePE'
 ]);
 
 /**

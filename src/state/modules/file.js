@@ -2,11 +2,12 @@ import axios from '@/services/axios'
 
 export const fields = {
     avs: ['multiav', 'first_seen', 'last_scanned'],
-    pe: ['pe'],
+    pe: ['pe.meta'],
 }
 
 export const state = {
     file: null,
+    sha256: null,
     comments: [],
     avs: {
         multiav: {
@@ -21,6 +22,10 @@ export const state = {
 export const getters = {
     getFile(state) {
         return state.file;
+    },
+    getSha256(state) {
+        console.log('yes ok bb');
+        return state.sha256;
     },
     getFileComments(state) {
         return state.comments;
@@ -96,12 +101,16 @@ export const actions = {
             });
     },
     async fetchFilePE({ commit }, sha256) {
+        state.sha256 = sha256;
         return axios.get(`/files/${sha256}?fields=` + fields.pe.join(','))
             .then(({ data }) => {
 
                 commit('SET_FILE_PE', data.pe);
                 return data.pe;
             });
+    },
+    async setFilePE({ commit }, data) {
+        commit('SET_FILE_PE', data.pe);
     },
     async fetchFileComments({ commit }, sha256) {
         return axios.get(`/files/${sha256}/comments`)
