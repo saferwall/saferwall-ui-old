@@ -318,7 +318,15 @@ export default {
                 : items.Signature,
             format: items.Signature,
           },
-          ...Object.keys(items.FileHeader).map((key) => {
+          ...[
+            "Machine",
+            "NumberOfSections",
+            "TimeDateStamp",
+            "PointerToSymbolTable",
+            "NumberOfSymbols",
+            "SizeOfOptionalHeader",
+            "Characteristics",
+          ].map((key) => {
             let val = items.FileHeader[key];
             let frm = translateValue(key, val);
             val = this.hexa && !isNaN(val) ? decToHexString(val) : val;
