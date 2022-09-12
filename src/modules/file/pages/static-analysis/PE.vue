@@ -59,8 +59,8 @@
               :customFields="false"
               :bordered="false"
               :columns="[
-                { key: 'key', title: 'Virtual Address' },
-                { key: 'value', title: 'Size' },
+                { key: 'key', title: '' },
+                { key: 'value', title: '' },
                 { key: 'format', title: '' },
               ]"
               :lines="get_NtHeader.dataDirevtory"
@@ -133,7 +133,7 @@
           <!-- End RichHeader -->
 
           <!-- Start Sections -->
-          <card-tab :active="'Sections' == currentTab">
+          <card-tab :active="'sections' == currentTab">
             <template v-for="section in get_Sections" :key="section.name">
               <table-cols
                 :title="section.name"
@@ -207,8 +207,9 @@ import {
   translateKey,
   translateValue,
   decToHexString,
-  formatSizeUnits,
+  //formatSizeUnits,
   prodIdToStr,
+  hexToASCII,
   humanize,
   prodIdToVsVersion,
 } from "@/common/utils/translate";
@@ -227,6 +228,43 @@ export default {
     };
   },
   methods: {
+    getDirectoryName(index) {
+      switch (index) {
+        case 0:
+          return "Export Directory";
+        case 1:
+          return "Import Directory";
+        case 2:
+          return "Resource Directory";
+        case 3:
+          return "Exception Directory";
+        case 4:
+          return "Security Directory";
+        case 5:
+          return "Base Relocation Table";
+        case 6:
+          return "Debug Directory";
+        case 7:
+          return "Architecture specific";
+        case 8:
+          return "RVA of GlobalPointer";
+        case 9:
+          return "TLS Directory";
+        case 10:
+          return "Load Config Directory";
+        case 11:
+          return "Bound Import Directory";
+        case 12:
+          return "Import Address Table";
+        case 13:
+          return "Delay Import Descriptors";
+        case 14:
+          return "COM Runtime Descriptor";
+        case 15:
+          return "Reserved";
+      }
+      return "";
+    },
     switchTab(tab) {
       this.currentTab = tab;
       this.getTabData(tab);
@@ -307,7 +345,11 @@ export default {
               this.hexa && !isNaN(items.Signature)
                 ? decToHexString(items.Signature)
                 : items.Signature,
-            format: items.Signature,
+            format: hexToASCII(
+              this.hexa && !isNaN(items.Signature)
+                ? decToHexString(items.Signature)
+                : items.Signature
+            ),
           },
           ...[
             "Machine",
@@ -375,18 +417,17 @@ export default {
         dataDirevtory: (
           (items.OptionalHeader && items.OptionalHeader.DataDirectory) ||
           []
-        )
-          .filter((item) => item.Size || item.VirtualAddress)
-          .map((item) => {
-            return {
-              key: decToHexString(item.VirtualAddress),
-              value:
-                this.hexa && !isNaN(item.Size)
-                  ? decToHexString(item.Size)
-                  : item.Size,
-              format: formatSizeUnits(item.Size),
-            };
-          }),
+        ).map((item, index) => {
+          return {
+            key: this.getDirectoryName(index),
+            value: decToHexString(item.VirtualAddress),
+            format:
+              this.hexa && !isNaN(item.Size)
+                ? decToHexString(item.Size)
+                : item.Size,
+            //format: formatSizeUnits(item.Size),
+          };
+        }),
       };
     },
     get_IAT() {
