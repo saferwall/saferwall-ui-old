@@ -17,7 +17,7 @@
           <!-- Start IAT -->
           <card-tab :active="'iat' == currentTab">
             <table-cols
-              :bordered="true"
+              :bordered="false"
               :columns="[
                 { key: 'index', title: '#' },
                 { key: 'rva', title: 'Entry RVA' },
@@ -41,7 +41,7 @@
               title="File Header"
               :htmlFields="['format']"
               :customFields="false"
-              :bordered="true"
+              :bordered="false"
               :lines="get_NtHeader.fileHeader"
             />
             <div class="divider"></div>
@@ -49,7 +49,7 @@
               title="Optional Header"
               :htmlFields="['format']"
               :customFields="false"
-              :bordered="true"
+              :bordered="false"
               :lines="get_NtHeader.optionalHeader"
             />
             <div class="divider"></div>
@@ -57,7 +57,7 @@
               title="Data Directory"
               :htmlFields="['format']"
               :customFields="false"
-              :bordered="true"
+              :bordered="false"
               :columns="[
                 { key: 'key', title: 'Virtual Address' },
                 { key: 'value', title: 'Size' },
@@ -87,7 +87,7 @@
               >
                 <table-cols
                   :striped="true"
-                  :bordered="true"
+                  :bordered="false"
                   :lines="[
                     { key: 'Name', value: importItem.name },
                     {
@@ -99,14 +99,14 @@
                 <div class="divider"></div>
                 <table-cols
                   title="Descriptor"
-                  :bordered="true"
+                  :bordered="false"
                   :columns="get_Columns(importItem.descriptor)"
                   :lines="get_Descriptor_line(importItem.descriptor)"
                 />
                 <div class="divider"></div>
                 <table-cols
                   title="functions"
-                  :bordered="true"
+                  :bordered="false"
                   :columns="get_Columns(importItem.functions[0])"
                   :lines="importItem.functions"
                 />
@@ -118,15 +118,6 @@
 
           <!-- Start RichHeader -->
           <card-tab :active="'rich_header' == currentTab">
-            <table-cols
-              v-if="false"
-              title="Rich Header"
-              :htmlFields="['format']"
-              :customFields="false"
-              :bordered="true"
-              :lines="get_RichHeader.basic"
-            />
-            <div v-if="false" class="divider"></div>
             <table-cols
               title="Rich header"
               :customFields="false"
@@ -147,7 +138,7 @@
               <table-cols
                 :title="section.name"
                 :customFields="false"
-                :bordered="true"
+                :bordered="false"
                 :lines="section.header"
               />
               <div class="divider"></div>
@@ -160,7 +151,7 @@
             <table-cols
               title="Struct"
               :customFields="false"
-              :bordered="true"
+              :bordered="false"
               :htmlFields="['value']"
               :lines="get_Resources.struct"
             />
@@ -180,11 +171,11 @@
                     : !currentEntry && index == 0
                 "
               >
-                <table-cols :striped="true" :bordered="true" :lines="get_Entry_Basic(EntryItem)"></table-cols>
+                <table-cols :striped="true" :bordered="false" :lines="get_Entry_Basic(EntryItem)"></table-cols>
                 <div class="divider"></div>
                 <table-cols
                   title="Directory"
-                  :bordered="true"
+                  :bordered="false"
                   :columns="get_Columns(EntryItem.directory.Entries[0])"
                   :lines="EntryItem.directory.Entries"
                 />
@@ -327,7 +318,7 @@ export default {
             "SizeOfOptionalHeader",
             "Characteristics",
           ].map((key) => {
-            let val = items.FileHeader[key];
+            let val = items.FileHeader ? items.FileHeader[key] : "";
             let frm = translateValue(key, val);
             val = this.hexa && !isNaN(val) ? decToHexString(val) : val;
 
@@ -338,10 +329,40 @@ export default {
             };
           }),
         ],
-        optionalHeader: Object.keys(items.OptionalHeader || {})
+        optionalHeader: [
+          "Magic",
+          "MajorLinkerVersion",
+          "MinorLinkerVersion",
+          "SizeOfCode",
+          "SizeOfInitializedData",
+          "SizeOfUninitializedData",
+          "BaseOfCode",
+          "BaseOfData",
+          "ImageBase",
+          "SectionAlignment",
+          "FileAlignment",
+          "MajorOperatingSystemVersion",
+          "MinorOperatingSystemVersion",
+          "MajorImageVersion",
+          "MinorImageVersion",
+          "MajorSubsystemVersion",
+          "MinorSubsystemVersion",
+          "Win32VersionValue",
+          "SizeOfImage",
+          "SizeOfHeaders",
+          "CheckSum",
+          "Subsystem",
+          "DllCharacteristics",
+          "SizeOfStackReserve",
+          "SizeOfStackCommit",
+          "SizeOfHeapReserve",
+          "SizeOfHeapCommit",
+          "LoaderFlags",
+          "NumberOfRvaAndSizes",
+        ]
           .filter((key) => !["DataDirectory"].includes(key))
           .map((key) => {
-            let val = items.OptionalHeader[key];
+            let val = items.OptionalHeader ? items.OptionalHeader[key] : "";
             let frm = translateValue(key, val);
             val = this.hexa && !isNaN(val) ? decToHexString(val) : val;
 
@@ -351,7 +372,10 @@ export default {
               format: frm == val ? "" : frm,
             };
           }),
-        dataDirevtory: (items.OptionalHeader.DataDirectory || [])
+        dataDirevtory: (
+          (items.OptionalHeader && items.OptionalHeader.DataDirectory) ||
+          []
+        )
           .filter((item) => item.Size || item.VirtualAddress)
           .map((item) => {
             return {

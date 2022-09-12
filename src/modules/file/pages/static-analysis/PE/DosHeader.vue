@@ -1,6 +1,6 @@
 <template>
   <table-cols
-    :bordered="true"
+    :bordered="false"
     :columns="[
       { key: 'member', title: 'Member' },
       { key: 'value', title: 'Value' },
