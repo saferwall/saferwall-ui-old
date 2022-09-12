@@ -4,6 +4,7 @@
     :columns="[
       { key: 'member', title: 'Member' },
       { key: 'value', title: 'Value' },
+      { key: 'comment', title: 'Comment' },
     ]"
     :lines="getLines"
   />
@@ -14,6 +15,7 @@ import {
   translateKey,
   translateValue,
   decToHexString,
+  hexToASCII,
 } from "@/common/utils/translate";
 
 export default {
@@ -41,10 +43,14 @@ export default {
         "OEMInformation",
         "AddressOfNewEXEHeader",
       ].map((key) => {
-        let val = translateValue(key, this.items[key]);
+        let val = this.items[key];
+        let frm = translateValue(key, val);
+        val = !isNaN(val) ? decToHexString(val) : val;
+
         return {
           member: translateKey(key),
-          value: this.hexa && !isNaN(val) ? decToHexString(val) : val,
+          value: val,
+          comment: frm == val ? "" : hexToASCII(val),
         };
       });
 
