@@ -210,6 +210,7 @@ import {
   //formatSizeUnits,
   prodIdToStr,
   hexToASCII,
+  asciiReversed,
   humanize,
   prodIdToVsVersion,
 } from "@/common/utils/translate";
@@ -345,10 +346,12 @@ export default {
               this.hexa && !isNaN(items.Signature)
                 ? decToHexString(items.Signature)
                 : items.Signature,
-            format: hexToASCII(
-              this.hexa && !isNaN(items.Signature)
-                ? decToHexString(items.Signature)
-                : items.Signature
+            format: asciiReversed(
+              hexToASCII(
+                this.hexa && !isNaN(items.Signature)
+                  ? decToHexString(items.Signature)
+                  : items.Signature
+              )
             ),
           },
           ...[

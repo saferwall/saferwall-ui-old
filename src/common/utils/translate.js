@@ -90,6 +90,14 @@ export function hexToASCII(value) {
     return str;
 }
 
+export function asciiReversed(value) {
+    if(value.includes('ZM') || value.includes('EP')){
+        return (value.split("").reverse().join("")).replace(/\s+/g, '').toUpperCase();
+    }
+
+    return value;
+}
+
 export function decToHex(value) {
     return value.toString(16)
 }

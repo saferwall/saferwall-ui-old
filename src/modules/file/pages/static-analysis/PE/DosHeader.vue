@@ -1,5 +1,6 @@
 <template>
   <table-cols
+    title="DOS Header"
     :bordered="false"
     :columns="[
       { key: 'member', title: 'Member' },
@@ -15,6 +16,7 @@ import {
   translateKey,
   translateValue,
   decToHexString,
+  asciiReversed,
   hexToASCII,
 } from "@/common/utils/translate";
 
@@ -50,7 +52,7 @@ export default {
         return {
           member: translateKey(key),
           value: val,
-          comment: frm == val ? "" : hexToASCII(val),
+          comment: frm == val ? "" : asciiReversed(hexToASCII(val)),
         };
       });
 
