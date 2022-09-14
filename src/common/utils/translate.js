@@ -82,7 +82,7 @@ export function formatSizeUnits(bytes) {
 }
 
 export function hexToASCII(value) {
-    var hex = value.toString(); // force conversion
+    var hex = value ? value.toString() : ''; // force conversion
     var str = '';
     for (var i = 0;
         (i < hex.length && hex.substr(i, 2) !== '00'); i += 2)

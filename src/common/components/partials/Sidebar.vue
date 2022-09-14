@@ -125,6 +125,7 @@ export default {
 
       display: flex;
       align-items: center;
+      justify-content: center;
 
       li:first-child {
         margin-right: 50px;
@@ -137,6 +138,7 @@ export default {
           padding: 10px 18px;
           font-size: 0.9rem;
           color: #a7a7a7;
+          font-weight: 500;
         }
         &.active > a,
         > a:hover {

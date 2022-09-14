@@ -98,7 +98,7 @@ table {
     tr {
       @apply font-semibold;
       td {
-        padding: 13px 20px;
+        padding: 9px 20px;
       }
     }
 

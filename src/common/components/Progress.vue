@@ -35,7 +35,7 @@
       </div>
       <div v-if="first_seen">
         <strong class="uppercase text-gray">FIRST SUBMISSION</strong>
-        <time class="font-bold">{{ new Date(first_seen * 1000) }}</time>
+        <time class="font-bold">{{ timeAgoCounts(first_seen) }}</time>
       </div>
     </div>
   </div>
@@ -53,11 +53,11 @@ export default {
     first_seen: { default: null, type: Number },
     last_scanned: { default: null, type: Number },
     radius: {
-      default: 70,
+      default: 60,
       type: Number,
     },
     stroke: {
-      default: 4,
+      default: 5,
       type: Number,
     },
     rate: {
@@ -105,10 +105,16 @@ export default {
 
     .rate {
       @apply text-5xl;
-      font-weight: 400;
+      font-size: 2rem;
+      font-weight: 700;
     }
     span {
       @apply text-gray;
+      font-family: "Manrope";
+      font-style: normal;
+      font-weight: 600;
+      font-size: 1rem;
+      color: #a7a6a6;
     }
     svg {
       @apply absolute stroke-primary;
@@ -163,12 +169,12 @@ svg .circle-bg {
   @apply stroke-gray-2xlight;
 
   fill: none;
-  stroke-width: 1.5;
+  stroke-width: 2;
 }
 
 svg .circle {
   fill: none;
-  stroke-width: 1.5;
+  stroke-width: 2;
   stroke-linecap: round;
   animation: progress 1s ease-out forwards;
 }

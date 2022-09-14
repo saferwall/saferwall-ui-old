@@ -69,7 +69,7 @@
           <!-- End NtHeader -->
 
           <!-- Start Imports -->
-          <card-tab :active="'Imports' == currentTab">
+          <card-tab :active="'Import' == currentTab">
             <card-tabs
               :tabs="get_Imports_tabs"
               :mode="'vertical'"
@@ -135,13 +135,15 @@
           <!-- Start Sections -->
           <card-tab :active="'sections' == currentTab">
             <template v-for="section in get_Sections" :key="section.name">
-              <table-cols
-                :title="section.name"
-                :customFields="false"
-                :bordered="false"
-                :lines="section.header"
-              />
-              <div class="divider"></div>
+              <div class="table-vertical">
+                <table-cols
+                  :title="section.name"
+                  :customFields="false"
+                  :bordered="false"
+                  :lines="section.header"
+                />
+                <div class="divider"></div>
+              </div>
             </template>
           </card-tab>
           <!-- End Sections -->
@@ -518,15 +520,28 @@ export default {
       let items = this.getSelectedItems();
 
       return items.map((_section) => {
-        let header = Object.keys(_section.Header).map((_key) => {
-          let val = _section.Header[_key];
-          return {
-            title: _key,
-            value: this.hexa && !isNaN(val) ? decToHexString(val) : val,
-          };
+        let header = [
+          {
+            title: "Entropy",
+            value: _section.Entropy,
+          },
+          ...Object.keys(_section.Header).map((_key) => {
+            let val = _section.Header[_key];
+            return {
+              title: _key,
+              value: this.hexa && !isNaN(val) ? decToHexString(val) : val,
+            };
+          }),
+        ];
+        let func = "";
+        Object.keys(_section.Header["Name"]).forEach((_key) => {
+          let val = _section.Header["Name"][_key];
+          val = !isNaN(val) ? decToHexString(val) : val;
+
+          func = func + "" + hexToASCII(val);
         });
         return {
-          name: `Entropy`,
+          name: func,
           header: header,
         };
       });
@@ -657,6 +672,19 @@ export default {
   }
   code {
     @apply break-all;
+  }
+}
+.table-vertical {
+  tr {
+    td {
+      font-size: 0.85rem !important;
+      font-weight: 500 !important;
+      padding-top: 0.3rem !important;
+      padding-bottom: 0.3rem !important;
+    }
+    td:first-child {
+      font-weight: 600 !important;
+    }
   }
 }
 </style>

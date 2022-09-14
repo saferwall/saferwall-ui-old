@@ -82,6 +82,8 @@ export default {
       color: #919191;
       font-weight: 500;
       font-size: 0.9rem;
+      padding-top: 0.6rem;
+      padding-bottom: 0.6rem;
 
       &.active {
         @apply text-primary font-bold md:border-primary md:border-opacity-50;
