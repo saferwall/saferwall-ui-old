@@ -208,6 +208,7 @@ import { fileGetters } from "@/state/helpers";
 import {
   translateKey,
   translateValue,
+  sectionFlagToString,
   decToHexString,
   //formatSizeUnits,
   prodIdToStr,
@@ -524,12 +525,20 @@ export default {
           {
             title: "Entropy",
             value: _section.Entropy,
+            comment: "",
           },
           ...Object.keys(_section.Header).map((_key) => {
             let val = _section.Header[_key];
+            let frm =
+              _key == "Characteristics"
+                ? sectionFlagToString(val).join(", ")
+                : translateValue(_key, val);
+            val = !isNaN(val) ? decToHexString(val) : val;
+
             return {
               title: _key,
-              value: this.hexa && !isNaN(val) ? decToHexString(val) : val,
+              value: val,
+              comment: frm == val ? "" : frm,
             };
           }),
         ];
