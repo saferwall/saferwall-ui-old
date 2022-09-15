@@ -69,50 +69,76 @@
           <!-- End NtHeader -->
 
           <!-- Start Imports -->
-          <card-tab :active="'Import' == currentTab">
-            <card-tabs
-              :tabs="get_Imports_tabs"
-              :mode="'vertical'"
-              :active="currentImport"
-              v-on:switchTab="switchImport($event)"
-            >
-              <card-tab
-                v-for="(importItem, index) in get_Imports"
-                :key="index"
-                :active="
-                  currentImport
-                    ? importItem.name == currentImport
-                    : !currentImport && index == 0
-                "
-              >
-                <table-cols
-                  :striped="true"
-                  :bordered="false"
-                  :lines="[
-                    { key: 'Name', value: importItem.name },
-                    {
-                      key: 'Offset',
-                      value: importItem.offset,
-                    },
-                  ]"
-                ></table-cols>
-                <div class="divider"></div>
-                <table-cols
-                  title="Descriptor"
-                  :bordered="false"
-                  :columns="get_Columns(importItem.descriptor)"
-                  :lines="get_Descriptor_line(importItem.descriptor)"
-                />
-                <div class="divider"></div>
-                <table-cols
-                  title="functions"
-                  :bordered="false"
-                  :columns="get_Columns(importItem.functions[0])"
-                  :lines="importItem.functions"
-                />
-                <div class="divider"></div>
-              </card-tab>
-            </card-tabs>
+          <card-tab :active="'import' == currentTab">
+            <div class="import-table">
+              <table class="accorion-table">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Name RVA</th>
+                    <th>OFT</th>
+                    <th>FT</th>
+                    <th>Time Stamp</th>
+                    <th>Forwarder Chain</th>
+                  </tr>
+                </thead>
+                <tbody class="table-cval accorion-tbody">
+                  <template v-for="(importItem, index) in importData" :key="index">
+                    <tr @click="showFunctions(importItem)">
+                      <td v-for="(line, _index) in get_Descriptor_line(importItem)" :key="_index">
+                        <div v-if="_index == 0" class="accordion-icon">
+                          <svg
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                            v-if="!importItem.contentVisible"
+                          >
+                            <path
+                              d="M9 18L15 12L9 6"
+                              stroke="#AFAFAF"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            />
+                          </svg>
+                          <svg
+                            v-if="importItem.contentVisible"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M6 9L12 15L18 9"
+                              stroke="black"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            />
+                          </svg>
+                        </div>
+                        {{line}}
+                      </td>
+                    </tr>
+                    <tr v-if="importItem.contentVisible">
+                      <td :colspan="6">
+                        <div class="accordian-body">
+                          <table-cols
+                            title="functions"
+                            :bordered="false"
+                            :columns="get_Import_Functions_Columns()"
+                            :lines="get_Import_Functions_Lines(importItem.functions)"
+                          />
+                        </div>
+                      </td>
+                    </tr>
+                  </template>
+                </tbody>
+              </table>
+            </div>
           </card-tab>
           <!-- End Imports -->
 
@@ -229,9 +255,17 @@ export default {
       currentEntry: null,
       getFilePEData: null,
       treeList: [],
+      importData: [],
     };
   },
   methods: {
+    showFunctions(item) {
+      this.importData.forEach(function (_import) {
+        if (_import != item) _import.contentVisible = false;
+      });
+      item.contentVisible = !item.contentVisible;
+      console.log("item.contentVisible", item.contentVisible);
+    },
     getDirectoryName(index) {
       switch (index) {
         case 0:
@@ -281,7 +315,31 @@ export default {
         .get(`/files/${this.getSha256}?fields=pe.` + tab)
         .then(({ data }) => {
           this.getFilePEData = data.pe;
+          if (this.currentTab == "import") {
+            this.importData = this.get_Imports();
+          }
         });
+    },
+    get_Imports() {
+      let items = this.getSelectedItems();
+
+      return items.map((item) => {
+        return {
+          name: item.Name,
+          offset: item.Offset,
+          functions: (item.Functions || []).map((_func) => {
+            let func = {};
+            Object.keys(_func).forEach((_key) => {
+              let val = _func[_key];
+
+              func[_key] = this.hexa && !isNaN(val) ? decToHexString(val) : val;
+            });
+            return func;
+          }),
+          descriptor: item.Descriptor,
+          contentVisible: false,
+        };
+      });
     },
     switchEntry(tab) {
       this.currentEntry = tab;
@@ -292,17 +350,56 @@ export default {
         title: translateKey(key),
       }));
     },
-    get_Descriptor_line(obj) {
-      let item = {};
-      Object.keys(obj).map((key) => {
-        let val = obj[key];
-        val = translateValue(key, val);
-        val = !isNaN(val) && this.hexa ? decToHexString(val) : val;
+    get_Import_Functions_Columns() {
+      return [
+        "Name",
+        "ThunkRVA",
+        "ThunkValue",
+        "OriginalThunkRVA",
+        "OriginalThunkValue",
+        "Hint",
+      ].map((key) => ({
+        key: key,
+        title: translateKey(key),
+      }));
+    },
+    get_Import_Functions_Lines(obj) {
+      return Object.keys(obj).map((key) => {
+        let functionItem = obj[key];
 
-        item[key] = val;
+        let func = {};
+        [
+          "Name",
+          "ThunkRVA",
+          "ThunkValue",
+          "OriginalThunkRVA",
+          "OriginalThunkValue",
+          "Hint",
+        ].map((key) => {
+          let val = functionItem[key];
+          func[key] = val;
+        });
+        return func;
       });
+    },
+    get_Descriptor_line(obj) {
+      let item = [
+        obj.name,
+        ...[
+          "Name",
+          "OriginalFirstThunk",
+          "FirstThunk",
+          "TimeDateStamp",
+          "ForwarderChain",
+        ].map((key) => {
+          let val = obj.descriptor[key];
+          val = translateValue(key, val);
+          val = !isNaN(val) && this.hexa ? decToHexString(val) : val;
 
-      return [item];
+          return val;
+        }),
+      ];
+      return item;
     },
     getSelectedItems() {
       return this.getFilePEData[this.currentTab] || [];
@@ -450,26 +547,6 @@ export default {
       });
 
       return nitems;
-    },
-    get_Imports() {
-      let items = this.getSelectedItems();
-
-      return items.map((item) => {
-        return {
-          name: item.Name,
-          offset: item.Offset,
-          functions: (item.Functions || []).map((_func) => {
-            let func = {};
-            Object.keys(_func).forEach((_key) => {
-              let val = _func[_key];
-
-              func[_key] = this.hexa && !isNaN(val) ? decToHexString(val) : val;
-            });
-            return func;
-          }),
-          descriptor: item.Descriptor,
-        };
-      });
     },
     get_Imports_tabs() {
       return this.get_Imports.map((item) => ({
@@ -693,6 +770,62 @@ export default {
     }
     td:first-child {
       font-weight: 600 !important;
+    }
+  }
+}
+.import-table {
+  .accorion-table {
+    border-collapse: separate;
+    border-spacing: 0 1rem;
+    .accorion-tbody {
+      > tr {
+        cursor: pointer;
+        position: relative;
+        &::after {
+          content: " ";
+          border: 1px solid #e2e2e2;
+          border-radius: 5px;
+          width: 100%;
+          height: 100%;
+          position: absolute;
+          left: -10px;
+        }
+        td {
+          padding-top: 1rem !important;
+          padding-bottom: 1rem !important;
+        }
+      }
+    }
+    th {
+      text-align: left;
+    }
+    .accordion-icon {
+      display: inline-block;
+      svg {
+        display: inline-block;
+      }
+    }
+    h2 {
+      font-family: "Manrope";
+      font-style: normal;
+      font-weight: 700;
+      font-size: 1.1rem;
+      line-height: 25px;
+      color: #0d9677;
+      text-transform: capitalize;
+      margin-bottom: 2rem !important;
+      margin-top: 1rem !important;
+      margin-left: 25px;
+      position: relative;
+      padding: 0;
+      &::before {
+        content: " ";
+        background-color: #0d9677;
+        width: 3px;
+        height: 100%;
+        position: absolute;
+        left: -10px;
+      }
     }
   }
 }
