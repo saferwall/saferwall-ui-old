@@ -276,7 +276,6 @@ export default {
     padding-right: 0 !important;
   }
   .tab-headers {
-    justify-content: start !important;
     padding-top: 0;
     padding: 0 !important;
     .tab-th {

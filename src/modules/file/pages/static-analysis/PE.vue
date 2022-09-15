@@ -264,7 +264,6 @@ export default {
         if (_import != item) _import.contentVisible = false;
       });
       item.contentVisible = !item.contentVisible;
-      console.log("item.contentVisible", item.contentVisible);
     },
     getDirectoryName(index) {
       switch (index) {
@@ -394,7 +393,7 @@ export default {
         ].map((key) => {
           let val = obj.descriptor[key];
           val = translateValue(key, val);
-          val = !isNaN(val) && this.hexa ? decToHexString(val) : val;
+          val = !isNaN(val) ? decToHexString(val) : val;
 
           return val;
         }),
