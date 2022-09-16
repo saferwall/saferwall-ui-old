@@ -107,7 +107,10 @@
                 </thead>
                 <tbody class="table-cval accorion-tbody">
                   <template v-for="(importItem, index) in importData" :key="index">
-                    <tr @click="showFunctions(importItem)">
+                    <tr
+                      v-bind:class="{ 'force-border': !importItem.contentVisible, 'no-border-odd': importItem.contentVisible }"
+                      @click="showFunctions(importItem)"
+                    >
                       <td v-for="(line, _index) in get_Descriptor_line(importItem)" :key="_index">
                         <div v-if="_index == 0" class="accordion-icon">
                           <svg
@@ -146,7 +149,10 @@
                         {{line}}
                       </td>
                     </tr>
-                    <tr v-if="importItem.contentVisible">
+                    <tr
+                      v-bind:class="{ 'no-border-even': importItem.contentVisible }"
+                      v-if="importItem.contentVisible"
+                    >
                       <td :colspan="6">
                         <div class="accordian-body">
                           <table-cols
@@ -184,7 +190,10 @@
                 </thead>
                 <tbody class="table-cval accorion-tbody">
                   <template v-for="(importItem, index) in delayImportData" :key="index">
-                    <tr @click="showDelayFunctions(importItem)">
+                    <tr
+                      v-bind:class="{ 'force-border': !importItem.contentVisible, 'no-border-odd': importItem.contentVisible }"
+                      @click="showDelayFunctions(importItem)"
+                    >
                       <td
                         v-for="(line, _index) in get_Delay_Descriptor_line(importItem)"
                         :key="_index"
@@ -226,7 +235,10 @@
                         {{line}}
                       </td>
                     </tr>
-                    <tr v-if="importItem.contentVisible">
+                    <tr
+                      v-bind:class="{ 'no-border-even': importItem.contentVisible }"
+                      v-if="importItem.contentVisible"
+                    >
                       <td :colspan="7">
                         <div class="accordian-body">
                           <table-cols
@@ -360,6 +372,7 @@ export default {
       treeList: [],
       importData: [],
       delayImportData: [],
+      relocData: [],
     };
   },
   methods: {
@@ -430,6 +443,9 @@ export default {
           if (this.currentTab == "delay_import") {
             this.delayImportData = this.get_Delay_Imports();
           }
+          if (this.currentTab == "reloc") {
+            this.importData = this.get_Imports();
+          }
         });
     },
     get_Imports() {
@@ -460,6 +476,25 @@ export default {
         return {
           name: item.Name,
           offset: item.Offset,
+          functions: (item.Functions || []).map((_func) => {
+            let func = {};
+            Object.keys(_func).forEach((_key) => {
+              let val = _func[_key];
+
+              func[_key] = this.hexa && !isNaN(val) ? decToHexString(val) : val;
+            });
+            return func;
+          }),
+          descriptor: item.Descriptor,
+          contentVisible: false,
+        };
+      });
+    },
+    get_Reloc() {
+      let items = this.getSelectedItems();
+
+      return items.map((item) => {
+        return {
           functions: (item.Functions || []).map((_func) => {
             let func = {};
             Object.keys(_func).forEach((_key) => {
@@ -1043,6 +1078,35 @@ export default {
         td {
           padding-top: 1rem !important;
           padding-bottom: 1rem !important;
+        }
+      }
+      > tr.no-border-odd {
+        &::after {
+          border-bottom: none;
+          border-bottom-right-radius: 0;
+          border-bottom-left-radius: 0;
+        }
+      }
+      > tr.no-border-even {
+        &::after {
+          border-top: none;
+          border-top-right-radius: 0;
+          border-top-left-radius: 0;
+          top: -1rem;
+        }
+      }
+      > tr.force-border:nth-child(odd) {
+        &::after {
+          border-bottom: 1px solid #e2e2e2;
+          border-bottom-right-radius: 5px;
+          border-bottom-left-radius: 5px;
+        }
+      }
+      > tr.force-border:nth-child(even) {
+        &::after {
+          border-top: 1px solid #e2e2e2;
+          border-top-right-radius: 5px;
+          border-top-left-radius: 5px;
         }
       }
     }
