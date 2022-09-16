@@ -257,6 +257,85 @@
           </card-tab>
           <!-- End Delay Imports -->
 
+          <!-- Start Imports -->
+          <card-tab :active="'reloc' == currentTab">
+            <h2 class="title title-h2">Relocations</h2>
+            <div class="import-table">
+              <table class="accorion-table">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Entry RVA</th>
+                    <th>Size of Block</th>
+                    <th>Items Count</th>
+                  </tr>
+                </thead>
+                <tbody class="table-cval accorion-tbody">
+                  <template v-for="(relocItem, index) in relocData" :key="index">
+                    <tr
+                      v-bind:class="{ 'force-border': !relocItem.contentVisible, 'no-border-odd': relocItem.contentVisible }"
+                      @click="showRelocEntries(relocItem)"
+                    >
+                      <td v-for="(line, _index) in get_Reloc_line(relocItem, index)" :key="_index">
+                        <div v-if="_index == 0" class="accordion-icon">
+                          <svg
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                            v-if="!relocItem.contentVisible"
+                          >
+                            <path
+                              d="M9 18L15 12L9 6"
+                              stroke="#AFAFAF"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            />
+                          </svg>
+                          <svg
+                            v-if="relocItem.contentVisible"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M6 9L12 15L18 9"
+                              stroke="black"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            />
+                          </svg>
+                        </div>
+                        {{line}}
+                      </td>
+                    </tr>
+                    <tr
+                      v-bind:class="{ 'no-border-even': relocItem.contentVisible }"
+                      v-if="relocItem.contentVisible"
+                    >
+                      <td :colspan="4">
+                        <div class="accordian-body">
+                          <table-cols
+                            title="Entries"
+                            :bordered="false"
+                            :columns="get_Reloc_Entries_Columns()"
+                            :lines="get_Reloc_Entries_Lines(relocItem.entries)"
+                          />
+                        </div>
+                      </td>
+                    </tr>
+                  </template>
+                </tbody>
+              </table>
+            </div>
+          </card-tab>
+          <!-- End Imports -->
+
           <!-- Start RichHeader -->
           <card-tab :active="'rich_header' == currentTab">
             <table-cols
@@ -388,6 +467,12 @@ export default {
       });
       item.contentVisible = !item.contentVisible;
     },
+    showRelocEntries(item) {
+      this.relocData.forEach(function (_reloc) {
+        if (_reloc != item) _reloc.contentVisible = false;
+      });
+      item.contentVisible = !item.contentVisible;
+    },
     getDirectoryName(index) {
       switch (index) {
         case 0:
@@ -444,7 +529,7 @@ export default {
             this.delayImportData = this.get_Delay_Imports();
           }
           if (this.currentTab == "reloc") {
-            this.importData = this.get_Imports();
+            this.relocData = this.get_Reloc();
           }
         });
     },
@@ -495,7 +580,7 @@ export default {
 
       return items.map((item) => {
         return {
-          functions: (item.Functions || []).map((_func) => {
+          entries: (item.Entries || []).map((_func) => {
             let func = {};
             Object.keys(_func).forEach((_key) => {
               let val = _func[_key];
@@ -504,7 +589,7 @@ export default {
             });
             return func;
           }),
-          descriptor: item.Descriptor,
+          data: item.Data,
           contentVisible: false,
         };
       });
@@ -590,6 +675,27 @@ export default {
         return func;
       });
     },
+
+    get_Reloc_Entries_Columns() {
+      return ["Offset", "Data", "Type", "TypeValue"].map((key) => ({
+        key: key,
+        title: translateKey(key),
+      }));
+    },
+    get_Reloc_Entries_Lines(obj) {
+      return Object.keys(obj).map((key) => {
+        let functionItem = obj[key];
+
+        let func = {};
+        ["Offset", "Data", "Type"].map((key) => {
+          let val = functionItem[key];
+          func[key] = val;
+        });
+
+        func["TypeValue"] = "Loading";
+        return func;
+      });
+    },
     get_Descriptor_line(obj) {
       let item = [
         obj.name,
@@ -630,6 +736,20 @@ export default {
 
           return val;
         }),
+      ];
+      return item;
+    },
+    get_Reloc_line(obj, index) {
+      let item = [
+        index,
+        ...["VirtualAddress", "SizeOfBlock"].map((key) => {
+          let val = obj.data[key];
+          val = translateValue(key, val);
+          val = !isNaN(val) ? decToHexString(val) : val;
+
+          return val;
+        }),
+        obj.entries.length,
       ];
       return item;
     },
@@ -1063,6 +1183,17 @@ export default {
     border-collapse: separate;
     border-spacing: 0 1rem;
     .accorion-tbody {
+      .accordian-body {
+        padding: 0px 2rem;
+        table {
+          border-collapse: initial;
+          border-spacing: 0 0rem;
+          tr td {
+            padding-top: 0.4rem !important;
+            padding-bottom: 0.4rem !important;
+          }
+        }
+      }
       > tr {
         cursor: pointer;
         position: relative;
@@ -1088,11 +1219,16 @@ export default {
         }
       }
       > tr.no-border-even {
+        td {
+          padding-top: 0 !important;
+          font-size: 0.85rem;
+        }
         &::after {
           border-top: none;
           border-top-right-radius: 0;
           border-top-left-radius: 0;
           top: -1rem;
+          height: calc(100% + 1rem);
         }
       }
       > tr.force-border:nth-child(odd) {
@@ -1127,8 +1263,8 @@ export default {
       line-height: 25px;
       color: #0d9677;
       text-transform: capitalize;
-      margin-bottom: 2rem !important;
-      margin-top: 1rem !important;
+      margin-bottom: 1rem !important;
+      margin-top: 0rem !important;
       margin-left: 25px;
       position: relative;
       padding: 0;
@@ -1138,7 +1274,7 @@ export default {
         width: 3px;
         height: 100%;
         position: absolute;
-        left: -10px;
+        left: -1.5rem;
       }
     }
   }
