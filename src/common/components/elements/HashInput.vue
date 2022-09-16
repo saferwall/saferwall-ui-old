@@ -40,6 +40,9 @@ export default {
   input {
     @apply cursor-pointer;
     @apply focus:outline-none bg-gray bg-gray-2xlight;
+    font-family: "Manrope";
+    font-style: normal;
+    font-weight: 500;
   }
 }
 </style>

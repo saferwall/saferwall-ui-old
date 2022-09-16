@@ -68,6 +68,28 @@
           </card-tab>
           <!-- End NtHeader -->
 
+          <!-- Start Export -->
+          <card-tab :active="'export' == currentTab">
+            <div class="table-vertical">
+              <table-cols
+                title="Export"
+                :htmlFields="['format']"
+                :customFields="false"
+                :bordered="false"
+                :lines="get_Export.export"
+              />
+            </div>
+            <div class="export-functions">
+              <table-cols
+                title="functions"
+                :bordered="false"
+                :columns="get_Export_Functions_Columns()"
+                :lines="get_Export.functions"
+              />
+            </div>
+          </card-tab>
+          <!-- End Export -->
+
           <!-- Start Imports -->
           <card-tab :active="'import' == currentTab">
             <div class="import-table">
@@ -362,6 +384,14 @@ export default {
         title: translateKey(key),
       }));
     },
+    get_Export_Functions_Columns() {
+      return ["Name", "Ordinal", "NameRVA", "FunctionRVA", "Forwarder"].map(
+        (key) => ({
+          key: key,
+          title: translateKey(key),
+        })
+      );
+    },
     get_Import_Functions_Lines(obj) {
       return Object.keys(obj).map((key) => {
         let functionItem = obj[key];
@@ -529,6 +559,50 @@ export default {
                 : item.Size,
             //format: formatSizeUnits(item.Size),
           };
+        }),
+      };
+    },
+    get_Export() {
+      let items =
+        (this.getFilePEData && this.getFilePEData[this.currentTab]) || [];
+
+      return {
+        export: [
+          ...[
+            "Characteristics",
+            "TimeDateStamp",
+            "MajorVersion",
+            "MinorVersion",
+            "Name",
+            "Base",
+            "NumberOfFunctions",
+            "NumberOfNames",
+            "AddressOfFunctions",
+            "AddressOfNames",
+            "AddressOfNameOrdinals",
+          ].map((key) => {
+            let val = items.Struct ? items.Struct[key] : "";
+            let frm = translateValue(key, val);
+            val = this.hexa && !isNaN(val) ? decToHexString(val) : val;
+
+            return {
+              member: translateKey(key),
+              value: val,
+              format: frm == val ? "" : frm,
+            };
+          }),
+        ],
+        functions: Object.keys(items.Functions).map((key) => {
+          let functionItem = items.Functions[key];
+
+          let func = {};
+          ["Name", "Ordinal", "NameRVA", "FunctionRVA", "Forwarder"].map(
+            (key) => {
+              let val = functionItem[key];
+              func[key] = val;
+            }
+          );
+          return func;
         }),
       };
     },
@@ -826,6 +900,20 @@ export default {
         left: -10px;
       }
     }
+  }
+}
+.export-functions {
+  border: 1px solid #dddddd;
+  border-radius: 9px;
+  padding: 1rem;
+  margin-top: 2rem;
+  h2.title {
+    font-family: "Manrope";
+    font-style: normal;
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: #0d9677;
+    margin-bottom: 1rem;
   }
 }
 </style>
