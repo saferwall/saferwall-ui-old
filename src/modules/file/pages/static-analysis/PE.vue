@@ -92,6 +92,7 @@
 
           <!-- Start Imports -->
           <card-tab :active="'import' == currentTab">
+            <h2 class="title title-h2">Import</h2>
             <div class="import-table">
               <table class="accorion-table">
                 <thead>
@@ -163,6 +164,86 @@
             </div>
           </card-tab>
           <!-- End Imports -->
+
+          <!-- Start Delay Imports -->
+          <card-tab :active="'delay_import' == currentTab">
+            <div class="import-table">
+              <h2 class="title title-h2">Delay imports</h2>
+              <table class="accorion-table">
+                <thead>
+                  <tr>
+                    <th>Attributes</th>
+                    <th>Name</th>
+                    <th>HModule</th>
+                    <th>IAT</th>
+                    <th>INT</th>
+                    <th>Bound IAT</th>
+                    <th>Unload IAT</th>
+                    <th>TimeDateStamp</th>
+                  </tr>
+                </thead>
+                <tbody class="table-cval accorion-tbody">
+                  <template v-for="(importItem, index) in delayImportData" :key="index">
+                    <tr @click="showDelayFunctions(importItem)">
+                      <td
+                        v-for="(line, _index) in get_Delay_Descriptor_line(importItem)"
+                        :key="_index"
+                      >
+                        <div v-if="_index == 0" class="accordion-icon">
+                          <svg
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                            v-if="!importItem.contentVisible"
+                          >
+                            <path
+                              d="M9 18L15 12L9 6"
+                              stroke="#AFAFAF"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            />
+                          </svg>
+                          <svg
+                            v-if="importItem.contentVisible"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M6 9L12 15L18 9"
+                              stroke="black"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            />
+                          </svg>
+                        </div>
+                        {{line}}
+                      </td>
+                    </tr>
+                    <tr v-if="importItem.contentVisible">
+                      <td :colspan="7">
+                        <div class="accordian-body">
+                          <table-cols
+                            title="functions"
+                            :bordered="false"
+                            :columns="get_Delay_Import_Functions_Columns()"
+                            :lines="get_Delay_Import_Functions_Lines(importItem.functions)"
+                          />
+                        </div>
+                      </td>
+                    </tr>
+                  </template>
+                </tbody>
+              </table>
+            </div>
+          </card-tab>
+          <!-- End Delay Imports -->
 
           <!-- Start RichHeader -->
           <card-tab :active="'rich_header' == currentTab">
@@ -278,11 +359,18 @@ export default {
       getFilePEData: null,
       treeList: [],
       importData: [],
+      delayImportData: [],
     };
   },
   methods: {
     showFunctions(item) {
       this.importData.forEach(function (_import) {
+        if (_import != item) _import.contentVisible = false;
+      });
+      item.contentVisible = !item.contentVisible;
+    },
+    showDelayFunctions(item) {
+      this.delayImportData.forEach(function (_import) {
         if (_import != item) _import.contentVisible = false;
       });
       item.contentVisible = !item.contentVisible;
@@ -339,9 +427,33 @@ export default {
           if (this.currentTab == "import") {
             this.importData = this.get_Imports();
           }
+          if (this.currentTab == "delay_import") {
+            this.delayImportData = this.get_Delay_Imports();
+          }
         });
     },
     get_Imports() {
+      let items = this.getSelectedItems();
+
+      return items.map((item) => {
+        return {
+          name: item.Name,
+          offset: item.Offset,
+          functions: (item.Functions || []).map((_func) => {
+            let func = {};
+            Object.keys(_func).forEach((_key) => {
+              let val = _func[_key];
+
+              func[_key] = this.hexa && !isNaN(val) ? decToHexString(val) : val;
+            });
+            return func;
+          }),
+          descriptor: item.Descriptor,
+          contentVisible: false,
+        };
+      });
+    },
+    get_Delay_Imports() {
       let items = this.getSelectedItems();
 
       return items.map((item) => {
@@ -371,6 +483,14 @@ export default {
         title: translateKey(key),
       }));
     },
+    get_Export_Functions_Columns() {
+      return ["Name", "Ordinal", "NameRVA", "FunctionRVA", "Forwarder"].map(
+        (key) => ({
+          key: key,
+          title: translateKey(key),
+        })
+      );
+    },
     get_Import_Functions_Columns() {
       return [
         "Name",
@@ -384,15 +504,39 @@ export default {
         title: translateKey(key),
       }));
     },
-    get_Export_Functions_Columns() {
-      return ["Name", "Ordinal", "NameRVA", "FunctionRVA", "Forwarder"].map(
-        (key) => ({
-          key: key,
-          title: translateKey(key),
-        })
-      );
-    },
     get_Import_Functions_Lines(obj) {
+      return Object.keys(obj).map((key) => {
+        let functionItem = obj[key];
+
+        let func = {};
+        [
+          "Name",
+          "ThunkRVA",
+          "ThunkValue",
+          "OriginalThunkRVA",
+          "OriginalThunkValue",
+          "Hint",
+        ].map((key) => {
+          let val = functionItem[key];
+          func[key] = val;
+        });
+        return func;
+      });
+    },
+    get_Delay_Import_Functions_Columns() {
+      return [
+        "Name",
+        "ThunkRVA",
+        "ThunkValue",
+        "OriginalThunkRVA",
+        "OriginalThunkValue",
+        "Hint",
+      ].map((key) => ({
+        key: key,
+        title: translateKey(key),
+      }));
+    },
+    get_Delay_Import_Functions_Lines(obj) {
       return Object.keys(obj).map((key) => {
         let functionItem = obj[key];
 
@@ -424,6 +568,30 @@ export default {
           let val = obj.descriptor[key];
           val = translateValue(key, val);
           val = !isNaN(val) ? decToHexString(val) : val;
+
+          return val;
+        }),
+      ];
+      return item;
+    },
+    get_Delay_Descriptor_line(obj) {
+      let item = [
+        ...[
+          "Attributes",
+          "Name",
+          "ModuleHandleRVA",
+          "ImportAddressTableRVA",
+          "ImportNameTableRVA",
+          "BoundImportAddressTableRVA",
+          "UnloadInformationTableRVA",
+          "TimeDateStamp",
+        ].map((key) => {
+          let val = obj.descriptor[key];
+          val = translateValue(key, val);
+          val = !isNaN(val) ? val : val;
+          //decToHexString
+
+          if (key == "Name") val = obj.name;
 
           return val;
         }),
@@ -592,18 +760,21 @@ export default {
             };
           }),
         ],
-        functions: Object.keys(items.Functions).map((key) => {
-          let functionItem = items.Functions[key];
+        functions:
+          items && items.Functions
+            ? Object.keys(items.Functions).map((key) => {
+                let functionItem = items.Functions[key];
 
-          let func = {};
-          ["Name", "Ordinal", "NameRVA", "FunctionRVA", "Forwarder"].map(
-            (key) => {
-              let val = functionItem[key];
-              func[key] = val;
-            }
-          );
-          return func;
-        }),
+                let func = {};
+                ["Name", "Ordinal", "NameRVA", "FunctionRVA", "Forwarder"].map(
+                  (key) => {
+                    let val = functionItem[key];
+                    func[key] = val;
+                  }
+                );
+                return func;
+              })
+            : [],
       };
     },
     get_IAT() {
@@ -804,6 +975,12 @@ export default {
     }
     .title {
       margin-bottom: 2rem;
+    }
+    .title-h2 {
+      padding: 0.75rem;
+      font-size: 1.25rem;
+      line-height: 1.75rem;
+      font-weight: 700;
     }
     table {
       thead {
