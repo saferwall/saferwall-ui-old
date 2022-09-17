@@ -432,6 +432,7 @@ import {
   decToHexString,
   //formatSizeUnits,
   prodIdToStr,
+  RelocTypeToString,
   hexToASCII,
   asciiReversed,
   humanize,
@@ -692,7 +693,7 @@ export default {
           func[key] = val;
         });
 
-        func["TypeValue"] = "Loading";
+        func["TypeValue"] = RelocTypeToString(functionItem["Type"]);
         return func;
       });
     },

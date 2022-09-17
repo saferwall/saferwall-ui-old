@@ -149,6 +149,21 @@ export function GuardFlagsToString(flags) {
     return values;
 }
 
+export function RelocTypeToString(type) {
+    switch (type) {
+        case '0x0': return "Absolute";
+        case '0x1': return "High";
+        case '0x2': return "Low";
+        case '0x3': return "HighLow";
+        case '0x4': return "HighAdj";
+        case '0x6': return "Reserved";
+        case '0x8': return "RISC-V Low12s";
+        case '0x9': return "MIPS Jmp Addr16";
+        case '0xa': return "DIR64";
+        default: return "?";
+    }
+}
+
 export function sectionFlagToString(flag) {
     var sectionFlagMap = {
         0x00000000: "Reserved 1",
