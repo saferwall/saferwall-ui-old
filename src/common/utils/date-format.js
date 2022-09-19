@@ -1,6 +1,6 @@
 import moment from "moment";
 
-export const DATE_FORMAT = "MMMM Do YYYY";
+export const DATE_FORMAT = "MMMM Do YYYY hh:mm";
 
 export function timestampToDate(timestamp) {
     if (timestamp === 0 || timestamp == null) {

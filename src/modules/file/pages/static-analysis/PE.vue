@@ -37,34 +37,42 @@
 
           <!-- Start NtHeader -->
           <card-tab :active="'nt_header' == currentTab">
-            <table-cols
-              title="File Header"
-              :htmlFields="['format']"
-              :customFields="false"
-              :bordered="false"
-              :lines="get_NtHeader.fileHeader"
-            />
+            <div class="table-vertical">
+              <table-cols
+                title="File Header"
+                :htmlFields="['format']"
+                :customFields="false"
+                :bordered="false"
+                :lines="get_NtHeader.fileHeader"
+              />
+            </div>
             <div class="divider"></div>
-            <table-cols
-              title="Optional Header"
-              :htmlFields="['format']"
-              :customFields="false"
-              :bordered="false"
-              :lines="get_NtHeader.optionalHeader"
-            />
+
+            <div class="table-vertical">
+              <table-cols
+                title="Optional Header"
+                :htmlFields="['format']"
+                :customFields="false"
+                :bordered="false"
+                :lines="get_NtHeader.optionalHeader"
+              />
+            </div>
             <div class="divider"></div>
-            <table-cols
-              title="Data Directory"
-              :htmlFields="['format']"
-              :customFields="false"
-              :bordered="false"
-              :columns="[
+
+            <div class="table-vertical">
+              <table-cols
+                title="Data Directory"
+                :htmlFields="['format']"
+                :customFields="false"
+                :bordered="false"
+                :columns="[
                 { key: 'key', title: '' },
                 { key: 'value', title: '' },
                 { key: 'format', title: '' },
               ]"
-              :lines="get_NtHeader.dataDirevtory"
-            />
+                :lines="get_NtHeader.dataDirevtory"
+              />
+            </div>
           </card-tab>
           <!-- End NtHeader -->
 
@@ -709,6 +717,7 @@ export default {
         ].map((key) => {
           let val = obj.descriptor[key];
           val = translateValue(key, val);
+          if (key == "TimeDateStamp" && !val) val = 0;
           val = !isNaN(val) ? decToHexString(val) : val;
 
           return val;
