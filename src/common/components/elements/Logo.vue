@@ -1,10 +1,7 @@
 <template>
-  <router-link
-    class="text-white no-underline hover:text-white hover:no-underline p-1"
-    to="/"
-  >
+  <router-link class="text-white no-underline hover:text-white hover:no-underline p-1" to="/">
     <img
-      src="@/assets/images/logo.svg"
+      src="@/assets/images/saferwall-logo.svg"
       class="h-full max-h-20 w-auto mx-auto p-2"
       alt="Saferwall"
     />
