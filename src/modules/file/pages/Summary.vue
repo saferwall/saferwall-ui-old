@@ -5,6 +5,7 @@
         <Progress
           :first_seen="file.first_seen"
           :last_scanned="file.last_scanned"
+          :signature="file.signature"
           :rate="getScanScore"
           :classification="getClassification"
         />
@@ -20,11 +21,7 @@
       </Card>
 
       <Card v-if="getExifProps.length" title="ExifTool File Metadata">
-        <TableCols
-          :striped="true"
-          :lines="getExifProps"
-          :htmlFields="allowHtmlFields.exif"
-        />
+        <TableCols :striped="true" :lines="getExifProps" :htmlFields="allowHtmlFields.exif" />
       </Card>
 
       <Card v-if="getSubmissions" title="Submissions">

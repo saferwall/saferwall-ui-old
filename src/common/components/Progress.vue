@@ -1,7 +1,7 @@
 <template>
   <div class="progress flex flex-col md:flex-row items-center justify-between gap-2">
     <div class="certificate" :class="`type${getRateColor}`">
-      <div class="circle" v-if="rate.value">
+      <div class="circle" v-if="rate">
         <div class="z-50 flex flex-col items-center justify-center content-center">
           <strong class="rate">{{ rate.value }}</strong>
           <span>/ {{ rate.count }}</span>
@@ -23,19 +23,23 @@
         </svg>
       </div>
 
-      <div class="message">
-        <span>{{ message }}</span>
+      <div class="message" :class="`type${getRateColor}`">
+        <span>{{ (rate && rate.value > 0 ? rate.value : 'No') + ' '+ message }}</span>
       </div>
     </div>
 
     <div class="submission">
+      <div v-if="signature">
+        <strong class="uppercase text-gray">SIGNATURE</strong>
+        <time class="font-bold">{{ signature }}</time>
+      </div>
       <div v-if="last_scanned">
         <strong class="uppercase text-gray">LAST SCANNED</strong>
         <time class="font-bold">{{ timeAgoCounts(last_scanned) }} ago</time>
       </div>
       <div v-if="first_seen">
         <strong class="uppercase text-gray">FIRST SUBMISSION</strong>
-        <time class="font-bold">{{ timeAgoCounts(first_seen) }}</time>
+        <time class="font-bold">{{ timeAgoCounts(first_seen) }} ago</time>
       </div>
     </div>
   </div>
@@ -47,11 +51,15 @@ import { timeAgoCounts } from "../utils/date-format";
 export default {
   props: {
     message: {
-      default: "A certificate was explicitly revoked by its issuer",
+      default: "antivirus venders flagged this file as malicious",
       type: String,
     },
     first_seen: { default: null, type: Number },
     last_scanned: { default: null, type: Number },
+    signature: {
+      type: String,
+      default: null,
+    },
     radius: {
       default: 60,
       type: Number,
@@ -97,7 +105,13 @@ export default {
   .message {
     @apply flex w-full;
     color: #e63755;
-    font-weight: 600;
+    display: flex;
+    width: 100%;
+    color: #e63755;
+    font-weight: 700;
+    font-family: "Manrope";
+    font-style: normal;
+    max-width: 230px;
   }
   .circle {
     @apply p-0 m-0 rounded-full  bg-light flex flex-col items-center justify-center content-center;
