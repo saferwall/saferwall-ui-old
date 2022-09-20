@@ -1,7 +1,7 @@
 import axios from '@/services/axios'
 
 export const fields = {
-    avs: ['multiav', 'first_seen', 'last_scanned', 'signature'],
+    avs: ['multiav', 'first_seen', 'last_scanned'],
     pe: ['pe.meta'],
 }
 
@@ -11,7 +11,7 @@ export const state = {
     comments: [],
     avs: {
         multiav: {
-            first_scan: [], last_scan: [], signature: []
+            first_scan: [], last_scan: []
         }
     },
     pe: {},
