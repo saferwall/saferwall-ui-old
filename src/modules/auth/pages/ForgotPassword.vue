@@ -6,28 +6,16 @@
       title="Email sent"
       message="If your email is in our system, you will receive instructions to reset your password shortly."
     />
-    <form
-      v-else-if="reset"
-      method="POST"
-      class="w-full"
-      @submit="saveFormSubmited"
-    >
+    <form v-else-if="reset" method="POST" class="w-full" @submit="saveFormSubmited">
       <div class="header flex flex-col space-y-4 my-3">
         <h2 class="title text-3xl font-semibold">Reset your password</h2>
-        <p class="text-gray-medium">
-          Password must be at least 8 characters long.
-        </p>
+        <p class="text-gray-medium">Password must be at least 8 characters long.</p>
       </div>
       <template v-if="errors.length > 0">
         <alert type="danger">{{ errors[0] }}</alert>
       </template>
       <div class="content mt-8 mb-16">
-        <password
-          placeholder="New password"
-          name="password"
-          v-model="password"
-          required
-        />
+        <password placeholder="New password" name="password" v-model="password" required />
         <password
           placeholder="Retype new password"
           name="confirm_password"
@@ -44,8 +32,8 @@
       <div class="header flex flex-col space-y-4 my-3">
         <h2 class="title text-3xl font-semibold">Forgot password</h2>
         <p class="text-gray-medium">
-          Enter your account email address and we’ll <br />
-          send you a link to reset your password.
+          Enter your account email address and we’ll
+          <br />send you a link to reset your password.
         </p>
       </div>
       <template v-if="errors.length > 0">
@@ -53,13 +41,7 @@
       </template>
       <div class="content mt-8 mb-16">
         <div class="form-group w-full my-4">
-          <input
-            type="text"
-            class="form-input"
-            placeholder="Email"
-            v-model="email"
-            required
-          />
+          <input type="text" class="form-input" placeholder="Email" v-model="email" required />
         </div>
         <div class="form-group">
           <button class="btn-submit">Reset Password</button>
@@ -137,6 +119,7 @@ export default {
     },
   },
   mounted() {
+    console.log("this.$route.params", this.$route.params);
     if (this.$route.params.token) {
       this.reset = true;
       this.token = this.$route.params.token;

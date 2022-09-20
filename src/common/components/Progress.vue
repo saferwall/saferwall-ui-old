@@ -85,11 +85,11 @@ export default {
   },
   computed: {
     getRateColor() {
-      if (!this.classification || this.classification === "Label.UNKNOWN")
-        return "warning";
       if (this.rate.value === 0) {
         return "success";
       }
+      if (!this.classification || this.classification === "Label.UNKNOWN")
+        return "warning";
 
       return "danger";
     },

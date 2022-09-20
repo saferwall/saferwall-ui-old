@@ -27,7 +27,7 @@ const userMethods = mapActions('user', [
  * Methods
  */
 const authGetters = mapGetters('auth', ['loggedIn']);
-const authMethods = mapActions('auth', ['logIn', 'register', 'resetPassword', 'savePassword']);
+const authMethods = mapActions('auth', ['logIn', 'register', 'resetPassword', 'resendConfirmation', 'savePassword']);
 
 /**
  * Actions

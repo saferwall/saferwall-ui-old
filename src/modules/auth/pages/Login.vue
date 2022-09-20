@@ -21,14 +21,14 @@
         <password v-model="password" placeholder="Password" required />
 
         <div class="text-sm form-group justify-end py-2">
-          <router-link to="/auth/forgot-password">Forgot password ?</router-link>
+          <router-link class="forgot-link" to="/auth/forgot-password">Forgot password ?</router-link>
         </div>
         <div class="form-group">
           <button class="btn-submit">Login</button>
         </div>
 
         <div class="text-sm form-group justify-center py-2">
-          <router-link to="/auth/confirmation">
+          <router-link class="resend-link" to="/auth/confirmation">
             Didn’t confirm registration?
             <span>Click here !</span>
           </router-link>
@@ -87,3 +87,14 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.resend-link {
+  font-weight: 500;
+  font-size: 0.85rem;
+}
+.forgot-link {
+  font-weight: 500;
+  font-size: 0.85rem;
+}
+</style>

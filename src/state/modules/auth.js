@@ -106,6 +106,14 @@ export const actions = {
       })
   },
 
+  resendConfirmation(_, { email } = {}) {
+    return axios
+      .post('/auth/resend-confirmation', { email })
+      .then((response) => {
+        return response.data;
+      })
+  },
+
   savePassword(_, { guid, token, password } = {}) {
     return axios
       .post('/auth/password', { guid, token, password })
