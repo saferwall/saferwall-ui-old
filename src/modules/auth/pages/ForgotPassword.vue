@@ -119,10 +119,10 @@ export default {
     },
   },
   mounted() {
-    console.log("this.$route.params", this.$route.params);
-    if (this.$route.params.token) {
+    if (this.$route.query.token) {
       this.reset = true;
-      this.token = this.$route.params.token;
+      this.token = this.$route.query.token;
+      this.guid = this.$route.query.guid;
     }
   },
 };
