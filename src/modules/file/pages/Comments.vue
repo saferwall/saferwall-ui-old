@@ -18,10 +18,8 @@
       </show-more>
     </div>
     <div class="editor">
-      <md-editor v-model="body" language="en-US" :toolbars="toolBars" />
-      <btn @click="doComment()" :disabled="posting">
-        {{ posting ? "Comment ..." : "Comment" }}
-      </btn>
+      <md-editor v-model="body" :preview="false" language="en-US" :toolbars="toolBars" />
+      <btn @click="doComment()" :disabled="posting">{{ posting ? "Comment ..." : "Comment" }}</btn>
     </div>
   </div>
 </template>
@@ -157,3 +155,9 @@ export default {
   },
 };
 </script>
+
+
+<style lang="scss" scoped>
+.btn {
+}
+</style>

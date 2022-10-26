@@ -31,7 +31,7 @@
     <div class="submission">
       <div v-if="signature">
         <strong class="uppercase text-gray">SIGNATURE</strong>
-        <time class="font-bold">{{ signature }}</time>
+        <time :class="`type${getSignatureColor}`" class="font-bold">{{ signature }}</time>
       </div>
       <div v-if="last_scanned">
         <strong class="uppercase text-gray">LAST SCANNED</strong>
@@ -92,6 +92,14 @@ export default {
         return "warning";
 
       return "danger";
+    },
+    getSignatureColor() {
+      if (this.signature === "File is not signed") {
+        return "danger";
+      }
+      if (this.signature.includes("verified")) return "success";
+
+      return "warning";
     },
   },
   methods: {

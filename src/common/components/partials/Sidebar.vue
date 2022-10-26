@@ -26,7 +26,7 @@
           <router-link :to="getPageLink('summary')">Summary</router-link>
         </li>
 
-        <li :class="isPageActive('static-analysis/pe') ? 'active' : ''">
+        <li v-if="isPE" :class="isPageActive('static-analysis/pe') ? 'active' : ''">
           <router-link :to="getPageLink('static-analysis/pe')">PE</router-link>
         </li>
 
@@ -50,8 +50,8 @@
           <router-link :to="getPageLink('pe')">Files & MemDumps</router-link>
         </li>
 
-        <li :class="isPageActive('pe') ? 'active' : ''">
-          <router-link :to="getPageLink('pe')">Comments</router-link>
+        <li :class="isPageActive('comments') ? 'active' : ''">
+          <router-link :to="getPageLink('comments')">Comments</router-link>
         </li>
       </ul>
     </div>

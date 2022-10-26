@@ -3,18 +3,14 @@
     <div class="flex justify-between">
       <div class="profile">
         <router-link :to="getProfileRoute">
-          <avatar :username="author.username" height="60px" width="60px" />
+          <avatar :username="author.username" height="46px" width="46px" />
           <div>
             <b>{{ author.username }}</b>
             <p class="text-gray-medium">Member since {{ getMemberSince }}</p>
           </div>
         </router-link>
         <div>
-          <btn-follow
-            v-if="!selfComment"
-            :followed="dfollowed"
-            v-on:toggleFollow="toggleFollow"
-          ></btn-follow>
+          <btn-follow v-if="!selfComment" :followed="dfollowed" v-on:toggleFollow="toggleFollow"></btn-follow>
         </div>
       </div>
 
@@ -39,7 +35,10 @@
         </svg>
       </button>
     </div>
-    <vue-markdown class="content" :source="comment" />
+    <div class="content">
+      <p v-html="comment"></p>
+    </div>
+    <vue-markdown v-if="false" class="content" :source="comment" />
     <time class="date">{{ getCommentDate }}</time>
   </div>
 </template>
@@ -134,6 +133,19 @@ export default {
   .profile {
     @apply flex justify-start;
 
+    b {
+      font-size: 0.9rem;
+    }
+    p {
+      font-family: "Manrope";
+      font-style: normal;
+      font-weight: 500;
+      font-size: 0.8rem;
+      line-height: 19px;
+
+      color: #9b9b9b;
+    }
+
     &,
     a {
       @apply flex items-center space-x-4;
@@ -141,9 +153,25 @@ export default {
   }
   .content {
     @apply max-w-max break-words px-4 pt-4;
+    p {
+      font-family: "Manrope";
+      font-style: normal;
+      font-weight: 500;
+      font-size: 0.9rem;
+      line-height: 21px;
+      color: #000000;
+    }
   }
   .date {
     @apply text-gray-medium px-4;
+    font-family: "Manrope";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 0.8rem;
+    line-height: 18px;
+    /* identical to box height */
+
+    color: #9b9b9b;
   }
 }
 </style>
