@@ -36,9 +36,8 @@
       </button>
     </div>
     <div class="content">
-      <p v-html="comment"></p>
+      <vue-markdown class="content" :source="comment" />
     </div>
-    <vue-markdown v-if="false" class="content" :source="comment" />
     <time class="date">{{ getCommentDate }}</time>
   </div>
 </template>
