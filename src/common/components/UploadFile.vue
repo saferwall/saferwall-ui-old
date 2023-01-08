@@ -3,31 +3,26 @@
     <h1 class="welcome mt-8 ml-10 mb-auto w-full">Welcome to Saferwall !</h1>
     <div class="upload">
       <input v-bind="getInputProps()" type="file" class="hide" @change="inputFileChanged" />
-      <button class="btn-upload" v-bind="getRootProps()">
+      <button class="btn-upload" v-bind="getRootProps()" v-if="loggedIn">
         Browse Files
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="ml-4"
-          width="33.303"
-          height="25.533"
-          viewBox="0 0 33.303 25.533"
-        >
-          <g style="isolation: isolate">
-            <g transform="translate(0 0)">
-              <path
-                d="M27.748,63.462A11.472,11.472,0,0,0,13.858,55.37a11.227,11.227,0,0,0-8.63,10A6.1,6.1,0,0,0,.084,72.349a6.2,6.2,0,0,0,6.185,5.087h5.2V75.411h-5.2a4.052,4.052,0,1,1,0-8.1A1.027,1.027,0,0,0,7.31,66.3a9.242,9.242,0,0,1,9.356-9.123,9.3,9.3,0,0,1,9.2,7.351,1.029,1.029,0,0,0,.885.81,5.088,5.088,0,0,1,4.418,5.726,5.159,5.159,0,0,1-5.125,4.349H21.879v2.025h4.162a7.071,7.071,0,0,0,1.707-13.974Z"
-                transform="translate(0 -55.032)"
-                fill="#fff"
-              />
-              <path
-                d="M185.206,249.314l-4.171,4.171,1.47,1.47,2.4-2.388v10h2.086v-10l2.388,2.388,1.47-1.47-4.171-4.171A1.043,1.043,0,0,0,185.206,249.314Z"
-                transform="translate(-169.271 -237.036)"
-                fill="#fff"
-              />
+          <svg xmlns="http://www.w3.org/2000/svg" class="ml-4 w-6 h-6" viewBox="0 0 33.3 25.53">
+            <g fill="#fff" style="isolation:isolate">
+              <path d="M27.75 8.43a11.47 11.47 0 0 0-13.9-8.1 11.23 11.23 0 0 0-8.62 10 6.1 6.1 0 0 0-5.15 6.99 6.2 6.2 0 0 0 6.19 5.08h5.2v-2.02h-5.2a4.05 4.05 0 1 1 0-8.1 1.03 1.03 0 0 0 1.04-1.01 9.24 9.24 0 0 1 9.36-9.12 9.3 9.3 0 0 1 9.2 7.35 1.03 1.03 0 0 0 .88.8 5.09 5.09 0 0 1 4.42 5.73 5.16 5.16 0 0 1-5.13 4.35h-4.16v2.03h4.16a7.07 7.07 0 0 0 1.7-13.98Z"/>
+              <path d="m15.94 12.28-4.18 4.17 1.47 1.47 2.4-2.39v10h2.09v-10l2.39 2.39 1.47-1.47-4.17-4.17a1.04 1.04 0 0 0-1.47 0Z"/>
             </g>
-          </g>
-        </svg>
+          </svg>
       </button>
+      <div v-else class="flex">
+        <router-link to="/auth/login" class="btn-upload">
+          Sign in to Upload
+          <svg xmlns="http://www.w3.org/2000/svg" class="ml-4 w-6 h-6" viewBox="0 0 33.3 25.53">
+              <g fill="#fff" style="isolation:isolate">
+                <path d="M27.75 8.43a11.47 11.47 0 0 0-13.9-8.1 11.23 11.23 0 0 0-8.62 10 6.1 6.1 0 0 0-5.15 6.99 6.2 6.2 0 0 0 6.19 5.08h5.2v-2.02h-5.2a4.05 4.05 0 1 1 0-8.1 1.03 1.03 0 0 0 1.04-1.01 9.24 9.24 0 0 1 9.36-9.12 9.3 9.3 0 0 1 9.2 7.35 1.03 1.03 0 0 0 .88.8 5.09 5.09 0 0 1 4.42 5.73 5.16 5.16 0 0 1-5.13 4.35h-4.16v2.03h4.16a7.07 7.07 0 0 0 1.7-13.98Z"/>
+                <path d="m15.94 12.28-4.18 4.17 1.47 1.47 2.4-2.39v10h2.09v-10l2.39 2.39 1.47-1.47-4.17-4.17a1.04 1.04 0 0 0-1.47 0Z"/>
+              </g>
+            </svg>
+        </router-link>
+      </div>
       <div class="progress" v-if="isUploading">
         <k-progress
           class="k"
@@ -66,7 +61,7 @@
 
 <script>
 import { useDropzone } from "vue3-dropzone";
-import { uploadMethods, uploadGetters } from "@/state/helpers";
+import { uploadMethods, uploadGetters, authGetters } from "@/state/helpers";
 
 export default {
   setup() {
@@ -80,6 +75,7 @@ export default {
   },
   computed: {
     ...uploadGetters,
+    ...authGetters
   },
   methods: {
     ...uploadMethods,
