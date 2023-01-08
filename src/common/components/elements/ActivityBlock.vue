@@ -135,7 +135,7 @@ export default {
       return timeAgoCounts(this.date);
     },
     getJoinedAgo() {
-      return timeAgo(this.author.member_since);
+      return timeAgo(this.author.member_since * 1000);
     },
     getActivityTitle() {
       return typeActivity.find((type) => {

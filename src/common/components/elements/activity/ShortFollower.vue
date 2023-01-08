@@ -52,7 +52,7 @@ export default {
   computed: {
     ...userGetters,
     getRegistredTimeAgo() {
-      return timeAgo(this.member_since);
+      return timeAgo(this.member_since * 1000);
     },
     isSelfUser() {
       return this.getUser && this.username === this.getUser.username;
