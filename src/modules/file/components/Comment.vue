@@ -36,7 +36,7 @@
       </button>
     </div>
     <div class="content">
-      <vue-markdown class="content" :source="comment" />
+      <vue-markdown :source="comment" />
     </div>
     <time class="date">{{ getCommentDate }}</time>
   </div>
