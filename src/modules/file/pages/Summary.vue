@@ -198,8 +198,8 @@ export default {
     },
   },
   methods: {
-    getFlagLink(iso) {
-      return `https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/flags/4x3/${iso.toLowerCase()}.svg`;
+    getFlagLink(iso2) {
+      return `https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/6.6.5/flags/4x3/${iso2 ? iso2.toLowerCase() : 'xx'}.svg`;
     },
   },
   created() {},
