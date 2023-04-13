@@ -178,7 +178,7 @@ export default {
         sub.src,
         `<div class="flag"><img class="md-flag" src=${this.getFlagLink(
           sub.country
-        )}> <span>${isoToCountry(sub.country)}</span></div>`,
+        )}> <span>${sub.country ? isoToCountry(sub.country):''}</span></div>`,
       ]);
     },
     isFileLoaded() {

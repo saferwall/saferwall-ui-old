@@ -44,7 +44,7 @@
             <a
               class="text-primary font-bold"
               target="_blank"
-              href="https://about.saferwall.com/tos"
+              href="https://docs.saferwall.com/tos"
             >Terms of Service</a>
           </label>
         </div>

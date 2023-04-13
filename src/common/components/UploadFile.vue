@@ -50,10 +50,10 @@
       By using Saferwall you consent to our
       <a
         target="_blank"
-        href="https://about.saferwall.com/tos"
+        href="https://docs.saferwall.com/tos"
       >Terms of Service</a>
       and
-      <a href="https://about.saferwall.com/privacy">Privacy Policy</a> and
+      <a href="https://docs.saferwall.com/privacy">Privacy Policy</a> and
       allow us to share your submission with the security community.
     </p>
   </div>
